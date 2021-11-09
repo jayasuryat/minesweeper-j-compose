@@ -6,5 +6,8 @@ dependencyResolutionManagement {
         jcenter() // Warning: this repository is going to shut down soon
     }
 }
+
 rootProject.name = "Minesweeper-JC"
-include ':app'
+
+include(":app")
+include(":minesweeper-engine")
