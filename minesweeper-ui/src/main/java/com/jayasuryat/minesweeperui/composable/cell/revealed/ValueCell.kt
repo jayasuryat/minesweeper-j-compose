@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
@@ -36,10 +39,8 @@ internal fun ValueCell(
         contentAlignment = Alignment.Center
     ) {
 
-        val minSize = minOf(maxWidth, maxHeight)
-        val padding = minSize * CELL_PADDING_PERCENT
-        val availableSize = minSize * VALUE_CELL_TEXT_COVER_PERCENT
-        val fontSize = availableSize.sp()
+        val fontSize = getFontSize(width = maxWidth, height = maxHeight)
+        val padding = getPadding(width = maxWidth, height = maxHeight)
 
         Text(
             text = cell.value.toString(),
@@ -50,8 +51,30 @@ internal fun ValueCell(
                 .wrapContentSize(),
         )
 
-        InverseClippedCircle(iconPadding = padding.floatValue())
+        InverseClippedCircle(iconPadding = padding)
     }
+}
+
+@Composable
+@Stable
+private fun getFontSize(
+    width: Dp,
+    height: Dp,
+): TextUnit {
+
+    val minSize = minOf(width, height)
+    val availableSize = minSize * VALUE_CELL_TEXT_COVER_PERCENT
+    return availableSize.sp()
+}
+
+@Composable
+@Stable
+private fun getPadding(
+    width: Dp,
+    height: Dp,
+): Float {
+    val minSize = minOf(width, height)
+    return (minSize * CELL_PADDING_PERCENT).floatValue()
 }
 
 @Preview(heightDp = 600, widthDp = 600)

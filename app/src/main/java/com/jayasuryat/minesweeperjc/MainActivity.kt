@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +15,7 @@ import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.gridGenerator.MineGridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
+import com.jayasuryat.minesweeperenginedebug.generator.DebugMineGridGenerator
 import com.jayasuryat.minesweeperenginedebug.generator.RevealedMineGridGenerator
 import com.jayasuryat.minesweeperjc.ui.theme.MinesweeperJCTheme
 import com.jayasuryat.minesweeperui.composable.grid.Minefield
@@ -36,8 +36,7 @@ class MainActivity : ComponentActivity() {
 
                     Minefield(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .aspectRatio(1f),
+                            .fillMaxSize(),
                         mineGrid = getMineGrid(),
                     )
                 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
@@ -40,35 +41,49 @@ internal fun InverseClippedCircle(
             .background(color = Color.Transparent),
         onDraw = {
 
-            val squarePath = Path()
-            val circlePath = Path()
-
-            squarePath.addRect(rect = Rect(
-                left = 0f,
-                top = 0f,
-                right = size.width,
-                bottom = size.height,
-            ))
-
-            circlePath.addOval(oval = Rect(
-                offset = Offset(
-                    x = iconPadding,
-                    y = iconPadding,
-                ),
-                size = Size(
-                    width = size.width - (iconPadding * 2),
-                    height = size.height - (iconPadding * 2),
-                )
-            ))
-
-            val finalPath = Path.combine(
-                operation = PathOperation.Difference,
-                path1 = squarePath,
-                path2 = circlePath,
+            val path = getInvertedCirclePath(
+                width = size.width,
+                height = size.height,
+                padding = iconPadding,
             )
 
-            drawPath(finalPath, Color.Black)
+            drawPath(path, Color.Black)
         },
+    )
+}
+
+@Stable
+private fun getInvertedCirclePath(
+    width: Float,
+    height: Float,
+    padding: Float,
+): Path {
+
+    val squarePath = Path()
+    val circlePath = Path()
+
+    squarePath.addRect(rect = Rect(
+        left = 0f,
+        top = 0f,
+        right = width,
+        bottom = height,
+    ))
+
+    circlePath.addOval(oval = Rect(
+        offset = Offset(
+            x = padding,
+            y = padding,
+        ),
+        size = Size(
+            width = width - (padding * 2),
+            height = height - (padding * 2),
+        )
+    ))
+
+    return Path.combine(
+        operation = PathOperation.Difference,
+        path1 = squarePath,
+        path2 = circlePath,
     )
 }
 

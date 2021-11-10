@@ -18,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.composable.component.LogCompositions
 
-
 @Composable
 internal fun MineCell(
     modifier: Modifier = Modifier,

@@ -15,7 +15,6 @@ import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
 import com.jayasuryat.minesweeperui.composable.util.floatValue
 
-
 @Composable
 internal fun ConcealedCell(
     modifier: Modifier = Modifier,

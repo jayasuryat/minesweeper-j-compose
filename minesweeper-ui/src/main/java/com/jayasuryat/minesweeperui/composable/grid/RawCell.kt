@@ -31,31 +31,20 @@ internal fun RawCell(
 
         when (cell) {
 
-            is UnrevealedCell -> ConcealedCell(
-                modifier = Modifier.fillMaxSize(),
-            )
+            is UnrevealedCell -> ConcealedCell(modifier = Modifier.fillMaxSize())
 
             is RevealedCell -> {
 
                 when (val revealedCell = cell.cell) {
 
-                    is MineCell.EmptyCell -> {
-                        EmptyCell(
-                            modifier = Modifier.fillMaxSize(),
-                        )
-                    }
+                    is MineCell.EmptyCell -> EmptyCell(modifier = Modifier.fillMaxSize())
 
-                    is MineCell.Mine -> {
-                        MineCell(
-                            modifier = Modifier.fillMaxSize(),
-                        )
-                    }
-                    is MineCell.Cell -> {
-                        ValueCell(
-                            modifier = Modifier.fillMaxSize(),
-                            cell = revealedCell,
-                        )
-                    }
+                    is MineCell.Mine -> MineCell(modifier = Modifier.fillMaxSize())
+
+                    is MineCell.Cell -> ValueCell(
+                        modifier = Modifier.fillMaxSize(),
+                        cell = revealedCell,
+                    )
 
                 }.exhaustive
             }

@@ -9,6 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.IntSize
+import kotlin.math.absoluteValue
+
+private const val EDGE_PADDING: Float = 0f
 
 @Composable
 internal fun ZoomableContent(
@@ -18,15 +22,43 @@ internal fun ZoomableContent(
 
     val scale = remember { mutableStateOf(1f) }
     val rotationState = remember { mutableStateOf(0f) }
-    val panState = remember { mutableStateOf(Offset.Zero) }
+    val translateX = remember { mutableStateOf(0f) }
+    val translateY = remember { mutableStateOf(0f) }
+
+    fun updatePanState(
+        size: IntSize,
+        pan: Offset,
+    ) {
+        val actualWidth = size.width
+        val scaledWidth = actualWidth * scale.value
+        val widthDiff = (scaledWidth - actualWidth).absoluteValue
+        val modTransX = (widthDiff / 2) + EDGE_PADDING
+
+        val actualHeight = size.height
+        val scaledHeight = actualHeight * scale.value
+        val heightDiff = (scaledHeight - actualHeight).absoluteValue
+        val modTransY = (heightDiff / 2) + EDGE_PADDING
+
+        translateX.value = (translateX.value + pan.x)
+            .coerceAtLeast(-modTransX)
+            .coerceAtMost(modTransX)
+
+        translateY.value = (translateY.value + pan.y)
+            .coerceAtLeast(-modTransY)
+            .coerceAtMost(modTransY)
+    }
 
     Box(
         modifier = modifier
             .pointerInput(Unit) {
                 detectTransformGestures { centroid, pan, zoom, rotation ->
-                    scale.value *= zoom
+
+                    scale.value = (scale.value * zoom)
+                        .coerceAtLeast(1f)
+                        .coerceAtMost(3f)
+
                     rotationState.value += rotation
-                    panState.value += pan
+                    updatePanState(size = this.size, pan = pan)
                 }
             }
     ) {
@@ -34,10 +66,10 @@ internal fun ZoomableContent(
         content(
             zoomModifier = Modifier
                 .graphicsLayer(
-                    scaleX = scale.value.coerceAtLeast(1f),
-                    scaleY = scale.value.coerceAtLeast(1f),
-                    translationX = panState.value.x,
-                    translationY = panState.value.y,
+                    scaleX = scale.value,
+                    scaleY = scale.value,
+                    translationX = translateX.value,
+                    translationY = translateY.value,
                     //rotationZ = rotationState.value,
                 )
         )
