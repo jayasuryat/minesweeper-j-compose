@@ -1,6 +1,8 @@
 package com.jayasuryat.minesweeperengine.model.block
 
+import androidx.compose.runtime.Stable
 
+@Stable
 public data class Position(
     public val row: Int,
     public val column: Int,
