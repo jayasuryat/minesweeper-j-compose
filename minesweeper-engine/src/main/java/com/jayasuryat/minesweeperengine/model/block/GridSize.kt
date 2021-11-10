@@ -1,8 +1,8 @@
 package com.jayasuryat.minesweeperengine.model.block
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 
-@Stable
+@Immutable
 public data class GridSize(
     public val rows: Int,
     public val columns: Int,

@@ -1,14 +1,14 @@
 package com.jayasuryat.minesweeperengine.model.cell
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 import com.jayasuryat.minesweeperengine.model.block.Position
 
-@Stable
+@Immutable
 public sealed class RawCell {
 
     public abstract val position: Position
 
-    @Stable
+    @Immutable
     public class UnrevealedCell(
         private val cell: MineCell,
     ) : RawCell() {
@@ -18,7 +18,7 @@ public sealed class RawCell {
         public fun asRevealed(): RevealedCell = RevealedCell(cell)
     }
 
-    @Stable
+    @Immutable
     public class RevealedCell(
         public val cell: MineCell,
     ) : RawCell() {

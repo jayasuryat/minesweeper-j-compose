@@ -54,7 +54,6 @@ dependencies {
     testImplementation(Dependency.Test.junit)
     androidTestImplementation(Dependency.Test.androidJunit)
     androidTestImplementation(Dependency.Test.espresso)
-    //androidTestImplementation(Dependency.Compose.Test.junit)
 
     implementation(Dependency.Compose.ui)
 }

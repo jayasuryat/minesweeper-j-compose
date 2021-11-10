@@ -1,24 +1,24 @@
 package com.jayasuryat.minesweeperengine.model.cell
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 import com.jayasuryat.minesweeperengine.model.block.Position
 
-@Stable
+@Immutable
 public sealed class MineCell {
 
     public abstract val position: Position
 
-    @Stable
+    @Immutable
     public data class Mine(
         override val position: Position,
     ) : MineCell()
 
-    @Stable
+    @Immutable
     public class EmptyCell(
         override val position: Position,
     ) : MineCell()
 
-    @Stable
+    @Immutable
     public class Cell(
         public val value: Int,
         override val position: Position,

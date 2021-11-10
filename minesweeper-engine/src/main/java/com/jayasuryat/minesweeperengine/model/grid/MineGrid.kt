@@ -1,11 +1,11 @@
 package com.jayasuryat.minesweeperengine.model.grid
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 
-@Stable
+@Immutable
 public data class MineGrid(
     override val gridSize: GridSize,
     override val cells: List<List<RawCell>>,
