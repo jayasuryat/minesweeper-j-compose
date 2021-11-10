@@ -11,7 +11,10 @@ object Dependency {
 
     object Module {
 
+        const val mineSweeperUi = ":minesweeper-ui"
+
         const val mineSweeperEngine = ":minesweeper-engine"
+        const val mineSweeperEngineDebug = ":minesweeper-engine-debug"
     }
 
     object Compose {
@@ -20,7 +23,8 @@ object Dependency {
 
         const val ui = "androidx.compose.ui:ui:$composeVersion"
         const val material = "androidx.compose.material:material:$composeVersion"
-        const val tooling = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
+        const val toolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
+        const val tooling = "androidx.compose.ui:ui-tooling:$composeVersion"
         const val activity = "androidx.activity:activity-compose:1.4.0"
 
         object Test {
@@ -34,5 +38,4 @@ object Dependency {
     const val material = "com.google.android.material:material:1.4.0"
 
     const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
-
 }

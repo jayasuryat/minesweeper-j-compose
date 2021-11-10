@@ -11,3 +11,5 @@ rootProject.name = "Minesweeper-JC"
 
 include(":app")
 include(":minesweeper-engine")
+include(":minesweeper-ui")
+include(":minesweeper-engine-debug")

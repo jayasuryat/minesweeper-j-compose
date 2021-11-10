@@ -8,9 +8,12 @@ android {
     compileSdk = BuildConfig.compileSdk
 
     defaultConfig {
+
         applicationId = "com.jayasuryat.minesweeperjc"
-        minSdk =  BuildConfig.minSdk
-        targetSdk =  BuildConfig.targetSdk
+
+        minSdk = BuildConfig.minSdk
+        targetSdk = BuildConfig.targetSdk
+
         versionCode = 1
         versionName = "1.0"
 
@@ -68,7 +71,13 @@ dependencies {
     implementation(Dependency.Compose.ui)
     implementation(Dependency.Compose.material)
     implementation(Dependency.Compose.activity)
+    implementation(Dependency.Compose.toolingPreview)
     debugImplementation(Dependency.Compose.tooling)
 
     implementation(Dependency.lifecycleRuntime)
+
+    implementation(project(Dependency.Module.mineSweeperEngine))
+    implementation(project(Dependency.Module.mineSweeperEngineDebug))
+
+    implementation(project(Dependency.Module.mineSweeperUi))
 }
