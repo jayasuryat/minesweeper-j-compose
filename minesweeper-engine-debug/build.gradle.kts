@@ -1,20 +1,59 @@
-import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
-
 plugins {
-    id("java-library")
-    id("kotlin")
+    id("com.android.library")
+    kotlin("android")
 }
 
-java {
-    sourceCompatibility = BuildConfig.javaVersion
-    targetCompatibility = BuildConfig.javaVersion
+android {
+
+    compileSdk = BuildConfig.compileSdk
+
+    defaultConfig {
+
+        minSdk = BuildConfig.minSdk
+        targetSdk = BuildConfig.targetSdk
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+    }
+
+    buildTypes {
+
+        getByName("release") {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = BuildConfig.javaVersion
+        targetCompatibility = BuildConfig.javaVersion
+    }
+
+    kotlinOptions {
+        jvmTarget = BuildConfig.jvmTarget
+    }
+
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
-kotlin {
-    explicitApi = ExplicitApiMode.Strict
+tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class).all {
+    kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
 }
 
 dependencies {
+
+    testImplementation(Dependency.Test.junit)
+    androidTestImplementation(Dependency.Test.androidJunit)
+    androidTestImplementation(Dependency.Test.espresso)
 
     implementation(project(Dependency.Module.mineSweeperEngine))
 }
