@@ -9,7 +9,7 @@ import kotlin.random.Random
 
 private typealias MutableCell2DList = MutableList<MutableList<MineCell>>
 
-internal class MineGridGenerator : GridGenerator {
+public class MineGridGenerator : GridGenerator {
 
     override fun generateGrid(
         gridSize: GridSize,
@@ -38,6 +38,8 @@ internal class MineGridGenerator : GridGenerator {
             .map { it }
             .toMutableList()
             .apply { removeAll(ignoredIndices) }
+
+        require(cellIndexes.size >= mineCount) { "Not enough room to generate grid" }
 
         val mineIndexes = (0 until mineCount).map {
             val randomPosition = Random.nextInt(cellIndexes.size)
@@ -129,10 +131,6 @@ internal class MineGridGenerator : GridGenerator {
                 RawCell.UnrevealedCell(cell = cell)
             }
         }
-    }
-
-    private fun Position.asIndex(gridSize: GridSize): Int {
-        return (this.row * gridSize.columns) + this.column
     }
 
     private fun getIndex(

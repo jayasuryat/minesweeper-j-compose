@@ -1,13 +1,13 @@
 package com.jayasuryat.minesweeperengine.model.block
 
 
-internal data class GridSize(
-    val rows: Int,
-    val columns: Int,
+public data class GridSize(
+    public val rows: Int,
+    public val columns: Int,
 ) {
 
-    internal companion object {
+    public companion object {
 
-        internal fun of(size: Int): GridSize = GridSize(columns = size, rows = size)
+        public fun of(size: Int): GridSize = GridSize(columns = size, rows = size)
     }
 }

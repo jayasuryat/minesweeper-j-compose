@@ -1,15 +1,25 @@
 package com.jayasuryat.minesweeperengine.model.cell
 
-internal sealed class RawCell {
+import com.jayasuryat.minesweeperengine.model.block.Position
 
-    class UnrevealedCell(
+
+public sealed class RawCell {
+
+    public abstract val position: Position
+
+    public class UnrevealedCell(
         private val cell: MineCell,
     ) : RawCell() {
 
-        fun asRevealed(): RevealedCell = RevealedCell(cell)
+        override val position: Position = cell.position
+
+        public fun asRevealed(): RevealedCell = RevealedCell(cell)
     }
 
-    class RevealedCell(
-        val cell: MineCell,
-    ) : RawCell()
+    public class RevealedCell(
+        public val cell: MineCell,
+    ) : RawCell() {
+
+        override val position: Position = cell.position
+    }
 }

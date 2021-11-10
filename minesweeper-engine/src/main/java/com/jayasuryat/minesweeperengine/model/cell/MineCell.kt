@@ -2,20 +2,21 @@ package com.jayasuryat.minesweeperengine.model.cell
 
 import com.jayasuryat.minesweeperengine.model.block.Position
 
-internal sealed class MineCell {
 
-    abstract val position: Position
+public sealed class MineCell {
 
-    internal data class Mine(
+    public abstract val position: Position
+
+    public data class Mine(
         override val position: Position,
     ) : MineCell()
 
-    data class EmptyCell(
+    public class EmptyCell(
         override val position: Position,
     ) : MineCell()
 
-    data class Cell(
-        val value: Int,
+    public class Cell(
+        public val value: Int,
         override val position: Position,
     ) : MineCell()
 }
