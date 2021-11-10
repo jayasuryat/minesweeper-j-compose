@@ -6,17 +6,19 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.gridGenerator.MineGridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
-import com.jayasuryat.minesweeperenginedebug.generator.DebugMineGridGenerator
 import com.jayasuryat.minesweeperenginedebug.generator.RevealedMineGridGenerator
+import com.jayasuryat.minesweeperjc.component.AnimatingGradient
 import com.jayasuryat.minesweeperjc.ui.theme.MinesweeperJCTheme
 import com.jayasuryat.minesweeperui.composable.grid.Minefield
 import com.jayasuryat.minesweeperengine.model.grid.MineGrid as MineGridData
@@ -34,9 +36,14 @@ class MainActivity : ComponentActivity() {
                         .background(color = Color.LightGray)
                 ) {
 
+                    AnimatingGradient(
+                        modifier = Modifier.fillMaxSize()
+                    )
+
                     Minefield(
                         modifier = Modifier
-                            .fillMaxSize(),
+                            .fillMaxSize()
+                            .padding(32.dp),
                         mineGrid = getMineGrid(),
                     )
                 }
