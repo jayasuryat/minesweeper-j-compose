@@ -4,7 +4,8 @@ import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
-import com.jayasuryat.minesweeperengine.model.grid.MineGrid
+import com.jayasuryat.minesweeperengine.model.grid.Grid
+import com.jayasuryat.minesweeperenginedebug.model.DebugMineGrid
 
 
 public class RevealedMineGridGenerator(
@@ -15,7 +16,7 @@ public class RevealedMineGridGenerator(
         gridSize: GridSize,
         starCell: Position,
         mineCount: Int,
-    ): MineGrid {
+    ): Grid {
 
         val grid = backingGenerator.generateGrid(
             gridSize = gridSize,
@@ -28,12 +29,13 @@ public class RevealedMineGridGenerator(
                 when (rawCell) {
                     is RawCell.RevealedCell -> rawCell
                     is RawCell.UnrevealedCell -> rawCell.asRevealed()
-                }
-            }
-        }
+                } as RawCell
+            }.toMutableList()
+        }.toMutableList()
 
-        return grid.copy(
-            cells = modCells
+        return DebugMineGrid(
+            gridSize = grid.gridSize,
+            mutableCells = modCells,
         )
     }
 }

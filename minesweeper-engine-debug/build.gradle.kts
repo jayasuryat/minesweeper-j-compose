@@ -55,5 +55,6 @@ dependencies {
     androidTestImplementation(Dependency.Test.androidJunit)
     androidTestImplementation(Dependency.Test.espresso)
 
+    implementation(Dependency.Compose.ui)
     implementation(project(Dependency.Module.mineSweeperEngine))
 }

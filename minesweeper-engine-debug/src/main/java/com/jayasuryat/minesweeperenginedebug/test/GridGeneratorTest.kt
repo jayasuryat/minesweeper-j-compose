@@ -34,8 +34,8 @@ private fun List<List<RawCell>>.prettyToString(): String {
         }
 
         return when (cell) {
-            is MineCell.Cell -> cell.value.toString()
-            is MineCell.EmptyCell -> "0"
+            is MineCell.ValuedCell.Cell -> cell.value.toString()
+            is MineCell.ValuedCell.EmptyCell -> "0"
             is MineCell.Mine -> "\uD83D\uDD34"
         }.formatted()
     }
