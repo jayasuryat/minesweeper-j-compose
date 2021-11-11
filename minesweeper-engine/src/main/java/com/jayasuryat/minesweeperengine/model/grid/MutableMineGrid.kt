@@ -15,7 +15,11 @@ internal data class MutableMineGrid(
         return cells[position.row][position.column]
     }
 
-    operator fun set(position: Position, value: RawCell) {
+    override fun getOrNull(position: Position): RawCell? {
+        return kotlin.runCatching { get(position) }.getOrNull()
+    }
+
+    operator fun <T : RawCell> set(position: Position, value: T) {
         mutableCells[position.row][position.column] = value
     }
 
@@ -47,6 +51,14 @@ internal data class MutableMineGrid(
             return MutableMineGrid(
                 gridSize = gridSize,
                 mutableCells = cells.map { it.toMutableList() }.toMutableList(),
+            )
+        }
+
+        fun from(grid: Grid): MutableMineGrid {
+
+            return MutableMineGrid(
+                gridSize = grid.gridSize,
+                mutableCells = grid.cells.map { it.toMutableList() }.toMutableList(),
             )
         }
     }

@@ -14,4 +14,8 @@ internal data class MineGrid(
     override operator fun get(position: Position): RawCell {
         return cells[position.row][position.column]
     }
+
+    override fun getOrNull(position: Position): RawCell? {
+        return kotlin.runCatching { get(position) }.getOrNull()
+    }
 }
