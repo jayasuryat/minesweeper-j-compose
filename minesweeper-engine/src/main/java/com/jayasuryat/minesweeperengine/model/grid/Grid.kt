@@ -1,14 +1,18 @@
 package com.jayasuryat.minesweeperengine.model.grid
 
+import androidx.compose.runtime.StableMarker
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 
-internal interface Grid {
+@StableMarker
+public interface Grid {
 
-    val gridSize: GridSize
+    public val gridSize: GridSize
 
-    val cells: List<List<RawCell>>
+    public val cells: List<List<RawCell>>
 
-    operator fun get(position: Position): RawCell
+    public operator fun get(position: Position): RawCell
+
+    public fun getOrNull(position: Position): RawCell?
 }
