@@ -8,6 +8,7 @@ import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.gridGenerator.MineGridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
+import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
 
 @Preview(widthDp = 1000, heightDp = 1000)
 @Composable
@@ -27,5 +28,6 @@ private fun Preview() {
     Minefield(
         modifier = Modifier.fillMaxSize(),
         mineGrid = mineGrid,
+        actionListener = NoOpActionListener,
     )
 }
