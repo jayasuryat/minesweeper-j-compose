@@ -1,6 +1,8 @@
 package com.jayasuryat.minesweeperui.composable.cell.concealed
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -11,19 +13,38 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.jayasuryat.minesweeperengine.controller.MinefieldAction
+import com.jayasuryat.minesweeperengine.model.block.Position
+import com.jayasuryat.minesweeperengine.model.cell.MineCell
+import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
+import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
 import com.jayasuryat.minesweeperui.composable.util.floatValue
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun ConcealedCell(
+internal fun UnFlaggedCell(
     modifier: Modifier = Modifier,
+    cell: RawCell.UnrevealedCell.UnFlaggedCell,
+    actionListener: MinefieldActionsListener,
 ) {
 
     BoxWithConstraints(
         modifier = modifier
             .aspectRatio(1f)
-            .clipToBounds(),
+            .clipToBounds()
+            .combinedClickable(
+                onClick = {
+                    val action = MinefieldAction.OnCellClicked(cell)
+                    actionListener.action(action)
+                },
+                onLongClick = {
+                    val action = MinefieldAction.OnCellLongPressed(cell)
+                    actionListener.action(action)
+                },
+            ),
         contentAlignment = Alignment.Center
     ) {
 
@@ -38,11 +59,19 @@ internal fun ConcealedCell(
 @Preview(heightDp = 60, widthDp = 60)
 @Composable
 private fun Preview() {
+
+    val cell = RawCell.UnrevealedCell.UnFlaggedCell(
+        cell = MineCell.ValuedCell.EmptyCell(position = Position.zero())
+    )
+
     Spacer(modifier = Modifier
         .fillMaxSize()
         .background(Color.Cyan)
     )
-    ConcealedCell(
+
+    UnFlaggedCell(
         modifier = Modifier.fillMaxSize(),
+        cell = cell,
+        actionListener = NoOpActionListener,
     )
 }
