@@ -1,5 +1,6 @@
 package com.jayasuryat.minesweeperui.composable.cell.revealed
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,13 +20,14 @@ import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.composable.cell.VALUE_CELL_TEXT_COVER_PERCENT
 import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
 import com.jayasuryat.minesweeperui.composable.component.LogCompositions
+import com.jayasuryat.minesweeperui.composable.util.dp
 import com.jayasuryat.minesweeperui.composable.util.floatValue
 import com.jayasuryat.minesweeperui.composable.util.sp
 
 @Composable
 internal fun ValueCell(
     modifier: Modifier = Modifier,
-    cell: MineCell.Cell,
+    cell: MineCell.ValuedCell.Cell,
 ) {
 
     LogCompositions(name = "ValueCell")
@@ -39,6 +41,12 @@ internal fun ValueCell(
 
         val fontSize = getFontSize(width = maxWidth, height = maxHeight)
         val padding = getPadding(width = maxWidth, height = maxHeight)
+
+        Spacer(modifier = Modifier
+            .fillMaxSize()
+            .padding((padding - 1f).dp())
+            .background(color = Color.Red)
+        )
 
         Text(
             text = cell.value.toString(),
@@ -83,7 +91,7 @@ private fun getPadding(
 @Composable
 private fun Preview() {
     ValueCell(
-        cell = MineCell.Cell(value = 1, position = Position.zero()),
+        cell = MineCell.ValuedCell.Cell(value = 1, position = Position.zero()),
         modifier = Modifier.fillMaxSize(),
     )
 }

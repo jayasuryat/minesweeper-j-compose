@@ -24,9 +24,11 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import com.jayasuryat.minesweeperui.BuildConfig
 
+@PublishedApi
 internal class Ref(var value: Int)
 
-internal const val EnableDebugCompositionLogs = true
+@PublishedApi
+internal const val EnableDebugCompositionLogs: Boolean = true
 
 /**
  * An effect which logs the number compositions at the invoked point of the slot table.
@@ -38,7 +40,7 @@ internal const val EnableDebugCompositionLogs = true
  * @param tag Log tag used for [Log.d]
  */
 @Composable
-internal inline fun LogCompositions(name: String) {
+public inline fun LogCompositions(name: String) {
     if (EnableDebugCompositionLogs && BuildConfig.DEBUG) {
         val ref = remember { Ref(0) }
         SideEffect { ref.value++ }

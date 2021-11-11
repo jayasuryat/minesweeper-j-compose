@@ -12,7 +12,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntSize
 import kotlin.math.absoluteValue
 
-private const val EDGE_PADDING: Float = 0f
+private const val EDGE_PADDING: Float = 32f
 
 @Composable
 internal fun ZoomableContent(
