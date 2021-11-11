@@ -4,24 +4,44 @@ import androidx.compose.runtime.Immutable
 import com.jayasuryat.minesweeperengine.model.block.Position
 
 @Immutable
-public sealed class RawCell {
+public sealed interface RawCell {
 
-    public abstract val position: Position
+    public val position: Position
 
     @Immutable
-    public class UnrevealedCell(
-        private val cell: MineCell,
-    ) : RawCell() {
+    public sealed interface UnrevealedCell : RawCell {
 
-        override val position: Position = cell.position
+        public fun asRevealed(): RevealedCell
 
-        public fun asRevealed(): RevealedCell = RevealedCell(cell)
+        @Immutable
+        public class UnFlaggedCell(
+            private val cell: MineCell,
+        ) : UnrevealedCell {
+
+            override val position: Position = cell.position
+
+            override fun asRevealed(): RevealedCell = RevealedCell(cell = cell)
+
+            internal fun asFlagged(): FlaggedCell = FlaggedCell(cell = cell)
+        }
+
+        @Immutable
+        public class FlaggedCell(
+            private val cell: MineCell,
+        ) : UnrevealedCell {
+
+            override val position: Position = cell.position
+
+            override fun asRevealed(): RevealedCell = RevealedCell(cell = cell)
+
+            public fun asUnFlagged(): UnFlaggedCell = UnFlaggedCell(cell = cell)
+        }
     }
 
     @Immutable
     public class RevealedCell(
         public val cell: MineCell,
-    ) : RawCell() {
+    ) : RawCell {
 
         override val position: Position = cell.position
     }
