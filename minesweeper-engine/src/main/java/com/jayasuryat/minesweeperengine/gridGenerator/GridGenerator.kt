@@ -2,7 +2,7 @@ package com.jayasuryat.minesweeperengine.gridGenerator
 
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
-import com.jayasuryat.minesweeperengine.model.grid.MineGrid
+import com.jayasuryat.minesweeperengine.model.grid.Grid
 
 public interface GridGenerator {
 
@@ -10,5 +10,5 @@ public interface GridGenerator {
         gridSize: GridSize,
         starCell: Position,
         mineCount: Int,
-    ): MineGrid
+    ): Grid
 }

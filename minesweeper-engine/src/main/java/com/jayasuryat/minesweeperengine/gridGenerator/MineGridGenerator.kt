@@ -4,6 +4,7 @@ import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
+import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperengine.model.grid.MineGrid
 import kotlin.random.Random
 
@@ -15,7 +16,7 @@ public class MineGridGenerator : GridGenerator {
         gridSize: GridSize,
         starCell: Position,
         mineCount: Int,
-    ): MineGrid = generateFor(
+    ): Grid = generateFor(
         gridSize = gridSize,
         starCell = starCell,
         mineCount = mineCount,
@@ -59,7 +60,7 @@ public class MineGridGenerator : GridGenerator {
 
         val emptyCells: MutableCell2DList = MutableList(rows) { row ->
             MutableList(columns) { column ->
-                MineCell.EmptyCell(
+                MineCell.ValuedCell.EmptyCell(
                     position = Position(
                         row = row,
                         column = column,
@@ -113,8 +114,8 @@ public class MineGridGenerator : GridGenerator {
                 if (cell !is MineCell.Mine) {
 
                     val newCell = when (val count = cell.getMineCount()) {
-                        0 -> MineCell.EmptyCell(position = cell.position)
-                        else -> MineCell.Cell(position = cell.position, value = count)
+                        0 -> MineCell.ValuedCell.EmptyCell(position = cell.position)
+                        else -> MineCell.ValuedCell.Cell(position = cell.position, value = count)
                     }
                     this[cell.position.row][cell.position.column] = newCell
                 }
@@ -128,7 +129,7 @@ public class MineGridGenerator : GridGenerator {
 
         return this.map { row ->
             row.map { cell ->
-                RawCell.UnrevealedCell(cell = cell)
+                RawCell.UnrevealedCell.UnFlaggedCell(cell = cell)
             }
         }
     }
