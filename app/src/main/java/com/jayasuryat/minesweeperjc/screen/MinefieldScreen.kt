@@ -35,7 +35,7 @@ fun MinefieldScreen(
         Minefield(
             modifier = Modifier
                 .fillMaxSize(),
-            mineGrid = layoutInfo,
+            gridInfo = layoutInfo,
             actionListener = actionListener,
         )
     }
