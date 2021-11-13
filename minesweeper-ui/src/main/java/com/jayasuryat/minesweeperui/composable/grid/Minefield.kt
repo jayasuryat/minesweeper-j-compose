@@ -12,7 +12,7 @@ import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
 @Composable
 public fun Minefield(
     modifier: Modifier,
-    mineGrid: GridLayoutInformation,
+    gridInfo: GridLayoutInformation,
     actionListener: MinefieldActionsListener,
 ) {
 
@@ -22,7 +22,7 @@ public fun Minefield(
 
         MineGrid(
             modifier = modifier.then(zoomModifier),
-            mineGrid = mineGrid,
+            gridInfo = gridInfo,
             actionListener = actionListener,
         )
     }

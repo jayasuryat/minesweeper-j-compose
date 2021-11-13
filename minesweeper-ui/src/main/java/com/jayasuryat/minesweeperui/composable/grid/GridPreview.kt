@@ -30,7 +30,7 @@ private fun Preview() {
 
     Minefield(
         modifier = Modifier.fillMaxSize(),
-        mineGrid = mineGrid,
+        gridInfo = mineGrid,
         actionListener = NoOpActionListener,
     )
 }
