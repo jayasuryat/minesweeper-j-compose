@@ -28,8 +28,8 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             MinesweeperJCTheme {
-                // A surface container using the 'background' color from the theme
-                LogCompositions(name = "Inside MinesweeperJCTheme")
+
+                LogCompositions(name = "MinesweeperJCTheme")
 
                 val params = getMinefieldParams()
 

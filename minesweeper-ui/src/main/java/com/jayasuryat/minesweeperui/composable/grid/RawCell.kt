@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
-import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell.RevealedCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell.UnrevealedCell
@@ -22,7 +21,6 @@ import com.jayasuryat.minesweeperui.composable.cell.revealed.MineCell
 import com.jayasuryat.minesweeperui.composable.cell.revealed.ValueCell
 import com.jayasuryat.minesweeperui.composable.component.LogCompositions
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
-import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
 import com.jayasuryat.minesweeperui.composable.util.exhaustive
 import com.jayasuryat.minesweeperengine.model.cell.RawCell as RawCellData
 
@@ -34,7 +32,7 @@ internal fun RawCell(
     actionListener: MinefieldActionsListener,
 ) {
 
-    LogCompositions(name = "inside RawCell")
+    LogCompositions(name = "RawCell")
 
     Box(
         modifier = modifier
@@ -49,13 +47,13 @@ internal fun RawCell(
            ) { targetCell ->*/
 
         //val cell = cellState.value
-       /* val cell: com.jayasuryat.minesweeperengine.model.cell.RawCell =
-            UnrevealedCell.UnFlaggedCell(
-                cell = com.jayasuryat.minesweeperengine.model.cell.MineCell.ValuedCell.Cell(
-                    value = 1,
-                    position = Position.zero(),
-                )
-            )*/
+        /* val cell: com.jayasuryat.minesweeperengine.model.cell.RawCell =
+             UnrevealedCell.UnFlaggedCell(
+                 cell = com.jayasuryat.minesweeperengine.model.cell.MineCell.ValuedCell.Cell(
+                     value = 1,
+                     position = Position.zero(),
+                 )
+             )*/
 
         RawCellContent(
             cell = cellState.value,
@@ -71,7 +69,7 @@ private fun RawCellContent(
     actionListener: MinefieldActionsListener,
 ) {
 
-    LogCompositions(name = "inside RawCellContent")
+    LogCompositions(name = "RawCellContent")
 
     when (cell) {
 

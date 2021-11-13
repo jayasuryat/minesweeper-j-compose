@@ -25,7 +25,7 @@ internal fun InverseClippedBox(
     innerInset: Size = Size.Zero,
 ) {
 
-    LogCompositions(name = "inside InverseClippedBox")
+    LogCompositions(name = "InverseClippedBox")
 
     val width = parentSize.width.dp()
     val height = parentSize.height.dp()

@@ -18,7 +18,7 @@ fun MinefieldScreen(
     actionListener: MinefieldActionsListener,
 ) {
 
-    LogCompositions(name = "Inside MinefieldScreen")
+    LogCompositions(name = "MinefieldScreen")
 
     Box(
         modifier = Modifier
@@ -26,7 +26,7 @@ fun MinefieldScreen(
             .background(color = Color.Cyan)
     ) {
 
-        LogCompositions(name = "Inside MinefieldScreen Box")
+        LogCompositions(name = "MinefieldScreen\$Box")
 
         AnimatingGradient(
             modifier = Modifier.fillMaxSize()

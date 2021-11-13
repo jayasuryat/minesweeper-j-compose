@@ -34,7 +34,7 @@ internal fun UnFlaggedCell(
     actionListener: MinefieldActionsListener,
 ) {
 
-    LogCompositions(name = "inside UnFlaggedCell")
+    LogCompositions(name = "UnFlaggedCell")
 
     BoxWithConstraints(
         modifier = modifier
