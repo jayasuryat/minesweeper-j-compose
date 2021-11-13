@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -11,6 +12,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
+import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
 import com.jayasuryat.minesweeperui.composable.util.dp
 import com.jayasuryat.minesweeperui.composable.util.floatValue
@@ -18,7 +20,7 @@ import com.jayasuryat.minesweeperui.composable.util.floatValue
 @Composable
 internal fun MineGrid(
     modifier: Modifier,
-    mineGrid: GridLayoutInformation,
+    gridInfo: GridLayoutInformation,
     actionListener: MinefieldActionsListener,
 ) {
 
@@ -27,9 +29,10 @@ internal fun MineGrid(
     ) {
 
         val width = maxWidth
+        val gridSize = gridInfo.gridSize
 
         val cellSize = getCellSize(
-            gridSize = mineGrid.gridSize,
+            gridSize = gridSize,
             width = width,
         )
 
@@ -37,16 +40,16 @@ internal fun MineGrid(
             parentSize = Size(width = maxWidth.floatValue(),
                 height = maxHeight.floatValue()),
             contentSize = Size(
-                width = cellSize * mineGrid.gridSize.columns,
-                height = cellSize * mineGrid.gridSize.rows,
+                width = cellSize * gridSize.columns,
+                height = cellSize * gridSize.rows,
             ),
             padding = Size(width = 32f, height = 32f),
             innerInset = Size(width = 1f, height = 1f)
         )
 
         Grid(
-            height = maxHeight,
-            layoutInformation = mineGrid,
+            parentHeight = maxHeight,
+            gridInfo = gridInfo,
             actionListener = actionListener,
             cellSize = cellSize,
         )
@@ -55,20 +58,20 @@ internal fun MineGrid(
 
 @Composable
 private fun Grid(
-    height: Dp,
-    layoutInformation: GridLayoutInformation,
+    parentHeight: Dp,
+    gridInfo: GridLayoutInformation,
     actionListener: MinefieldActionsListener,
     cellSize: Float,
 ) {
 
-    val centerOffset = (height / 2).floatValue() - (cellSize * layoutInformation.gridSize.rows / 2)
+    val centerOffset = (parentHeight / 2).floatValue() - (cellSize * gridInfo.gridSize.rows / 2)
 
     val overlap = 1f
     val overlappingCellSize = cellSize + overlap
 
-    layoutInformation.cellData.forEach { cellData ->
+    gridInfo.cells.forEach { cellData ->
 
-        val (cell, position) = cellData
+        val (cell: State<RawCell>, position: Position) = cellData
         val offset = position.asOffset(cellSize = cellSize)
 
         RawCell(
@@ -98,7 +101,6 @@ private fun getCellSize(
 private fun Position.asOffset(
     cellSize: Float,
 ): Offset {
-
     val xOff = cellSize * this.column
     val yOff = cellSize * this.row
     return Offset(x = xOff, y = yOff)

@@ -10,8 +10,13 @@ import com.jayasuryat.minesweeperengine.state.StatefulGrid
 @Stable
 public data class GridLayoutInformation(
     val gridSize: GridSize,
-    val cellData: List<Pair<State<RawCell>, Position>>,
+    val cells: List<CellInfo>,
 ) {
+
+    public data class CellInfo(
+        val cellState: State<RawCell>,
+        val position: Position,
+    )
 
     public companion object {
 
@@ -19,8 +24,8 @@ public data class GridLayoutInformation(
 
             return GridLayoutInformation(
                 gridSize = grid.gridSize,
-                cellData = grid.cells.flatten().map { cell ->
-                    Pair(cell, cell.value.position)
+                cells = grid.cells.flatten().map { cell ->
+                    CellInfo(cellState = cell, position = cell.value.position)
                 }
             )
         }
