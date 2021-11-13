@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Stable
-import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
-import com.jayasuryat.minesweeperengine.controller.MinefieldControllerV1
+import com.jayasuryat.minesweeperengine.controller.impl.GameController
+import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.gridGenerator.MineGridGenerator
@@ -63,7 +63,7 @@ private fun getMinefieldParams(): MinefieldScreenParams {
 
     val statefulGrid = grid.asStatefulGrid()
     val layoutInfo = GridLayoutInformation.from(statefulGrid)
-    val controller = MinefieldControllerV1()
+    val controller = GameController.getDefault()
 
     return MinefieldScreenParams(
         layoutInformation = layoutInfo,
