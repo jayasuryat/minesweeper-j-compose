@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
-import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
 import com.jayasuryat.minesweeperui.composable.util.dp
 import com.jayasuryat.minesweeperui.composable.util.floatValue
@@ -19,7 +18,7 @@ import com.jayasuryat.minesweeperui.composable.util.floatValue
 @Composable
 internal fun MineGrid(
     modifier: Modifier,
-    mineGrid: Grid,
+    mineGrid: GridLayoutInformation,
     actionListener: MinefieldActionsListener,
 ) {
 
@@ -34,11 +33,6 @@ internal fun MineGrid(
             width = width,
         )
 
-        val centerOffset = (maxHeight / 2).floatValue() - (cellSize * mineGrid.gridSize.rows / 2)
-
-        val overlap = 1f
-        val overlappingCellSize = cellSize + overlap
-
         InverseClippedBox(
             parentSize = Size(width = maxWidth.floatValue(),
                 height = maxHeight.floatValue()),
@@ -50,21 +44,43 @@ internal fun MineGrid(
             innerInset = Size(width = 1f, height = 1f)
         )
 
-        mineGrid.cells.flatten().forEach { cell ->
+        Grid(
+            height = maxHeight,
+            layoutInformation = mineGrid,
+            actionListener = actionListener,
+            cellSize = cellSize,
+        )
+    }
+}
 
-            val offset = cell.position.asOffset(cellSize = cellSize)
+@Composable
+private fun Grid(
+    height: Dp,
+    layoutInformation: GridLayoutInformation,
+    actionListener: MinefieldActionsListener,
+    cellSize: Float,
+) {
 
-            RawCell(
-                modifier = Modifier
-                    .size(overlappingCellSize.dp())
-                    .graphicsLayer {
-                        translationX = offset.x
-                        translationY = offset.y + centerOffset
-                    },
-                cell = cell,
-                actionListener = actionListener,
-            )
-        }
+    val centerOffset = (height / 2).floatValue() - (cellSize * layoutInformation.gridSize.rows / 2)
+
+    val overlap = 1f
+    val overlappingCellSize = cellSize + overlap
+
+    layoutInformation.cellData.forEach { cellData ->
+
+        val (cell, position) = cellData
+        val offset = position.asOffset(cellSize = cellSize)
+
+        RawCell(
+            modifier = Modifier
+                .size(overlappingCellSize.dp())
+                .graphicsLayer {
+                    translationX = offset.x
+                    translationY = offset.y + centerOffset
+                },
+            cellState = cell,
+            actionListener = actionListener,
+        )
     }
 }
 

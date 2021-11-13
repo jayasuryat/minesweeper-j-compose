@@ -3,11 +3,13 @@ package com.jayasuryat.minesweeperui.composable.cell.concealed
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -19,6 +21,7 @@ import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
+import com.jayasuryat.minesweeperui.composable.component.LogCompositions
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
 import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
 import com.jayasuryat.minesweeperui.composable.util.floatValue
@@ -31,11 +34,15 @@ internal fun UnFlaggedCell(
     actionListener: MinefieldActionsListener,
 ) {
 
+    LogCompositions(name = "inside UnFlaggedCell")
+
     BoxWithConstraints(
         modifier = modifier
             .aspectRatio(1f)
             .clipToBounds()
             .combinedClickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() },
                 onClick = {
                     val action = MinefieldAction.OnCellClicked(cell)
                     actionListener.action(action)

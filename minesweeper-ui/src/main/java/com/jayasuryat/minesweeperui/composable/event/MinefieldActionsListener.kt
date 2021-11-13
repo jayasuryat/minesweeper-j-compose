@@ -1,10 +1,10 @@
 package com.jayasuryat.minesweeperui.composable.event
 
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import com.jayasuryat.minesweeperengine.controller.MinefieldAction
 
-@Immutable
+@Stable
 public fun interface MinefieldActionsListener {
 
-    public fun action(event: MinefieldAction)
+    public fun action(action: MinefieldAction)
 }

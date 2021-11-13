@@ -1,10 +1,17 @@
 package com.jayasuryat.minesweeperui.composable.grid
 
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell.RevealedCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell.UnrevealedCell
@@ -15,55 +22,108 @@ import com.jayasuryat.minesweeperui.composable.cell.revealed.MineCell
 import com.jayasuryat.minesweeperui.composable.cell.revealed.ValueCell
 import com.jayasuryat.minesweeperui.composable.component.LogCompositions
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
 import com.jayasuryat.minesweeperui.composable.util.exhaustive
 import com.jayasuryat.minesweeperengine.model.cell.RawCell as RawCellData
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun RawCell(
     modifier: Modifier,
-    cell: RawCellData,
+    cellState: State<RawCellData>,
     actionListener: MinefieldActionsListener,
 ) {
 
-    LogCompositions(name = "RawCell")
+    LogCompositions(name = "inside RawCell")
 
     Box(
         modifier = modifier
             .clipToBounds(),
     ) {
 
-        when (cell) {
+        //val x by remember { cellState }
 
-            is UnrevealedCell -> when (cell) {
+        /*   AnimatedContent(
+               targetState = cellState,
+               transitionSpec = { getContentTransformAnim() },
+           ) { targetCell ->*/
 
-                is UnrevealedCell.FlaggedCell -> FlaggedCell(
-                    cell = cell,
-                    actionListener = actionListener,
+        //val cell = cellState.value
+       /* val cell: com.jayasuryat.minesweeperengine.model.cell.RawCell =
+            UnrevealedCell.UnFlaggedCell(
+                cell = com.jayasuryat.minesweeperengine.model.cell.MineCell.ValuedCell.Cell(
+                    value = 1,
+                    position = Position.zero(),
                 )
+            )*/
 
-                is UnrevealedCell.UnFlaggedCell -> UnFlaggedCell(
-                    cell = cell,
-                    actionListener = actionListener,
+        RawCellContent(
+            cell = cellState.value,
+            actionListener = actionListener,
+        )
+        //}
+    }
+}
+
+@Composable
+private fun RawCellContent(
+    cell: RawCellData,
+    actionListener: MinefieldActionsListener,
+) {
+
+    LogCompositions(name = "inside RawCellContent")
+
+    when (cell) {
+
+        is UnrevealedCell -> when (cell) {
+
+            is UnrevealedCell.FlaggedCell -> FlaggedCell(
+                cell = cell,
+                actionListener = actionListener,
+            )
+
+            is UnrevealedCell.UnFlaggedCell -> UnFlaggedCell(
+                cell = cell,
+                actionListener = actionListener,
+            )
+
+        }.exhaustive
+
+        is RevealedCell -> {
+
+            when (val revealedCell = cell.cell) {
+
+                is MineCell.Mine -> MineCell(modifier = Modifier.fillMaxSize())
+
+                is MineCell.ValuedCell.EmptyCell -> EmptyCell(modifier = Modifier.fillMaxSize())
+
+                is MineCell.ValuedCell.Cell -> ValueCell(
+                    modifier = Modifier.fillMaxSize(),
+                    cell = revealedCell,
                 )
 
             }.exhaustive
+        }
 
-            is RevealedCell -> {
+    }.exhaustive
+}
 
-                when (val revealedCell = cell.cell) {
+@ExperimentalAnimationApi
+private fun getContentTransformAnim(): ContentTransform {
 
-                    is MineCell.Mine -> MineCell(modifier = Modifier.fillMaxSize())
+    val enterAnim = fadeIn(
+        animationSpec = tween(
+            durationMillis = 300,
+            delayMillis = 10
+        )
+    )
 
-                    is MineCell.ValuedCell.EmptyCell -> EmptyCell(modifier = Modifier.fillMaxSize())
+    val exitAnim = fadeOut(
+        animationSpec = tween(
+            durationMillis = 100,
+            delayMillis = 320,
+        )
+    )
 
-                    is MineCell.ValuedCell.Cell -> ValueCell(
-                        modifier = Modifier.fillMaxSize(),
-                        cell = revealedCell,
-                    )
-
-                }.exhaustive
-            }
-
-        }.exhaustive
-    }
+    return ContentTransform(enterAnim, exitAnim)
 }
