@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Stable
-import com.jayasuryat.minesweeperengine.controller.MinefieldAction
+import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
 import com.jayasuryat.minesweeperengine.controller.MinefieldControllerV1
-import com.jayasuryat.minesweeperengine.controller.MinefieldEvent
+import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.gridGenerator.MineGridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize

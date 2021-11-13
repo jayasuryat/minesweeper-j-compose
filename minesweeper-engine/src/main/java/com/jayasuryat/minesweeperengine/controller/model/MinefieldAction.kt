@@ -1,4 +1,4 @@
-package com.jayasuryat.minesweeperengine.controller
+package com.jayasuryat.minesweeperengine.controller.model
 
 import androidx.compose.runtime.Immutable
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
