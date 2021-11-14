@@ -1,14 +1,12 @@
 package com.jayasuryat.minesweeperui.composable.cell
 
-import androidx.compose.animation.ContentTransform
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
@@ -39,10 +37,17 @@ internal fun RawCell(
             .clipToBounds(),
     ) {
 
-        RawCellContent(
-            cell = cellState.value,
-            actionListener = actionListener,
-        )
+        AnimatedContent(
+            targetState = cellState.value,
+            transitionSpec = { getContentTransformAnim() },
+            contentAlignment = Alignment.Center,
+        ) { cell ->
+
+            RawCellContent(
+                cell = cell,
+                actionListener = actionListener,
+            )
+        }
     }
 }
 
@@ -95,14 +100,14 @@ private fun getContentTransformAnim(): ContentTransform {
     val enterAnim = fadeIn(
         animationSpec = tween(
             durationMillis = 300,
-            delayMillis = 10
+            delayMillis = 20
         )
     )
 
     val exitAnim = fadeOut(
         animationSpec = tween(
-            durationMillis = 100,
-            delayMillis = 320,
+            durationMillis = 300,
+            delayMillis = 330,
         )
     )
 
