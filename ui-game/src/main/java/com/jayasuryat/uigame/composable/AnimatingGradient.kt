@@ -1,4 +1,4 @@
-package com.jayasuryat.minesweeperjc.component
+package com.jayasuryat.uigame.composable
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
-fun AnimatingGradient(
+internal fun AnimatingGradient(
     modifier: Modifier = Modifier,
 ) {
 
