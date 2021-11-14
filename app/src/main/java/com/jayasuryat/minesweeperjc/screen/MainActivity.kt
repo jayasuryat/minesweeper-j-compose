@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.jayasuryat.minesweeperjc.ui.theme.MinesweeperJCTheme
-import com.jayasuryat.minesweeperui.composable.component.LogCompositions
-import com.jayasuryat.uigame.GameScreen
 import com.jayasuryat.uigame.GameConfiguration
+import com.jayasuryat.uigame.GameScreen
+import com.jayasuryat.util.LogCompositions
 
 class MainActivity : ComponentActivity() {
 

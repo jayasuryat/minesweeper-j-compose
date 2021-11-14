@@ -21,7 +21,7 @@ import com.jayasuryat.minesweeperui.composable.cell.revealed.MineCell
 import com.jayasuryat.minesweeperui.composable.cell.revealed.ValueCell
 import com.jayasuryat.minesweeperui.composable.component.LogCompositions
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
-import com.jayasuryat.minesweeperui.composable.util.exhaustive
+import com.jayasuryat.util.exhaustive
 import com.jayasuryat.minesweeperengine.model.cell.RawCell as RawCellData
 
 @OptIn(ExperimentalAnimationApi::class)

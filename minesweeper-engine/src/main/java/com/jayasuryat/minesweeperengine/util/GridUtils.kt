@@ -22,6 +22,3 @@ internal fun Grid.mutate(
     val modGrid = MutableMineGrid.from(this)
     return modGrid.apply(mutation).toImmutable()
 }
-
-internal val <T> T.exhaustive: T
-    get() = this

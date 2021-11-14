@@ -56,4 +56,6 @@ dependencies {
     androidTestImplementation(Dependency.Test.espresso)
 
     implementation(Dependency.Compose.ui)
+
+    implementation(project(Dependency.Module.util))
 }

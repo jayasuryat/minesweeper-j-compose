@@ -73,5 +73,6 @@ dependencies {
     implementation(Dependency.Compose.toolingPreview)
     debugImplementation(Dependency.Compose.tooling)
 
+    implementation(project(Dependency.Module.util))
     implementation(project(Dependency.Module.mineSweeperEngine))
 }

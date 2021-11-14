@@ -7,7 +7,7 @@ import com.jayasuryat.minesweeperengine.controller.impl.handler.CellReveler
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.minesweeperengine.util.exhaustive
+import com.jayasuryat.util.exhaustive
 
 public class GameController(
     private val cellReveler: ActionHandler<MinefieldAction.OnCellClicked>,

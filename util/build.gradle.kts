@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
+
 plugins {
     id("com.android.library")
     kotlin("android")
@@ -53,6 +55,10 @@ android {
     }
 }
 
+tasks.withType(KotlinCompile::class).all {
+    kotlinOptions.freeCompilerArgs += "-Xexplicit-api=strict"
+}
+
 dependencies {
 
     testImplementation(Dependency.Test.junit)
@@ -60,15 +66,5 @@ dependencies {
     androidTestImplementation(Dependency.Test.espresso)
     androidTestImplementation(Dependency.Compose.Test.junit)
 
-    implementation(Dependency.coreKtx)
-    implementation(Dependency.material)
     implementation(Dependency.Compose.ui)
-    implementation(Dependency.Compose.material)
-    implementation(Dependency.Compose.toolingPreview)
-    debugImplementation(Dependency.Compose.tooling)
-
-    implementation(project(Dependency.Module.util))
-    implementation(project(Dependency.Module.mineSweeperEngine))
-    implementation(project(Dependency.Module.mineSweeperEngineDebug))
-    implementation(project(Dependency.Module.mineSweeperUi))
 }

@@ -13,6 +13,8 @@ object Dependency {
 
         const val mineSweeperUi = ":minesweeper-ui"
 
+        const val util = ":util"
+
         const val mineSweeperEngine = ":minesweeper-engine"
         const val mineSweeperEngineDebug = ":minesweeper-engine-debug"
         const val gameScreen = ":ui-game"
@@ -39,4 +41,8 @@ object Dependency {
     const val material = "com.google.android.material:material:1.4.0"
 
     const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+
+    private const val taktVersion = "2.1.1"
+    const val takt = "jp.wasabeef:takt:$taktVersion"
+    const val taktNoOp = "jp.wasabeef:takt-no-op:$taktVersion"
 }

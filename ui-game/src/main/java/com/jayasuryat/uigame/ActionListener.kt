@@ -7,7 +7,7 @@ import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.getCurrentGrid
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
-import com.jayasuryat.uigame.util.exhaustive
+import com.jayasuryat.util.exhaustive
 
 @Stable
 internal class ActionListener(

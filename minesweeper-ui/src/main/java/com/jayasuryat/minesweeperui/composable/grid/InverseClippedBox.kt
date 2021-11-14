@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathOperation
 import androidx.compose.ui.tooling.preview.Preview
 import com.jayasuryat.minesweeperui.composable.component.LogCompositions
-import com.jayasuryat.minesweeperui.composable.util.dp
+import com.jayasuryat.util.dp
 
 @Composable
 internal fun InverseClippedBox(

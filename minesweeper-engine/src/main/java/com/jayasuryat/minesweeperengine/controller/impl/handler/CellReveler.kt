@@ -6,8 +6,8 @@ import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.minesweeperengine.util.exhaustive
 import com.jayasuryat.minesweeperengine.util.mutate
+import com.jayasuryat.util.exhaustive
 
 internal class CellReveler : ActionHandler<MinefieldAction.OnCellClicked> {
 
