@@ -15,6 +15,7 @@ object Dependency {
 
         const val mineSweeperEngine = ":minesweeper-engine"
         const val mineSweeperEngineDebug = ":minesweeper-engine-debug"
+        const val gameScreen = ":ui-game"
     }
 
     object Compose {

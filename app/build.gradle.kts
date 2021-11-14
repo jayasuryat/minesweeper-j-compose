@@ -80,6 +80,7 @@ dependencies {
     implementation(project(Dependency.Module.mineSweeperEngineDebug))
 
     implementation(project(Dependency.Module.mineSweeperUi))
+    implementation(project(Dependency.Module.gameScreen))
 
     releaseImplementation("jp.wasabeef:takt-no-op:2.1.1")
     debugImplementation("jp.wasabeef:takt:2.1.1")
