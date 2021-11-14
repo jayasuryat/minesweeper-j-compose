@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.Dp
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
+import com.jayasuryat.minesweeperui.composable.cell.RawCell
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
 import com.jayasuryat.minesweeperui.composable.util.dp
 import com.jayasuryat.minesweeperui.composable.util.floatValue

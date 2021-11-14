@@ -1,4 +1,4 @@
-package com.jayasuryat.minesweeperui.composable.grid
+package com.jayasuryat.minesweeperui.composable.cell
 
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -39,27 +39,10 @@ internal fun RawCell(
             .clipToBounds(),
     ) {
 
-        //val x by remember { cellState }
-
-        /*   AnimatedContent(
-               targetState = cellState,
-               transitionSpec = { getContentTransformAnim() },
-           ) { targetCell ->*/
-
-        //val cell = cellState.value
-        /* val cell: com.jayasuryat.minesweeperengine.model.cell.RawCell =
-             UnrevealedCell.UnFlaggedCell(
-                 cell = com.jayasuryat.minesweeperengine.model.cell.MineCell.ValuedCell.Cell(
-                     value = 1,
-                     position = Position.zero(),
-                 )
-             )*/
-
         RawCellContent(
             cell = cellState.value,
             actionListener = actionListener,
         )
-        //}
     }
 }
 

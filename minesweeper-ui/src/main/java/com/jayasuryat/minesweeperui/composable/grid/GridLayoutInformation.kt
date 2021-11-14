@@ -13,6 +13,7 @@ public data class GridLayoutInformation(
     val cells: List<CellInfo>,
 ) {
 
+    @Stable
     public data class CellInfo(
         val cellState: State<RawCell>,
         val position: Position,
@@ -20,11 +21,12 @@ public data class GridLayoutInformation(
 
     public companion object {
 
-        public fun from(grid: StatefulGrid): GridLayoutInformation {
+        @Stable
+        public fun from(statefulGrid: StatefulGrid): GridLayoutInformation {
 
             return GridLayoutInformation(
-                gridSize = grid.gridSize,
-                cells = grid.cells.flatten().map { cell ->
+                gridSize = statefulGrid.gridSize,
+                cells = statefulGrid.cells.flatten().map { cell ->
                     CellInfo(cellState = cell, position = cell.value.position)
                 }
             )
