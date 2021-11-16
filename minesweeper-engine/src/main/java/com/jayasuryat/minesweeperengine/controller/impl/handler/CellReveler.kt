@@ -6,7 +6,6 @@ import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.minesweeperengine.util.mutate
 import com.jayasuryat.util.exhaustive
 
 internal class CellReveler : ActionHandler<MinefieldAction.OnCellClicked> {
@@ -21,26 +20,16 @@ internal class CellReveler : ActionHandler<MinefieldAction.OnCellClicked> {
         return when (val cell = revealed.cell) {
 
             is MineCell.ValuedCell.Cell -> {
-                val updatedGrid = grid.mutate { this[action.cell.position] = revealed }
-                MinefieldEvent.OnGridUpdated(mineGrid = updatedGrid)
+                MinefieldEvent.OnCellsUpdated(updatedCells = listOf(revealed))
             }
 
             is MineCell.ValuedCell.EmptyCell -> {
-                val updatedGrid = cell.revealNeighbouringCells(grid = grid)
-                MinefieldEvent.OnGridUpdated(mineGrid = updatedGrid)
+                val updatedCells = cell.getAllValueNeighbours(grid = grid)
+                MinefieldEvent.OnCellsUpdated(updatedCells = updatedCells)
             }
 
             is MineCell.Mine -> MinefieldEvent.OnGameOver
 
         }.exhaustive
-    }
-
-    private fun MineCell.ValuedCell.EmptyCell.revealNeighbouringCells(grid: Grid): Grid {
-
-        val cells = this.getAllValueNeighbours(grid = grid)
-
-        return grid.mutate {
-            cells.forEach { cell -> this[cell.position] = cell }
-        }
     }
 }

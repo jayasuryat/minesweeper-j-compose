@@ -26,12 +26,19 @@ internal class MutableStatefulGrid(
         return kotlin.runCatching { mutableCells[position.row][position.column] }.getOrNull()
     }
 
-    override fun updateStatesWith(cells: List<List<RawCell>>) {
+    override fun updateCellsWith(updatedCells: List<RawCell>) {
+        updatedCells.forEach { cell ->
+            getMutableCell(cell.position).value = cell
+        }
+    }
 
-        cells.forEach { row ->
-            row.forEach { cell ->
-                this.getMutableCell(cell.position).value = cell
-            }
+    override fun updateCellsWith(
+        updatedCells: List<RawCell>,
+        delayForEachCell: Long,
+    ) {
+        updatedCells.forEach { cell ->
+            getMutableCell(cell.position).value = cell
+            //   delay(delayForEachCell)
         }
     }
 

@@ -17,7 +17,12 @@ public interface StatefulGrid {
 
     public fun getOrNull(position: Position): State<RawCell>?
 
-    public fun updateStatesWith(
-        cells: List<List<RawCell>>,
+    public fun updateCellsWith(
+        updatedCells: List<RawCell>,
+    )
+
+    public fun updateCellsWith(
+        updatedCells: List<RawCell>,
+        delayForEachCell: Long,
     )
 }

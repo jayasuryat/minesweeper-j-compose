@@ -5,7 +5,6 @@ import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.minesweeperengine.util.mutate
 import com.jayasuryat.util.exhaustive
 
 internal class CellFlagger : ActionHandler<MinefieldAction.OnCellLongPressed> {
@@ -15,18 +14,14 @@ internal class CellFlagger : ActionHandler<MinefieldAction.OnCellLongPressed> {
         grid: Grid,
     ): MinefieldEvent {
 
-        val updatedGrid = when (action.cell) {
+        val updatedCell = when (action.cell) {
 
-            is RawCell.UnrevealedCell.FlaggedCell -> grid.mutate {
-                this[action.cell.position] = action.cell.asUnFlagged()
-            }
+            is RawCell.UnrevealedCell.FlaggedCell -> action.cell.asUnFlagged()
 
-            is RawCell.UnrevealedCell.UnFlaggedCell -> grid.mutate {
-                this[action.cell.position] = action.cell.asFlagged()
-            }
+            is RawCell.UnrevealedCell.UnFlaggedCell -> action.cell.asFlagged()
 
         }.exhaustive
 
-        return MinefieldEvent.OnGridUpdated(mineGrid = updatedGrid)
+        return MinefieldEvent.OnCellsUpdated(updatedCells = listOf(updatedCell))
     }
 }
