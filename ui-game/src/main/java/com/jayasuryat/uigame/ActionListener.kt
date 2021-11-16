@@ -15,7 +15,9 @@ internal class ActionListener(
     private val minefieldController: MinefieldController,
 ) : MinefieldActionsListener {
 
-    override fun action(action: MinefieldAction) {
+    override fun action(action: MinefieldAction) = handleAction(action = action)
+
+    private fun handleAction(action: MinefieldAction) {
 
         val state: MinefieldEvent = minefieldController.onAction(
             action = action,
@@ -25,7 +27,14 @@ internal class ActionListener(
         when (state) {
 
             is MinefieldEvent.OnGridUpdated -> {
-                statefulGrid.updateStatesWith(cells = state.mineGrid.cells)
+                statefulGrid.updateCellsWith(updatedCells = state.mineGrid.cells.flatten())
+            }
+
+            is MinefieldEvent.OnCellsUpdated -> {
+                statefulGrid.updateCellsWith(
+                    updatedCells = state.updatedCells,
+                    delayForEachCell = 30L,
+                )
             }
 
             is MinefieldEvent.OnGameOver -> Unit
