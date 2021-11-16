@@ -21,9 +21,9 @@ import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
-import com.jayasuryat.minesweeperui.composable.component.LogCompositions
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
 import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
+import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.floatValue
 
 @OptIn(ExperimentalFoundationApi::class)

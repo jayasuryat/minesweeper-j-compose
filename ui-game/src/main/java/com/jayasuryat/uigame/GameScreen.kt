@@ -10,9 +10,9 @@ import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
-import com.jayasuryat.minesweeperui.composable.component.LogCompositions
 import com.jayasuryat.minesweeperui.composable.grid.GridLayoutInformation
 import com.jayasuryat.uigame.composable.MinefieldScreen
+import com.jayasuryat.util.LogCompositions
 
 @Composable
 fun GameScreen(

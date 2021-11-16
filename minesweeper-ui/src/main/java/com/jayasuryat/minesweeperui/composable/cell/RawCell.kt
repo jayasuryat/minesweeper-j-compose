@@ -17,8 +17,8 @@ import com.jayasuryat.minesweeperui.composable.cell.concealed.UnFlaggedCell
 import com.jayasuryat.minesweeperui.composable.cell.revealed.EmptyCell
 import com.jayasuryat.minesweeperui.composable.cell.revealed.MineCell
 import com.jayasuryat.minesweeperui.composable.cell.revealed.ValueCell
-import com.jayasuryat.minesweeperui.composable.component.LogCompositions
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
+import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.exhaustive
 import com.jayasuryat.minesweeperengine.model.cell.RawCell as RawCellData
 

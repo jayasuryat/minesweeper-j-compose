@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathOperation
 import androidx.compose.ui.tooling.preview.Preview
-import com.jayasuryat.minesweeperui.composable.component.LogCompositions
+import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp
 
 @Composable
