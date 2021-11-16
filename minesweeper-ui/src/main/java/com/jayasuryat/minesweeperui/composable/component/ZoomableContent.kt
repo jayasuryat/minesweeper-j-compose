@@ -3,16 +3,13 @@ package com.jayasuryat.minesweeperui.composable.component
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.IntSize
 import kotlin.math.absoluteValue
-
-private const val EDGE_PADDING: Float = 32f
 
 @Composable
 internal fun ZoomableContent(
@@ -21,44 +18,36 @@ internal fun ZoomableContent(
 ) {
 
     val scale = remember { mutableStateOf(1f) }
-    val rotationState = remember { mutableStateOf(0f) }
     val translateX = remember { mutableStateOf(0f) }
     val translateY = remember { mutableStateOf(0f) }
-
-    fun updatePanState(
-        size: IntSize,
-        pan: Offset,
-    ) {
-        val actualWidth = size.width
-        val scaledWidth = actualWidth * scale.value
-        val widthDiff = (scaledWidth - actualWidth).absoluteValue
-        val modTransX = (widthDiff / 2) + EDGE_PADDING
-
-        val actualHeight = size.height
-        val scaledHeight = actualHeight * scale.value
-        val heightDiff = (scaledHeight - actualHeight).absoluteValue
-        val modTransY = (heightDiff / 2) + EDGE_PADDING
-
-        translateX.value = (translateX.value + pan.x)
-            .coerceAtLeast(-modTransX)
-            .coerceAtMost(modTransX)
-
-        translateY.value = (translateY.value + pan.y)
-            .coerceAtLeast(-modTransY)
-            .coerceAtMost(modTransY)
-    }
 
     Box(
         modifier = modifier
             .pointerInput(Unit) {
-                detectTransformGestures { centroid, pan, zoom, rotation ->
+                detectTransformGestures { _, pan, zoom, _ ->
 
-                    scale.value = (scale.value * zoom)
+                    val scaleValue = (scale.value * zoom)
                         .coerceAtLeast(1f)
                         .coerceAtMost(3f)
+                    scale.value = scaleValue
 
-                    rotationState.value += rotation
-                    updatePanState(size = this.size, pan = pan)
+                    val modTranslateX = getScaledTranslation(
+                        originalSize = this.size.width,
+                        scaleFactor = scaleValue
+                    )
+
+                    val modTranslateY = getScaledTranslation(
+                        originalSize = this.size.height,
+                        scaleFactor = scaleValue
+                    )
+
+                    translateX.value = (translateX.value + pan.x)
+                        .coerceAtLeast(-modTranslateX)
+                        .coerceAtMost(modTranslateX)
+
+                    translateY.value = (translateY.value + pan.y)
+                        .coerceAtLeast(-modTranslateY)
+                        .coerceAtMost(modTranslateY)
                 }
             }
     ) {
@@ -70,8 +59,17 @@ internal fun ZoomableContent(
                     scaleY = scale.value,
                     translationX = translateX.value,
                     translationY = translateY.value,
-                    //rotationZ = rotationState.value,
                 )
         )
     }
+}
+
+@Stable
+private fun getScaledTranslation(
+    originalSize: Int,
+    scaleFactor: Float,
+): Float {
+    val scaledWidth = originalSize * scaleFactor
+    val widthDiff = (scaledWidth - originalSize).absoluteValue
+    return (widthDiff / 2)
 }
