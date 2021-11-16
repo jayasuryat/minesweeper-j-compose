@@ -10,8 +10,19 @@ dependencyResolutionManagement {
 rootProject.name = "Minesweeper-JC"
 
 include(":app")
-include(":minesweeper-engine")
-include(":minesweeper-ui")
-include(":minesweeper-engine-debug")
-include(":ui-game")
+
 include(":util")
+
+// Feature
+include(":ui-game")
+
+// Core
+include(":core:minesweeper-engine")
+include(":core:minesweeper-ui")
+include(":core:minesweeper-engine-debug")
+
+// Project definitions
+private val root = rootProject.projectDir.path
+project(":core:minesweeper-engine").projectDir = File("$root/minesweeper-engine")
+project(":core:minesweeper-ui").projectDir = File("$root/minesweeper-ui")
+project(":core:minesweeper-engine-debug").projectDir = File("$root/minesweeper-engine-debug")

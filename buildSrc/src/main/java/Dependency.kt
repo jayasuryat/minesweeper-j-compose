@@ -11,12 +11,12 @@ object Dependency {
 
     object Module {
 
-        const val mineSweeperUi = ":minesweeper-ui"
-
         const val util = ":util"
 
-        const val mineSweeperEngine = ":minesweeper-engine"
-        const val mineSweeperEngineDebug = ":minesweeper-engine-debug"
+        const val mineSweeperEngine = ":core:minesweeper-engine"
+        const val mineSweeperEngineDebug = ":core:minesweeper-engine-debug"
+        const val mineSweeperUi = ":core:minesweeper-ui"
+
         const val gameScreen = ":ui-game"
     }
 
