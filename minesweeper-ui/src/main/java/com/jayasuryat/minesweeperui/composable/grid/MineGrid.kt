@@ -10,17 +10,20 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperui.composable.cell.RawCell
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
+import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp
 import com.jayasuryat.util.floatValue
 
 @Composable
 internal fun MineGrid(
     modifier: Modifier,
+    horizontalPadding: Dp = 16.dp,
     gridInfo: GridLayoutInformation,
     actionListener: MinefieldActionsListener,
 ) {
@@ -34,7 +37,7 @@ internal fun MineGrid(
 
         val cellSize = getCellSize(
             gridSize = gridSize,
-            width = width,
+            width = width - (horizontalPadding * 2),
         )
 
         InverseClippedBox(
@@ -50,6 +53,7 @@ internal fun MineGrid(
 
         Grid(
             parentHeight = maxHeight,
+            horizontalPadding = horizontalPadding,
             gridInfo = gridInfo,
             actionListener = actionListener,
             cellSize = cellSize,
@@ -60,12 +64,16 @@ internal fun MineGrid(
 @Composable
 private fun Grid(
     parentHeight: Dp,
+    horizontalPadding: Dp,
     gridInfo: GridLayoutInformation,
     actionListener: MinefieldActionsListener,
     cellSize: Float,
 ) {
 
+    LogCompositions(name = "Grid")
+
     val centerOffset = (parentHeight / 2).floatValue() - (cellSize * gridInfo.gridSize.rows / 2)
+    val paddingOffset = horizontalPadding.floatValue()
 
     val overlap = 1f
     val overlappingCellSize = cellSize + overlap
@@ -79,7 +87,7 @@ private fun Grid(
             modifier = Modifier
                 .size(overlappingCellSize.dp())
                 .graphicsLayer {
-                    translationX = offset.x
+                    translationX = offset.x + paddingOffset
                     translationY = offset.y + centerOffset
                 },
             cellState = cell,
