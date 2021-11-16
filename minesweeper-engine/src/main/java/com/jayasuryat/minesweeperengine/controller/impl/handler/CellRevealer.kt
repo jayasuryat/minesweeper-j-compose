@@ -8,7 +8,7 @@ import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.util.exhaustive
 
-internal class CellReveler : ActionHandler<MinefieldAction.OnCellClicked> {
+internal class CellRevealer : ActionHandler<MinefieldAction.OnCellClicked> {
 
     override fun onAction(
         action: MinefieldAction.OnCellClicked,

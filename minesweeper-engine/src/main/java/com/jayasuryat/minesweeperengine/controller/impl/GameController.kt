@@ -3,8 +3,8 @@ package com.jayasuryat.minesweeperengine.controller.impl
 import com.jayasuryat.minesweeperengine.controller.ActionHandler
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
 import com.jayasuryat.minesweeperengine.controller.impl.handler.CellFlagger
-import com.jayasuryat.minesweeperengine.controller.impl.handler.CellReveler
-import com.jayasuryat.minesweeperengine.controller.impl.handler.ValueCellReveler
+import com.jayasuryat.minesweeperengine.controller.impl.handler.CellRevealer
+import com.jayasuryat.minesweeperengine.controller.impl.handler.ValueCellRevealer
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.model.grid.Grid
@@ -53,9 +53,9 @@ public class GameController(
 
         public fun getDefault(): GameController {
             return GameController(
-                cellReveler = CellReveler(),
+                cellReveler = CellRevealer(),
                 cellFlagger = CellFlagger(),
-                valueCellReveler = ValueCellReveler(),
+                valueCellReveler = ValueCellRevealer(),
             )
         }
     }
