@@ -14,7 +14,7 @@ public sealed interface MinefieldAction {
 
     @Immutable
     public data class OnValueCellClicked(
-        val cell: MineCell.ValuedCell,
+        val cell: MineCell.ValuedCell.Cell,
     ) : MinefieldAction
 
     @Immutable

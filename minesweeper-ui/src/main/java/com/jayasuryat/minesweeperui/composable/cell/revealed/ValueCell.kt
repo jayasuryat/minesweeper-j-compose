@@ -1,12 +1,14 @@
 package com.jayasuryat.minesweeperui.composable.cell.revealed
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -14,12 +16,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.composable.cell.VALUE_CELL_TEXT_COVER_PERCENT
 import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
-import com.jayasuryat.minesweeperui.composable.component.LogCompositions
+import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
+import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp
 import com.jayasuryat.util.floatValue
 import com.jayasuryat.util.sp
@@ -28,6 +33,7 @@ import com.jayasuryat.util.sp
 internal fun ValueCell(
     modifier: Modifier = Modifier,
     cell: MineCell.ValuedCell.Cell,
+    actionListener: MinefieldActionsListener,
 ) {
 
     LogCompositions(name = "ValueCell")
@@ -35,7 +41,11 @@ internal fun ValueCell(
     BoxWithConstraints(
         modifier = modifier
             .aspectRatio(1f)
-            .clipToBounds(),
+            .clipToBounds()
+            .clickable {
+                val action = MinefieldAction.OnValueCellClicked(cell = cell)
+                actionListener.action(action)
+            },
         contentAlignment = Alignment.Center
     ) {
 
@@ -45,6 +55,8 @@ internal fun ValueCell(
         Spacer(modifier = Modifier
             .fillMaxSize()
             .padding((padding - 1f).dp())
+            .background(color = Color.Black)
+            .alpha(alpha = getAlphaForValue(cell.value))
             .background(color = Color.Red)
         )
 
@@ -61,6 +73,16 @@ internal fun ValueCell(
         )
 
         InverseClippedCircle(iconPadding = padding)
+    }
+}
+
+@Stable
+private fun getAlphaForValue(value: Int): Float {
+
+    return when (value) {
+        1 -> 0.5f
+        2 -> 0.75f
+        else -> 1f
     }
 }
 
@@ -93,5 +115,6 @@ private fun Preview() {
     ValueCell(
         cell = MineCell.ValuedCell.Cell(value = 1, position = Position.zero()),
         modifier = Modifier.fillMaxSize(),
+        actionListener = NoOpActionListener,
     )
 }

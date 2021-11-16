@@ -86,6 +86,7 @@ private fun RawCellContent(
                 is MineCell.ValuedCell.Cell -> ValueCell(
                     modifier = Modifier.fillMaxSize(),
                     cell = revealedCell,
+                    actionListener = actionListener,
                 )
 
             }.exhaustive
