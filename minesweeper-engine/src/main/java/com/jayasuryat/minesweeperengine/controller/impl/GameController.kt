@@ -4,11 +4,14 @@ import com.jayasuryat.minesweeperengine.controller.ActionHandler
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
 import com.jayasuryat.minesweeperengine.controller.impl.handler.CellFlagger
 import com.jayasuryat.minesweeperengine.controller.impl.handler.CellRevealer
+import com.jayasuryat.minesweeperengine.controller.impl.handler.GridRevealer
 import com.jayasuryat.minesweeperengine.controller.impl.handler.ValueCellRevealer
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.util.exhaustive
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 public class GameController(
     private val cellReveler: ActionHandler<MinefieldAction.OnCellClicked>,
@@ -16,15 +19,17 @@ public class GameController(
     private val valueCellReveler: ActionHandler<MinefieldAction.OnValueCellClicked>,
 ) : MinefieldController {
 
-    override fun onAction(
+    override suspend fun onAction(
         action: MinefieldAction,
         mineGrid: Grid,
-    ): MinefieldEvent = reduceActionToEvent(
-        action = action,
-        mineGrid = mineGrid
-    )
+    ): MinefieldEvent = withContext(Dispatchers.Default) {
+        reduceActionToEvent(
+            action = action,
+            mineGrid = mineGrid
+        )
+    }
 
-    private fun reduceActionToEvent(
+    private suspend fun reduceActionToEvent(
         action: MinefieldAction,
         mineGrid: Grid,
     ): MinefieldEvent {
@@ -53,7 +58,7 @@ public class GameController(
 
         public fun getDefault(): GameController {
             return GameController(
-                cellReveler = CellRevealer(),
+                cellReveler = CellRevealer(gridRevealer = GridRevealer()),
                 cellFlagger = CellFlagger(),
                 valueCellReveler = ValueCellRevealer(),
             )

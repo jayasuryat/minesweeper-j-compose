@@ -8,7 +8,7 @@ import com.jayasuryat.minesweeperengine.model.grid.Grid
 @Stable
 public interface MinefieldController {
 
-    public fun onAction(
+    public suspend fun onAction(
         action: MinefieldAction,
         mineGrid: Grid,
     ): MinefieldEvent

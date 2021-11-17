@@ -4,15 +4,19 @@ import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 internal object ValueNeighbourCalculator {
 
-    fun MineCell.ValuedCell.EmptyCell.getAllValueNeighbours(
+    suspend fun MineCell.ValuedCell.EmptyCell.getAllValueNeighbours(
         grid: Grid,
-    ): List<RawCell.RevealedCell> = getAllNeighbouringValueCell(
-        cell = this,
-        grid = grid,
-    )
+    ): List<RawCell.RevealedCell> = withContext(Dispatchers.Default) {
+        getAllNeighbouringValueCell(
+            cell = this@getAllValueNeighbours,
+            grid = grid,
+        )
+    }
 
     private fun getAllNeighbouringValueCell(
         cell: MineCell.ValuedCell.EmptyCell,

@@ -11,7 +11,7 @@ import com.jayasuryat.minesweeperengine.model.grid.Grid
 
 internal class ValueCellRevealer : ActionHandler<MinefieldAction.OnValueCellClicked> {
 
-    override fun onAction(
+    override suspend fun onAction(
         action: MinefieldAction.OnValueCellClicked,
         grid: Grid,
     ): MinefieldEvent {

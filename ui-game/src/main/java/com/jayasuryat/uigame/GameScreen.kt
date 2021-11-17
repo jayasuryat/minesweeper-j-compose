@@ -3,6 +3,7 @@ package com.jayasuryat.uigame
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import com.jayasuryat.minesweeperengine.controller.impl.GameController
 import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.gridGenerator.MineGridGenerator
@@ -13,6 +14,7 @@ import com.jayasuryat.minesweeperengine.state.asStatefulGrid
 import com.jayasuryat.minesweeperui.composable.grid.GridLayoutInformation
 import com.jayasuryat.uigame.composable.MinefieldScreen
 import com.jayasuryat.util.LogCompositions
+import kotlinx.coroutines.Dispatchers
 
 @Composable
 fun GameScreen(
@@ -21,6 +23,7 @@ fun GameScreen(
 
     LogCompositions(name = "GameScreen")
 
+    val coroutineScope = rememberCoroutineScope { Dispatchers.Default }
     val statefulGrid = remember { getStatefulGrid(gameConfiguration = gameConfiguration) }
     val layoutInfo = remember { GridLayoutInformation.from(statefulGrid = statefulGrid) }
     val gameController = remember { GameController.getDefault() }
@@ -28,6 +31,7 @@ fun GameScreen(
         ActionListener(
             statefulGrid = statefulGrid,
             minefieldController = gameController,
+            coroutineScope = coroutineScope,
         )
     }
 
