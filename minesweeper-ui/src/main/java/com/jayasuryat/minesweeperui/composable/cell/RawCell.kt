@@ -37,11 +37,15 @@ internal fun RawCell(
             .clipToBounds(),
     ) {
 
+        LogCompositions(name = "RawCell\$Box")
+
         AnimatedContent(
             targetState = cellState.value,
             transitionSpec = { getContentTransformAnim() },
             contentAlignment = Alignment.Center,
         ) { cell ->
+
+            LogCompositions(name = "RawCell\$Box\$AnimatedContent")
 
             RawCellContent(
                 cell = cell,
