@@ -53,9 +53,9 @@ internal fun FlaggedCell(
 
         Icon(
             modifier = modifier
-                .padding(all = padding),
+                .padding(all = padding * 2),
             imageVector = Icons.Filled.Favorite,
-            tint = Color.White,
+            tint = Color.Black,
             contentDescription = null,
         )
 

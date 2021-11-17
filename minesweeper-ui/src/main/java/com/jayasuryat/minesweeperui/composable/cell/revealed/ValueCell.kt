@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -54,10 +53,8 @@ internal fun ValueCell(
 
         Spacer(modifier = Modifier
             .fillMaxSize()
-            .padding((padding - 1f).dp())
-            .background(color = Color.Black)
-            .alpha(alpha = getAlphaForValue(cell.value))
-            .background(color = Color.Red)
+            .padding((padding - 2f).dp())
+            .background(color = Color.Black.copy(alpha = getAlphaForValue(cell.value)))
         )
 
         Text(
@@ -80,9 +77,9 @@ internal fun ValueCell(
 private fun getAlphaForValue(value: Int): Float {
 
     return when (value) {
-        1 -> 0.5f
-        2 -> 0.75f
-        else -> 1f
+        1 -> 0.75f
+        2 -> 0.5f
+        else -> 0.25f
     }
 }
 

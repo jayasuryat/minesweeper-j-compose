@@ -75,7 +75,7 @@ private fun Grid(
     val centerOffset = (parentHeight / 2).floatValue() - (cellSize * gridInfo.gridSize.rows / 2)
     val paddingOffset = horizontalPadding.floatValue()
 
-    val overlap = 1f
+    val overlap = 2f
     val overlappingCellSize = cellSize + overlap
 
     gridInfo.cells.forEach { cellData ->
