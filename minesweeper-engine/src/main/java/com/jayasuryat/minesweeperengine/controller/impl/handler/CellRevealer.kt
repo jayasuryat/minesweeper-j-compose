@@ -8,9 +8,11 @@ import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.util.exhaustive
 
-internal class CellRevealer : ActionHandler<MinefieldAction.OnCellClicked> {
+internal class CellRevealer(
+    private val gridRevealer: GridRevealer,
+) : ActionHandler<MinefieldAction.OnCellClicked> {
 
-    override fun onAction(
+    override suspend fun onAction(
         action: MinefieldAction.OnCellClicked,
         grid: Grid,
     ): MinefieldEvent {
@@ -28,7 +30,10 @@ internal class CellRevealer : ActionHandler<MinefieldAction.OnCellClicked> {
                 MinefieldEvent.OnCellsUpdated(updatedCells = updatedCells)
             }
 
-            is MineCell.Mine -> MinefieldEvent.OnGameOver
+            is MineCell.Mine -> gridRevealer.revealAllCells(
+                startCell = action.cell,
+                grid = grid,
+            )
 
         }.exhaustive
     }
