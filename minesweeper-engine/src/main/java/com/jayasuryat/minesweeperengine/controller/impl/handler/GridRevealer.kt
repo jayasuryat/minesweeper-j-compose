@@ -1,7 +1,6 @@
 package com.jayasuryat.minesweeperengine.controller.impl.handler
 
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
-import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
@@ -12,19 +11,50 @@ import kotlinx.coroutines.withContext
 internal class GridRevealer {
 
     suspend fun revealAllCells(
-        startCell: RawCell,
         grid: Grid,
     ): MinefieldEvent = withContext(Dispatchers.Default) {
-        /*revealCellsInsideOut(
-            startCell = startCell,
-            grid = grid,
-        )*/
         revealCellsByType(
             grid = grid,
         )
     }
 
-    private fun revealCellsInsideOut(
+    private fun revealCellsByType(
+        grid: Grid,
+    ): MinefieldEvent {
+
+        val allCells = grid.cells.flatten()
+
+        val mineCells: MutableList<RawCell.RevealedCell> = mutableListOf()
+        val valueCells: MutableList<RawCell.RevealedCell> = mutableListOf()
+        val emptyCells: MutableList<RawCell.RevealedCell> = mutableListOf()
+
+        allCells.forEach { cell ->
+
+            val revealed = when (cell) {
+                is RawCell.RevealedCell -> null
+                is RawCell.UnrevealedCell -> cell.asRevealed()
+            }.exhaustive
+
+            revealed?.let {
+
+                when (revealed.cell) {
+                    is MineCell.Mine -> mineCells.add(revealed)
+                    is MineCell.ValuedCell.Cell -> valueCells.add(revealed)
+                    is MineCell.ValuedCell.EmptyCell -> emptyCells.add(revealed)
+                }.exhaustive
+            }
+        }
+
+        return MinefieldEvent.OnGameOver(
+            revealedMineCells = mineCells,
+            revealedEmptyCells = emptyCells,
+            revealedValueCells = valueCells,
+        )
+    }
+}
+
+/*
+private fun revealCellsInsideOut(
         startCell: RawCell,
         grid: Grid,
     ): MinefieldEvent {
@@ -81,38 +111,4 @@ internal class GridRevealer {
                 .distinctBy { it.position },
         )
     }
-
-    private fun revealCellsByType(
-        grid: Grid,
-    ): MinefieldEvent {
-
-        val allCells = grid.cells.flatten()
-
-        val mineCells: MutableList<RawCell.RevealedCell> = mutableListOf()
-        val valueCells: MutableList<RawCell.RevealedCell> = mutableListOf()
-        val emptyCells: MutableList<RawCell.RevealedCell> = mutableListOf()
-
-        allCells.forEach { cell ->
-
-            val revealed = when (cell) {
-                is RawCell.RevealedCell -> null
-                is RawCell.UnrevealedCell -> cell.asRevealed()
-            }.exhaustive
-
-            revealed?.let {
-
-                when (revealed.cell) {
-                    is MineCell.Mine -> mineCells.add(revealed)
-                    is MineCell.ValuedCell.Cell -> valueCells.add(revealed)
-                    is MineCell.ValuedCell.EmptyCell -> emptyCells.add(revealed)
-                }.exhaustive
-            }
-        }
-
-        return MinefieldEvent.OnGameOver(
-            revealedMineCells = mineCells,
-            revealedEmptyCells = emptyCells,
-            revealedValueCells = valueCells,
-        )
-    }
-}
+*/

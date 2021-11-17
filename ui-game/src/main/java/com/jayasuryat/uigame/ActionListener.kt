@@ -39,13 +39,30 @@ internal class ActionListener(
             }
 
             is MinefieldEvent.OnCellsUpdated -> {
+
                 statefulGrid.updateCellsWith(
                     updatedCells = state.updatedCells,
                     delayForEachCell = 30L,
                 )
             }
 
-            is MinefieldEvent.OnGameOver -> Unit
+            is MinefieldEvent.OnGameOver -> {
+
+                statefulGrid.updateCellsWith(
+                    updatedCells = state.revealedEmptyCells,
+                    delayForEachCell = 30L,
+                )
+
+                statefulGrid.updateCellsWith(
+                    updatedCells = state.revealedValueCells,
+                    delayForEachCell = 30L,
+                )
+
+                statefulGrid.updateCellsWith(
+                    updatedCells = state.revealedMineCells,
+                    delayForEachCell = 30L,
+                )
+            }
 
         }.exhaustive
     }

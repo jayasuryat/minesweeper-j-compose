@@ -57,10 +57,11 @@ public class GameController(
     public companion object {
 
         public fun getDefault(): GameController {
+            val gridRevealer = GridRevealer()
             return GameController(
-                cellReveler = CellRevealer(gridRevealer = GridRevealer()),
+                cellReveler = CellRevealer(gridRevealer = gridRevealer),
                 cellFlagger = CellFlagger(),
-                valueCellReveler = ValueCellRevealer(),
+                valueCellReveler = ValueCellRevealer(gridRevealer = gridRevealer),
             )
         }
     }

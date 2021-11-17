@@ -9,7 +9,9 @@ import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 
-internal class ValueCellRevealer : ActionHandler<MinefieldAction.OnValueCellClicked> {
+internal class ValueCellRevealer(
+    private val gridRevealer: GridRevealer,
+) : ActionHandler<MinefieldAction.OnValueCellClicked> {
 
     override suspend fun onAction(
         action: MinefieldAction.OnValueCellClicked,
@@ -30,14 +32,12 @@ internal class ValueCellRevealer : ActionHandler<MinefieldAction.OnValueCellClic
             countCell is MineCell.Mine
         }
 
-        if (flagCount > mineCount) return MinefieldEvent.OnCellsUpdated(updatedCells = listOf())
-
-        if (flagCount < mineCount) return MinefieldEvent.OnGameOver
+        if (flagCount != mineCount) return MinefieldEvent.OnCellsUpdated(updatedCells = listOf())
 
         val areFlagsCorrect = neighbours.filterIsInstance<RawCell.UnrevealedCell.FlaggedCell>()
             .all { flaggedCell -> flaggedCell.asRevealed().cell is MineCell.Mine }
 
-        if (!areFlagsCorrect) return MinefieldEvent.OnGameOver
+        if (!areFlagsCorrect) return gridRevealer.revealAllCells(grid = grid)
 
         val updatedCells = neighbours.map {
             when (it) {

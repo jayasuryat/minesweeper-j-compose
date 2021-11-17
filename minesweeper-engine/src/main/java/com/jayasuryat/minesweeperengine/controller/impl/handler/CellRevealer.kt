@@ -30,10 +30,7 @@ internal class CellRevealer(
                 MinefieldEvent.OnCellsUpdated(updatedCells = updatedCells)
             }
 
-            is MineCell.Mine -> gridRevealer.revealAllCells(
-                startCell = action.cell,
-                grid = grid,
-            )
+            is MineCell.Mine -> gridRevealer.revealAllCells(grid = grid)
 
         }.exhaustive
     }
