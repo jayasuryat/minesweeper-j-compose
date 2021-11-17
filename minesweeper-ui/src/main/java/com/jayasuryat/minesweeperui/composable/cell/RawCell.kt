@@ -2,7 +2,6 @@ package com.jayasuryat.minesweeperui.composable.cell
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -32,26 +31,20 @@ internal fun RawCell(
 
     LogCompositions(name = "RawCell")
 
-    Box(
+    AnimatedContent(
         modifier = modifier
             .clipToBounds(),
-    ) {
+        targetState = cellState.value,
+        transitionSpec = { getContentTransformAnim() },
+        contentAlignment = Alignment.Center,
+    ) { cell ->
 
-        LogCompositions(name = "RawCell\$Box")
+        LogCompositions(name = "RawCell\$AnimatedContent")
 
-        AnimatedContent(
-            targetState = cellState.value,
-            transitionSpec = { getContentTransformAnim() },
-            contentAlignment = Alignment.Center,
-        ) { cell ->
-
-            LogCompositions(name = "RawCell\$Box\$AnimatedContent")
-
-            RawCellContent(
-                cell = cell,
-                actionListener = actionListener,
-            )
-        }
+        RawCellContent(
+            cell = cell,
+            actionListener = actionListener,
+        )
     }
 }
 
