@@ -21,7 +21,7 @@ public interface StatefulGrid {
         updatedCells: List<RawCell>,
     )
 
-    public fun updateCellsWith(
+    public suspend fun updateCellsWith(
         updatedCells: List<RawCell>,
         delayForEachCell: Long,
     )

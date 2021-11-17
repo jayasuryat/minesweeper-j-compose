@@ -8,16 +8,24 @@ import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.getCurrentGrid
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
 import com.jayasuryat.util.exhaustive
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Stable
 internal class ActionListener(
     private val statefulGrid: StatefulGrid,
     private val minefieldController: MinefieldController,
+    private val coroutineScope: CoroutineScope,
 ) : MinefieldActionsListener {
 
-    override fun action(action: MinefieldAction) = handleAction(action = action)
+    override fun action(action: MinefieldAction) {
+        coroutineScope.launch {
+            handleAction(action = action)
+        }
+    }
 
-    private fun handleAction(action: MinefieldAction) {
+    private suspend fun handleAction(action: MinefieldAction) {
 
         val state: MinefieldEvent = minefieldController.onAction(
             action = action,

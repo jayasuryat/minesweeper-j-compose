@@ -9,7 +9,7 @@ import com.jayasuryat.util.exhaustive
 
 internal class CellFlagger : ActionHandler<MinefieldAction.OnCellLongPressed> {
 
-    override fun onAction(
+    override suspend fun onAction(
         action: MinefieldAction.OnCellLongPressed,
         grid: Grid,
     ): MinefieldEvent {

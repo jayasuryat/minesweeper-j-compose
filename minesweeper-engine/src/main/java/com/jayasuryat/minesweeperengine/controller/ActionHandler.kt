@@ -6,7 +6,7 @@ import com.jayasuryat.minesweeperengine.model.grid.Grid
 
 public interface ActionHandler<T : MinefieldAction> {
 
-    public fun onAction(
+    public suspend fun onAction(
         action: T,
         grid: Grid,
     ): MinefieldEvent
