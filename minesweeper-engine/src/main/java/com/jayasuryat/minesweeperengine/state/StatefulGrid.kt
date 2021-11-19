@@ -11,6 +11,8 @@ public interface StatefulGrid {
 
     public val gridSize: GridSize
 
+    public val totalMines : Int
+
     public val cells: List<List<State<RawCell>>>
 
     public operator fun get(position: Position): State<RawCell>

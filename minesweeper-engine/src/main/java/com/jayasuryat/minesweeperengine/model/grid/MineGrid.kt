@@ -8,6 +8,7 @@ import com.jayasuryat.minesweeperengine.model.cell.RawCell
 @Immutable
 internal data class MineGrid(
     override val gridSize: GridSize,
+    override val totalMines: Int,
     override val cells: List<List<RawCell>>,
 ) : Grid {
 

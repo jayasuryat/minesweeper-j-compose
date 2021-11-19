@@ -12,6 +12,7 @@ public fun StatefulGrid.getCurrentGrid(): Grid {
 
     return MineGrid(
         gridSize = this.gridSize,
+        totalMines = this.totalMines,
         cells = this.cells.map { row ->
             row.map { cell ->
                 cell.value

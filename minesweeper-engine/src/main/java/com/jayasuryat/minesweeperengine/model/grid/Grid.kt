@@ -10,6 +10,8 @@ public interface Grid {
 
     public val gridSize: GridSize
 
+    public val totalMines: Int
+
     public val cells: List<List<RawCell>>
 
     public operator fun get(position: Position): RawCell

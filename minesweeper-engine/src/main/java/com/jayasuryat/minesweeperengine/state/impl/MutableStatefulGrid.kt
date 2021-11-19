@@ -12,6 +12,7 @@ import kotlinx.coroutines.delay
 @Stable
 internal class MutableStatefulGrid(
     override val gridSize: GridSize,
+    override val totalMines: Int,
     private val mutableCells: List<List<MutableState<RawCell>>> = getEmptyCellsList(gridSize),
 ) : StatefulGrid {
 
@@ -86,6 +87,7 @@ internal class MutableStatefulGrid(
 
             return MutableStatefulGrid(
                 gridSize = grid.gridSize,
+                totalMines = grid.totalMines,
                 mutableCells = cells,
             )
         }

@@ -76,6 +76,7 @@ public class MineGridGenerator : GridGenerator {
 
         return MineGrid(
             gridSize = gridSize,
+            totalMines = mineCount,
             cells = withMines,
         )
     }

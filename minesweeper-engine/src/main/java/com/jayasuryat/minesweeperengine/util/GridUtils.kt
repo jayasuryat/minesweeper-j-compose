@@ -6,12 +6,13 @@ import com.jayasuryat.minesweeperengine.model.grid.MutableMineGrid
 
 
 internal fun MineGrid.toMutable(): MutableMineGrid {
-    return MutableMineGrid.from(cells = cells)
+    return MutableMineGrid.from(grid = this)
 }
 
 internal fun MutableMineGrid.toImmutable(): MineGrid {
     return MineGrid(
         gridSize = gridSize,
+        totalMines = totalMines,
         cells = cells.map { it.toList() }.toList(),
     )
 }

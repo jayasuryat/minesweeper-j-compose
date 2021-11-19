@@ -6,6 +6,7 @@ import com.jayasuryat.minesweeperengine.model.cell.RawCell
 
 internal data class MutableMineGrid(
     override val gridSize: GridSize,
+    override val totalMines: Int,
     private val mutableCells: MutableList<MutableList<RawCell>> = mutableListOf(),
 ) : Grid {
 
@@ -25,39 +26,11 @@ internal data class MutableMineGrid(
 
     companion object {
 
-        private fun List<List<RawCell>>.validateCellsAndGetSize(): GridSize {
-
-            val cells = this
-
-            require(cells.isNotEmpty()) { "Cannot create mine grid from empty cells list" }
-
-            val rows = cells.size
-            val columns = cells.first().size
-
-            val hasConsistentColumns = cells.all { row -> row.size == columns }
-
-            require(hasConsistentColumns) { "Cells with inconsistent column size" }
-
-            return GridSize(
-                rows = rows,
-                columns = columns,
-            )
-        }
-
-        fun from(cells: List<List<RawCell>>): MutableMineGrid {
-
-            val gridSize = cells.validateCellsAndGetSize()
-
-            return MutableMineGrid(
-                gridSize = gridSize,
-                mutableCells = cells.map { it.toMutableList() }.toMutableList(),
-            )
-        }
-
         fun from(grid: Grid): MutableMineGrid {
 
             return MutableMineGrid(
                 gridSize = grid.gridSize,
+                totalMines = grid.totalMines,
                 mutableCells = grid.cells.map { it.toMutableList() }.toMutableList(),
             )
         }
