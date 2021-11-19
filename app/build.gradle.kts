@@ -73,6 +73,7 @@ dependencies {
     implementation(Dependency.Compose.activity)
     implementation(Dependency.Compose.toolingPreview)
     debugImplementation(Dependency.Compose.tooling)
+    implementation(Dependency.Compose.accompanistInsets)
 
     implementation(Dependency.lifecycleRuntime)
 

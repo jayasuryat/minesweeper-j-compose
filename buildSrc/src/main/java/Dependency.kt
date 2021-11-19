@@ -30,6 +30,8 @@ object Dependency {
         const val tooling = "androidx.compose.ui:ui-tooling:$composeVersion"
         const val activity = "androidx.activity:activity-compose:1.4.0"
 
+        const val accompanistInsets = "com.google.accompanist:accompanist-insets:0.21.2-beta"
+
         object Test {
 
             const val junit = "androidx.compose.ui:ui-test-junit4:$composeVersion"
