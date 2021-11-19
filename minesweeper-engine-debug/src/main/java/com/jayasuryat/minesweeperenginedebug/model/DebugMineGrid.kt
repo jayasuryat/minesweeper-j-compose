@@ -9,6 +9,7 @@ import com.jayasuryat.minesweeperengine.model.grid.Grid
 @Immutable
 internal data class DebugMineGrid(
     override val gridSize: GridSize,
+    override val totalMines: Int,
     private val mutableCells: MutableList<MutableList<RawCell>>,
 ) : Grid {
 

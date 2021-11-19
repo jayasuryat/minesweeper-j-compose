@@ -35,6 +35,7 @@ public class RevealedMineGridGenerator(
 
         return DebugMineGrid(
             gridSize = grid.gridSize,
+            totalMines = grid.totalMines,
             mutableCells = modCells,
         )
     }

@@ -37,6 +37,7 @@ public class DebugMineGridGenerator : GridGenerator {
 
         return DebugMineGrid(
             gridSize = gridSize,
+            totalMines = mineCount,
             mutableCells = cells
         )
     }
