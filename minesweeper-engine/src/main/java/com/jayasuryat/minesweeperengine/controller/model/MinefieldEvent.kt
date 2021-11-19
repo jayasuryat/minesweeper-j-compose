@@ -23,4 +23,9 @@ public sealed interface MinefieldEvent {
         val revealedValueCells: List<RawCell.RevealedCell>,
         val revealedEmptyCells: List<RawCell.RevealedCell>,
     ) : MinefieldEvent
+
+    @Immutable
+    public data class OnGameComplete(
+        val updatedCells: List<RawCell>,
+    ) : MinefieldEvent
 }
