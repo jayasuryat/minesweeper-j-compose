@@ -53,6 +53,10 @@ android {
     }
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class).all {
+    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+}
+
 dependencies {
 
     testImplementation(Dependency.Test.junit)
@@ -66,6 +70,7 @@ dependencies {
     implementation(Dependency.Compose.material)
     implementation(Dependency.Compose.toolingPreview)
     debugImplementation(Dependency.Compose.tooling)
+    implementation(Dependency.Compose.accompanistInsets)
 
     implementation(project(Dependency.Module.util))
     implementation(project(Dependency.Module.mineSweeperEngine))

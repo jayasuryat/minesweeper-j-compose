@@ -1,9 +1,14 @@
 package com.jayasuryat.uigame
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment.Companion.TopCenter
+import androidx.compose.ui.Modifier
 import com.jayasuryat.minesweeperengine.controller.impl.GameController
 import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.gridGenerator.MineGridGenerator
@@ -13,6 +18,7 @@ import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
 import com.jayasuryat.minesweeperui.composable.grid.GridLayoutInformation
 import com.jayasuryat.uigame.composable.MinefieldScreen
+import com.jayasuryat.uigame.composable.timer.GameTopBar
 import com.jayasuryat.util.LogCompositions
 import kotlinx.coroutines.Dispatchers
 
@@ -35,12 +41,26 @@ fun GameScreen(
         )
     }
 
-    MinefieldScreen(
-        layoutInfo = layoutInfo,
-        actionListener = actionsListener,
-    )
-}
+    val gameState = remember { actionsListener.gameState }
 
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+
+        MinefieldScreen(
+            layoutInfo = layoutInfo,
+            actionListener = actionsListener,
+        )
+
+        GameTopBar(
+            gameState = gameState,
+            modifier = Modifier
+                .wrapContentSize()
+                .align(alignment = TopCenter),
+            onRestartClicked = { },
+        )
+    }
+}
 
 @Stable
 private fun getStatefulGrid(
