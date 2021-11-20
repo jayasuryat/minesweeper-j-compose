@@ -25,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 @Composable
 fun GameScreen(
     gameConfiguration: GameConfiguration,
+    onRestartClicked: () -> Unit,
 ) {
 
     LogCompositions(name = "GameScreen")
@@ -57,7 +58,7 @@ fun GameScreen(
             modifier = Modifier
                 .wrapContentSize()
                 .align(alignment = TopCenter),
-            onRestartClicked = { },
+            onRestartClicked = onRestartClicked,
         )
     }
 }

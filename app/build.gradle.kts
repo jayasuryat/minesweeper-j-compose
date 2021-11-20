@@ -58,6 +58,10 @@ android {
     }
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class).all {
+    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+}
+
 dependencies {
 
     testImplementation(Dependency.Test.junit)

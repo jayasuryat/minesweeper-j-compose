@@ -5,8 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.jayasuryat.minesweeperjc.ui.theme.MinesweeperJCTheme
-import com.jayasuryat.uigame.GameConfiguration
-import com.jayasuryat.uigame.GameScreen
 import com.jayasuryat.util.LogCompositions
 
 class MainActivity : ComponentActivity() {
@@ -22,13 +20,7 @@ class MainActivity : ComponentActivity() {
 
                 ProvideWindowInsets {
 
-                    GameScreen(
-                        gameConfiguration = GameConfiguration(
-                            rows = 10,
-                            columns = 10,
-                            mines = 10,
-                        ),
-                    )
+                    MinesweeperGame()
                 }
             }
         }
