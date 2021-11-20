@@ -15,7 +15,7 @@ import java.util.*
 @Composable
 internal fun MinesweeperGame() {
 
-    LogCompositions(name = "Test")
+    LogCompositions(name = "MinesweeperGame")
 
     val gameConfiguration = remember {
         mutableStateOf(
