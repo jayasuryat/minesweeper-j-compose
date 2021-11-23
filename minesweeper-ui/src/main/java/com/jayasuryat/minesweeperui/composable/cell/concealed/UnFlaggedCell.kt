@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.model.block.Position
@@ -36,6 +38,8 @@ internal fun UnFlaggedCell(
 
     LogCompositions(name = "UnFlaggedCell")
 
+    val haptic = LocalHapticFeedback.current
+
     BoxWithConstraints(
         modifier = modifier
             .aspectRatio(1f)
@@ -48,6 +52,7 @@ internal fun UnFlaggedCell(
                     actionListener.action(action)
                 },
                 onLongClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     val action = MinefieldAction.OnCellLongPressed(cell)
                     actionListener.action(action)
                 },
@@ -73,7 +78,7 @@ private fun Preview() {
 
     Spacer(modifier = Modifier
         .fillMaxSize()
-        .background(Color.Cyan)
+        .background(color = MaterialTheme.colors.secondary)
     )
 
     UnFlaggedCell(
