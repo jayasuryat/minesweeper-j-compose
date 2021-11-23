@@ -30,23 +30,28 @@ fun GameScreen(
 
     LogCompositions(name = "GameScreen")
 
+    val statefulGrid = getStatefulGrid(gameConfiguration = gameConfiguration)
+
     val coroutineScope = rememberCoroutineScope { Dispatchers.Default }
-    val statefulGrid = remember { getStatefulGrid(gameConfiguration = gameConfiguration) }
     val layoutInfo = remember { GridLayoutInformation.from(statefulGrid = statefulGrid) }
-    val gameController = remember { GameController.getDefault() }
     val actionsListener = remember {
         ActionListener(
             statefulGrid = statefulGrid,
-            minefieldController = gameController,
+            minefieldController = GameController.getDefault(),
             coroutineScope = coroutineScope,
         )
     }
-
     val gameState = remember { actionsListener.gameState }
 
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {
+
+        LogCompositions(name = "GameScreen\$Box")
+
+        GameFeedback(
+            gameState = gameState
+        )
 
         MinefieldScreen(
             layoutInfo = layoutInfo,
