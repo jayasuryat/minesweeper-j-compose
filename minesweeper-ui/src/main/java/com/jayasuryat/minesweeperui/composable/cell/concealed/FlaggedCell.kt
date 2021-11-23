@@ -5,13 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.model.block.Position
@@ -21,6 +21,7 @@ import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
 import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
+import com.jayasuryat.minesweeperui.composable.theme.msColors
 import com.jayasuryat.util.floatValue
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -55,7 +56,7 @@ internal fun FlaggedCell(
             modifier = modifier
                 .padding(all = padding * 2),
             imageVector = Icons.Filled.Favorite,
-            tint = Color.Black,
+            tint = MaterialTheme.msColors.flagIconTint,
             contentDescription = null,
         )
 
@@ -74,7 +75,7 @@ private fun Preview() {
 
     Spacer(modifier = Modifier
         .fillMaxSize()
-        .background(Color.Cyan)
+        .background(color = MaterialTheme.colors.secondary)
     )
 
     FlaggedCell(

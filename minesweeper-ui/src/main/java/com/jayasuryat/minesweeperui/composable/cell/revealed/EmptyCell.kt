@@ -4,11 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.jayasuryat.minesweeperui.composable.theme.msColors
 import com.jayasuryat.util.LogCompositions
 
 @Composable
@@ -21,7 +22,7 @@ internal fun EmptyCell(
     Spacer(modifier = modifier
         .aspectRatio(1f)
         .clipToBounds()
-        .background(color = Color.Black)
+        .background(color = MaterialTheme.msColors.minefield)
     )
 }
 

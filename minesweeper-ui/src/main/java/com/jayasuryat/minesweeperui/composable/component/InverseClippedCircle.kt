@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
@@ -13,10 +14,10 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathOperation
 import androidx.compose.ui.tooling.preview.Preview
+import com.jayasuryat.minesweeperui.composable.theme.msColors
 
 @Composable
 internal fun InverseClippedCircle(
@@ -33,12 +34,13 @@ internal fun InverseClippedCircle(
         content()
     }
 
+    val bgColor = MaterialTheme.msColors.minefield
+
     Canvas(
         modifier = modifier
             .fillMaxSize()
             .aspectRatio(1f)
-            .clipToBounds()
-            .background(color = Color.Transparent),
+            .clipToBounds(),
         onDraw = {
 
             val path = getInvertedCirclePath(
@@ -47,7 +49,7 @@ internal fun InverseClippedCircle(
                 padding = iconPadding,
             )
 
-            drawPath(path, Color.Black)
+            drawPath(path, bgColor)
         },
     )
 }
@@ -97,7 +99,7 @@ private fun Preview() {
     ) {
         Spacer(modifier = Modifier
             .fillMaxSize()
-            .background(Color.Cyan)
+            .background(color = MaterialTheme.colors.secondary)
         )
     }
 }

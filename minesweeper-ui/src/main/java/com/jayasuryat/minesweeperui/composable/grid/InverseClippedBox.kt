@@ -1,18 +1,18 @@
 package com.jayasuryat.minesweeperui.composable.grid
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathOperation
 import androidx.compose.ui.tooling.preview.Preview
+import com.jayasuryat.minesweeperui.composable.theme.msColors
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp
 
@@ -30,10 +30,11 @@ internal fun InverseClippedBox(
     val width = parentSize.width.dp()
     val height = parentSize.height.dp()
 
+    val bgColor = MaterialTheme.msColors.minefield
+
     Canvas(
         modifier = modifier
-            .size(width = width, height = height)
-            .background(color = Color.Transparent),
+            .size(width = width, height = height),
         onDraw = {
 
             val path = getInvertedBoxPath(
@@ -43,7 +44,10 @@ internal fun InverseClippedBox(
                 innerInset = innerInset,
             )
 
-            drawPath(path, Color.Black)
+            drawPath(
+                path = path,
+                color = bgColor,
+            )
         },
     )
 }

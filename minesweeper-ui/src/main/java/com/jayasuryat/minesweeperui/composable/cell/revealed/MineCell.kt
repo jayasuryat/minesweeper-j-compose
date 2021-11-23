@@ -7,15 +7,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jayasuryat.minesweeperui.R
 import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
+import com.jayasuryat.minesweeperui.composable.theme.msColors
 import com.jayasuryat.util.LogCompositions
 
 @Composable
@@ -28,7 +29,7 @@ internal fun MineCell(
     BoxWithConstraints(modifier = modifier
         .aspectRatio(1f)
         .clipToBounds()
-        .background(color = Color.Black)
+        .background(color = MaterialTheme.msColors.minefield)
     ) {
 
         val minSize = minOf(maxWidth, maxHeight)
@@ -38,10 +39,10 @@ internal fun MineCell(
             modifier = modifier
                 .padding(all = padding)
                 .clip(CircleShape)
-                .background(color = Color.Red)
+                .background(color = MaterialTheme.msColors.mine)
                 .padding(all = padding),
             painter = painterResource(id = R.drawable.icon_mine),
-            tint = Color.White,
+            tint = MaterialTheme.msColors.mineIconTint,
             contentDescription = null,
         )
     }
@@ -51,6 +52,7 @@ internal fun MineCell(
 @Preview(heightDp = 60, widthDp = 60)
 @Composable
 private fun Preview() {
+
     MineCell(
         modifier = Modifier.fillMaxSize(),
     )

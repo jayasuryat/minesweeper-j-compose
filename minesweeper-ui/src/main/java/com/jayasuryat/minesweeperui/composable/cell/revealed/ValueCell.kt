@@ -4,14 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +26,7 @@ import com.jayasuryat.minesweeperui.composable.cell.VALUE_CELL_TEXT_COVER_PERCEN
 import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
 import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
+import com.jayasuryat.minesweeperui.composable.theme.msColors
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp
 import com.jayasuryat.util.floatValue
@@ -59,7 +61,7 @@ internal fun ValueCell(
         Spacer(modifier = Modifier
             .fillMaxSize()
             .padding((padding - 2f).dp())
-            .background(color = Color.Black.copy(alpha = getAlphaForValue(cell.value)))
+            .background(color = MaterialTheme.msColors.minefield.copy(alpha = getAlphaForValue(cell.value)))
         )
 
         Text(
@@ -67,11 +69,11 @@ internal fun ValueCell(
             fontSize = fontSize,
             fontWeight = FontWeight.W800,
             textAlign = TextAlign.Center,
-            color = Color.White,
+            color = MaterialTheme.msColors.text,
             modifier = Modifier
                 .wrapContentSize()
                 .fillMaxWidth()
-                .padding(bottom = maxHeight / 20, end = maxWidth / 20),
+                .padding(bottom = maxHeight / 20),
         )
 
         InverseClippedCircle(iconPadding = padding)
