@@ -1,4 +1,4 @@
-package com.jayasuryat.uigame
+package com.jayasuryat.uigame.logic
 
 import androidx.compose.runtime.Immutable
 
