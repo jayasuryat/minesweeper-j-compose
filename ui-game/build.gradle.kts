@@ -74,6 +74,6 @@ dependencies {
 
     implementation(project(Dependency.Module.util))
     implementation(project(Dependency.Module.mineSweeperEngine))
-    implementation(project(Dependency.Module.mineSweeperEngineDebug))
     implementation(project(Dependency.Module.mineSweeperUi))
+    //implementation(project(Dependency.Module.mineSweeperEngineDebug))
 }
