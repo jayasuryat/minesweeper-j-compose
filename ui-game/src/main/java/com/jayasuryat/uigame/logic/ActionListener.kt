@@ -1,4 +1,4 @@
-package com.jayasuryat.uigame
+package com.jayasuryat.uigame.logic
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
@@ -32,24 +32,26 @@ internal class ActionListener(
 
     private suspend fun handleAction(action: MinefieldAction) {
 
-        val state: MinefieldEvent = minefieldController.onAction(
+        val event: MinefieldEvent = minefieldController.onAction(
             action = action,
             mineGrid = statefulGrid.getCurrentGrid(),
         )
 
-        updateGameState(state)
+        updateGameState(event = event)
 
-        when (state) {
+        when (event) {
 
             is MinefieldEvent.OnGridUpdated -> {
 
-                statefulGrid.updateCellsWith(updatedCells = state.mineGrid.cells.flatten())
+                statefulGrid.updateCellsWith(
+                    updatedCells = event.mineGrid.cells.flatten(),
+                )
             }
 
             is MinefieldEvent.OnCellsUpdated -> {
 
                 statefulGrid.updateCellsWith(
-                    updatedCells = state.updatedCells,
+                    updatedCells = event.updatedCells,
                     delayForEachCell = 30L,
                 )
             }
@@ -57,17 +59,17 @@ internal class ActionListener(
             is MinefieldEvent.OnGameOver -> {
 
                 statefulGrid.updateCellsWith(
-                    updatedCells = state.revealedEmptyCells,
+                    updatedCells = event.revealedEmptyCells,
                     delayForEachCell = 30L,
                 )
 
                 statefulGrid.updateCellsWith(
-                    updatedCells = state.revealedValueCells,
+                    updatedCells = event.revealedValueCells,
                     delayForEachCell = 30L,
                 )
 
                 statefulGrid.updateCellsWith(
-                    updatedCells = state.revealedMineCells,
+                    updatedCells = event.revealedMineCells,
                     delayForEachCell = 30L,
                 )
             }
@@ -75,7 +77,7 @@ internal class ActionListener(
             is MinefieldEvent.OnGameComplete -> {
 
                 statefulGrid.updateCellsWith(
-                    updatedCells = state.updatedCells,
+                    updatedCells = event.updatedCells,
                 )
             }
 
