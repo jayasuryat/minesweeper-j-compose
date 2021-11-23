@@ -2,20 +2,21 @@ package com.jayasuryat.uigame.composable
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode.Companion.Mirror
-import androidx.compose.ui.tooling.preview.Preview
 
-@Preview
 @Composable
 internal fun AnimatingGradient(
     modifier: Modifier = Modifier,
+    colors: List<Color> = getGradientColors(),
 ) {
 
     val offset = 4000f
@@ -33,12 +34,6 @@ internal fun AnimatingGradient(
         )
     )
 
-    val colors = listOf(
-        Color.Magenta,
-        Color.Cyan,
-        Color.Magenta,
-    )
-
     val brush = linearGradient(
         colors = colors,
         start = Offset(x = animatedOffset.value, y = animatedOffset.value),
@@ -50,5 +45,20 @@ internal fun AnimatingGradient(
         modifier = modifier
             .background(brush = brush)
             .clipToBounds()
+    )
+}
+
+@Composable
+@ReadOnlyComposable
+private fun getGradientColors(): List<Color> {
+
+    return if (isSystemInDarkTheme()) listOf(
+        Color.Magenta,
+        Color.Cyan,
+        Color.Magenta,
+    ) else listOf(
+        Color(0xFF000000),
+        Color(0xFF2C3E50),
+        Color(0xFF000000),
     )
 }
