@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import com.jayasuryat.uigame.GameConfiguration
+import com.jayasuryat.uigame.logic.GameConfiguration
 import com.jayasuryat.uigame.GameScreen
 import com.jayasuryat.util.LogCompositions
 import java.util.*
@@ -38,7 +38,7 @@ internal fun MinesweeperGame() {
         }
     ) { configuration ->
 
-        key(configuration) {
+        key(configuration.gameId) {
 
             GameScreen(
                 gameConfiguration = configuration,
