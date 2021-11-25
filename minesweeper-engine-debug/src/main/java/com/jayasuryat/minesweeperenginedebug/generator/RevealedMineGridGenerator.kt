@@ -12,7 +12,7 @@ public class RevealedMineGridGenerator(
     private val backingGenerator: GridGenerator,
 ) : GridGenerator {
 
-    override fun generateGrid(
+    override suspend fun generateGrid(
         gridSize: GridSize,
         starCell: Position,
         mineCount: Int,

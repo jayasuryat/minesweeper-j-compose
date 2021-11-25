@@ -10,7 +10,7 @@ import com.jayasuryat.minesweeperenginedebug.model.DebugMineGrid
 
 public class DebugMineGridGenerator : GridGenerator {
 
-    override fun generateGrid(
+    override suspend fun generateGrid(
         gridSize: GridSize,
         starCell: Position,
         mineCount: Int,

@@ -6,7 +6,7 @@ import com.jayasuryat.minesweeperengine.model.grid.Grid
 
 public interface GridGenerator {
 
-    public fun generateGrid(
+    public suspend fun generateGrid(
         gridSize: GridSize,
         starCell: Position,
         mineCount: Int,

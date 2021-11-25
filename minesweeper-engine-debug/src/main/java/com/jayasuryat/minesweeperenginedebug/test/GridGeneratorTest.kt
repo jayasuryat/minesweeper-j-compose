@@ -5,18 +5,21 @@ import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
+import kotlinx.coroutines.runBlocking
 
 
 // TODO: 10/11/21 Migrate to tests
 private fun main() {
 
     val size = GridSize.of(size = 10)
-    val grid = MineGridGenerator()
-        .generateGrid(
-            gridSize = size,
-            starCell = Position(row = 0, column = 0),
-            mineCount = 50,
-        )
+    val grid = runBlocking {
+        MineGridGenerator()
+            .generateGrid(
+                gridSize = size,
+                starCell = Position(row = 0, column = 0),
+                mineCount = 50,
+            )
+    }
 
     val message = grid.cells.prettyToString()
     println(message)

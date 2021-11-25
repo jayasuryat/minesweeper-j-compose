@@ -10,6 +10,7 @@ import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
 import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
+import kotlinx.coroutines.runBlocking
 
 @Preview(widthDp = 1000, heightDp = 1000)
 @Composable
@@ -20,11 +21,13 @@ private fun Preview() {
     val gridSize = GridSize(rows = 10, columns = 10)
     val start = Position(row = 1, column = 1)
 
-    val statefulGrid = gridGenerator.generateGrid(
-        gridSize = gridSize,
-        starCell = start,
-        mineCount = 10,
-    ).asStatefulGrid()
+    val statefulGrid = runBlocking {
+        gridGenerator.generateGrid(
+            gridSize = gridSize,
+            starCell = start,
+            mineCount = 10,
+        ).asStatefulGrid()
+    }
 
     val mineGrid = GridLayoutInformation.from(statefulGrid)
 

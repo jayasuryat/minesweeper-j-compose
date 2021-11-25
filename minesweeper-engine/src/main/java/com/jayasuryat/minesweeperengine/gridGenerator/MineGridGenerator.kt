@@ -6,21 +6,25 @@ import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperengine.model.grid.MineGrid
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 private typealias MutableCell2DList = MutableList<MutableList<MineCell>>
 
 public class MineGridGenerator : GridGenerator {
 
-    override fun generateGrid(
+    override suspend fun generateGrid(
         gridSize: GridSize,
         starCell: Position,
         mineCount: Int,
-    ): Grid = generateFor(
-        gridSize = gridSize,
-        starCell = starCell,
-        mineCount = mineCount,
-    )
+    ): Grid = withContext(Dispatchers.Default) {
+        generateFor(
+            gridSize = gridSize,
+            starCell = starCell,
+            mineCount = mineCount,
+        )
+    }
 
     private fun generateFor(
         gridSize: GridSize,

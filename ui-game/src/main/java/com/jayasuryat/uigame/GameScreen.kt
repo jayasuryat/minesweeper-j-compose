@@ -3,10 +3,7 @@ package com.jayasuryat.uigame
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import com.jayasuryat.minesweeperengine.controller.impl.GameController
@@ -24,6 +21,7 @@ import com.jayasuryat.uigame.logic.ActionListener
 import com.jayasuryat.uigame.logic.GameConfiguration
 import com.jayasuryat.util.LogCompositions
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun GameScreen(
@@ -33,7 +31,16 @@ fun GameScreen(
 
     LogCompositions(name = "GameScreen")
 
-    val statefulGrid = getStatefulGrid(gameConfiguration = gameConfiguration)
+    val statefulGridState = remember { mutableStateOf<StatefulGrid?>(null) }
+
+    LaunchedEffect(key1 = gameConfiguration.gameId) {
+        withContext(Dispatchers.Default) {
+            statefulGridState.value = getStatefulGrid(gameConfiguration)
+        }
+    }
+
+    // TODO: 25/11/21 : Handle Loading state
+    val statefulGrid = statefulGridState.value ?: return
 
     val coroutineScope = rememberCoroutineScope { Dispatchers.Default }
     val layoutInfo = remember { GridLayoutInformation.from(statefulGrid = statefulGrid) }
@@ -72,7 +79,7 @@ fun GameScreen(
 }
 
 @Stable
-private fun getStatefulGrid(
+private suspend fun getStatefulGrid(
     gameConfiguration: GameConfiguration,
 ): StatefulGrid {
 
