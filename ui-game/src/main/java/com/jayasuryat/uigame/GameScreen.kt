@@ -51,7 +51,9 @@ fun GameScreen(
             coroutineScope = coroutineScope,
         )
     }
+
     val gameState = remember { actionsListener.gameState }
+    val gameProgress = remember { actionsListener.gameProgress }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -70,6 +72,7 @@ fun GameScreen(
 
         GameTopBar(
             gameState = gameState,
+            gameProgress = gameProgress,
             modifier = Modifier
                 .wrapContentSize()
                 .align(alignment = TopCenter),

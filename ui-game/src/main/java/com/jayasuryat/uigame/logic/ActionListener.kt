@@ -7,6 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
+import com.jayasuryat.minesweeperengine.model.cell.RawCell
+import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.getCurrentGrid
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
@@ -24,6 +26,9 @@ internal class ActionListener(
     private val _gameState: MutableState<GameState> = mutableStateOf(GameState.Idle)
     val gameState: State<GameState> = _gameState
 
+    private val _progress: MutableState<GameProgress> = mutableStateOf(statefulGrid.getProgress())
+    val gameProgress: State<GameProgress> = _progress
+
     override fun action(action: MinefieldAction) {
         coroutineScope.launch {
             handleAction(action = action)
@@ -38,6 +43,11 @@ internal class ActionListener(
         )
 
         updateGameState(event = event)
+        updateGridForEvent(event = event)
+        updateGameProgress(statefulGrid = statefulGrid)
+    }
+
+    private suspend fun updateGridForEvent(event: MinefieldEvent) {
 
         when (event) {
 
@@ -85,9 +95,30 @@ internal class ActionListener(
     }
 
     private fun updateGameState(event: MinefieldEvent) {
-
         val newState = resolveGameState(event = event) ?: return
         _gameState.value = newState
+    }
+
+    private fun updateGameProgress(statefulGrid: StatefulGrid) {
+        val progress = statefulGrid.getCurrentGrid().getProgress()
+        _progress.value = progress
+    }
+
+    private fun StatefulGrid.getProgress(): GameProgress =
+        this.getCurrentGrid().getProgress()
+
+    private fun Grid.getProgress(): GameProgress {
+
+        val flaggedCount = this.cells.sumOf { row ->
+            row.count { cell ->
+                cell is RawCell.UnrevealedCell.FlaggedCell
+            }
+        }
+
+        return GameProgress(
+            totalMinesCount = this.totalMines,
+            flaggedMinesCount = flaggedCount,
+        )
     }
 
     private fun resolveGameState(event: MinefieldEvent): GameState? {

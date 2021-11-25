@@ -16,6 +16,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.LocalWindowInsets
+import com.jayasuryat.uigame.composable.topbar.started.GameStartedTopBar
+import com.jayasuryat.uigame.logic.GameProgress
 import com.jayasuryat.uigame.logic.GameState
 import com.jayasuryat.util.LogCompositions
 
@@ -24,6 +26,7 @@ import com.jayasuryat.util.LogCompositions
 internal fun GameTopBar(
     modifier: Modifier = Modifier,
     gameState: State<GameState>,
+    gameProgress: State<GameProgress>,
     onRestartClicked: () -> Unit,
 ) {
 
@@ -49,8 +52,9 @@ internal fun GameTopBar(
             )
 
             is GameState.GameStarted -> GameStartedTopBar(
-                startTime = state.startTime,
                 modifier = Modifier.padding(top = statusBarTop),
+                startTime = state.startTime,
+                gameProgress = gameProgress,
             )
 
             is GameState.GameEnded.GameCompleted -> GameCompletedTopBar(
@@ -106,10 +110,17 @@ private fun Preview(
 ) {
 
     val state = remember { mutableStateOf(gameState) }
+    val progress = remember {
+        mutableStateOf(GameProgress(
+            totalMinesCount = 10,
+            flaggedMinesCount = 7
+        ))
+    }
 
     GameTopBar(
         modifier = Modifier.wrapContentSize(),
         gameState = state,
+        gameProgress = progress,
         onRestartClicked = {},
     )
 }
