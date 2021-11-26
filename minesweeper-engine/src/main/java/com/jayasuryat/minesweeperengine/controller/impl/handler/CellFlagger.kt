@@ -42,11 +42,15 @@ internal class CellFlagger : ActionHandler<MinefieldAction.OnCellLongPressed> {
 
         val totalMineCount = grid.totalMines
 
+        var totalFlaggedCount = 0
         var correctFlaggedCount = 0
 
         modGrid.cells.flatten().forEach { cell ->
 
             if (cell is RawCell.UnrevealedCell.FlaggedCell) {
+
+                totalFlaggedCount++
+                if (totalFlaggedCount > totalMineCount) return false
                 if (cell.asRevealed().cell is MineCell.Mine) correctFlaggedCount++
             }
         }
