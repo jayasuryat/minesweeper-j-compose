@@ -69,10 +69,10 @@ private fun AnimatingFlaggedCount(
         modifier = modifier,
         transitionSpec = {
             slideIn(
-                initialOffset = { fullSize -> IntOffset(x = 0, y = fullSize.height) },
+                initialOffset = { fullSize -> IntOffset(x = 0, y = -fullSize.height) },
                 animationSpec = tween(durationMillis = 300),
             ) with slideOut(
-                targetOffset = { fullSize -> IntOffset(x = 0, y = -fullSize.height) },
+                targetOffset = { fullSize -> IntOffset(x = 0, y = fullSize.height) },
                 animationSpec = tween(durationMillis = 300)
             )
         },
