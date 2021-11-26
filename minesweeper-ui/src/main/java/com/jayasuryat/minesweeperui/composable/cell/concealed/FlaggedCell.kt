@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.model.block.Position
@@ -32,6 +34,8 @@ internal fun FlaggedCell(
     actionListener: MinefieldActionsListener,
 ) {
 
+    val haptic = LocalHapticFeedback.current
+
     BoxWithConstraints(
         modifier = modifier
             .aspectRatio(1f)
@@ -42,6 +46,7 @@ internal fun FlaggedCell(
                     actionListener.action(action)
                 },
                 onLongClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     val action = MinefieldAction.OnCellLongPressed(cell)
                     actionListener.action(action)
                 },
