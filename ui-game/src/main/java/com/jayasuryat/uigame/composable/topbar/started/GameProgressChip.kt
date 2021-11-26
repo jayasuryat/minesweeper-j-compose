@@ -12,10 +12,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.jayasuryat.uigame.logic.GameProgress
@@ -41,6 +44,8 @@ internal fun GameProgressChip(
             )
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
+
+        LogCompositions(name = "GameProgressChip\$Row")
 
         AnimatingFlaggedCount(
             modifier = Modifier.align(alignment = Alignment.CenterVertically),
@@ -98,5 +103,21 @@ private fun MineIcon(
         imageVector = Icons.Filled.Favorite,
         tint = Color.White,
         contentDescription = null,
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() {
+
+    val gameProgress = remember {
+        mutableStateOf(GameProgress(
+            totalMinesCount = 10,
+            flaggedMinesCount = 7,
+        ))
+    }
+
+    GameProgressChip(
+        gameProgress = gameProgress,
     )
 }

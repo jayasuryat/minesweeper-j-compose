@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import com.jayasuryat.uigame.composable.topbar.TextChip
 import com.jayasuryat.uigame.composable.topbar.formatTime
 import kotlinx.coroutines.delay
@@ -31,5 +32,14 @@ internal fun TickerChip(
         text = formatTime(elapsedDuration.value),
         contentColor = Color.Black,
         strokeColor = Color.White,
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() {
+
+    TickerChip(
+        startTime = System.currentTimeMillis()
     )
 }
