@@ -1,4 +1,4 @@
-package com.jayasuryat.uigame.composable.feedback
+package com.jayasuryat.uigame.feedback
 
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE

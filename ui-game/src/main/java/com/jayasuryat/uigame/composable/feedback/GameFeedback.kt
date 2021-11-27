@@ -3,6 +3,7 @@ package com.jayasuryat.uigame.composable.feedback
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.platform.LocalContext
+import com.jayasuryat.uigame.feedback.VibrationManager
 import com.jayasuryat.uigame.logic.GameState
 import com.jayasuryat.util.LogCompositions
 
