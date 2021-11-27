@@ -3,6 +3,7 @@ package com.jayasuryat.minesweeperui.composable.grid
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
@@ -98,6 +99,7 @@ private fun Grid(
 
 @Composable
 @Stable
+@ReadOnlyComposable
 private fun getCellSize(
     gridSize: GridSize,
     width: Dp,

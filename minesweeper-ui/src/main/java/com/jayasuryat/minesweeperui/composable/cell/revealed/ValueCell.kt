@@ -92,6 +92,7 @@ private fun getAlphaForValue(value: Int): Float {
 
 @Composable
 @Stable
+@ReadOnlyComposable
 private fun getFontSize(
     width: Dp,
     height: Dp,
@@ -104,6 +105,7 @@ private fun getFontSize(
 
 @Composable
 @Stable
+@ReadOnlyComposable
 private fun getPadding(
     width: Dp,
     height: Dp,
