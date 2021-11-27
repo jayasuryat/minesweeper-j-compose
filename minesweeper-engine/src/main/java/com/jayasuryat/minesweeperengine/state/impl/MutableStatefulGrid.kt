@@ -7,7 +7,6 @@ import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
-import kotlinx.coroutines.delay
 
 @Stable
 internal class MutableStatefulGrid(
@@ -36,11 +35,12 @@ internal class MutableStatefulGrid(
 
     override suspend fun updateCellsWith(
         updatedCells: List<RawCell>,
-        delayForEachCell: Long,
+        onEach: suspend (oldCell: RawCell, newCell: RawCell) -> Unit,
     ) {
         updatedCells.forEach { cell ->
+            val oldCell = getMutableCell(cell.position).value
             getMutableCell(cell.position).value = cell
-            delay(delayForEachCell)
+            onEach(oldCell, cell)
         }
     }
 

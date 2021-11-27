@@ -11,7 +11,7 @@ public interface StatefulGrid {
 
     public val gridSize: GridSize
 
-    public val totalMines : Int
+    public val totalMines: Int
 
     public val cells: List<List<State<RawCell>>>
 
@@ -25,6 +25,6 @@ public interface StatefulGrid {
 
     public suspend fun updateCellsWith(
         updatedCells: List<RawCell>,
-        delayForEachCell: Long,
+        onEach: suspend (oldCell: RawCell, newCell: RawCell) -> Unit,
     )
 }
