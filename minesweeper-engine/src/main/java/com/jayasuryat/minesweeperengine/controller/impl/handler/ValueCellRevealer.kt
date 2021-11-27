@@ -41,8 +41,8 @@ internal class ValueCellRevealer(
 
         val updatedCells = neighbours.map {
             when (it) {
-                is RawCell.RevealedCell -> listOf(it)
-                is RawCell.UnrevealedCell.FlaggedCell -> listOf(it)
+                is RawCell.RevealedCell -> emptyList()
+                is RawCell.UnrevealedCell.FlaggedCell -> emptyList()
                 is RawCell.UnrevealedCell.UnFlaggedCell -> {
 
                     val revealed = it.asRevealed()
