@@ -7,13 +7,16 @@ import androidx.compose.runtime.mutableStateOf
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
+import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.getCurrentGrid
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
+import com.jayasuryat.uigame.feedback.MusicManager
 import com.jayasuryat.util.exhaustive
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Stable
@@ -21,6 +24,7 @@ internal class ActionListener(
     private val statefulGrid: StatefulGrid,
     private val minefieldController: MinefieldController,
     private val coroutineScope: CoroutineScope,
+    private val musicManager: MusicManager,
 ) : MinefieldActionsListener {
 
     private val _gameState: MutableState<GameState> = mutableStateOf(GameState.Idle)
@@ -62,7 +66,14 @@ internal class ActionListener(
 
                 statefulGrid.updateCellsWith(
                     updatedCells = event.updatedCells,
-                    delayForEachCell = 30L,
+                    onEach = { _, newCell ->
+
+                        if (newCell is RawCell.RevealedCell &&
+                            newCell.cell is MineCell.ValuedCell
+                        ) musicManager.pop()
+
+                        delay(30L)
+                    }
                 )
             }
 
@@ -70,17 +81,17 @@ internal class ActionListener(
 
                 statefulGrid.updateCellsWith(
                     updatedCells = event.revealedEmptyCells,
-                    delayForEachCell = 30L,
+                    onEach = { _, _ -> delay(30L) }
                 )
 
                 statefulGrid.updateCellsWith(
                     updatedCells = event.revealedValueCells,
-                    delayForEachCell = 30L,
+                    onEach = { _, _ -> delay(30L) }
                 )
 
                 statefulGrid.updateCellsWith(
                     updatedCells = event.revealedMineCells,
-                    delayForEachCell = 30L,
+                    onEach = { _, _ -> delay(30L) }
                 )
             }
 

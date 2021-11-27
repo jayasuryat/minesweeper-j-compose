@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.jayasuryat.minesweeperengine.controller.impl.GameController
 import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.gridGenerator.MineGridGenerator
@@ -16,6 +17,7 @@ import com.jayasuryat.minesweeperengine.state.asStatefulGrid
 import com.jayasuryat.minesweeperui.composable.grid.GridLayoutInformation
 import com.jayasuryat.uigame.composable.MinefieldScreen
 import com.jayasuryat.uigame.composable.feedback.GameFeedback
+import com.jayasuryat.uigame.feedback.MusicManager
 import com.jayasuryat.uigame.composable.topbar.GameTopBar
 import com.jayasuryat.uigame.logic.ActionListener
 import com.jayasuryat.uigame.logic.GameConfiguration
@@ -44,11 +46,14 @@ fun GameScreen(
 
     val coroutineScope = rememberCoroutineScope { Dispatchers.Default }
     val layoutInfo = remember { GridLayoutInformation.from(statefulGrid = statefulGrid) }
+    val context = LocalContext.current
+    val musicManager = MusicManager(context)
     val actionsListener = remember {
         ActionListener(
             statefulGrid = statefulGrid,
             minefieldController = GameController.getDefault(),
             coroutineScope = coroutineScope,
+            musicManager = musicManager
         )
     }
 
