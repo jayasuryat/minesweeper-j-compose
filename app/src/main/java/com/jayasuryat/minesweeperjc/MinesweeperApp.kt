@@ -4,6 +4,7 @@ import android.app.Application
 import jp.wasabeef.takt.Seat
 import jp.wasabeef.takt.Takt
 
+@Suppress("unused")
 class MinesweeperApp : Application() {
 
     override fun onCreate() {

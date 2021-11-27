@@ -7,6 +7,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 
+@Suppress("unused")
 internal object VibrationManager {
 
     fun shortVibrationNow(context: Context) = vibrationNow(150, context)

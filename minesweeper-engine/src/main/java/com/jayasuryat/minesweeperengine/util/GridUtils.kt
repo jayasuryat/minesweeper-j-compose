@@ -4,11 +4,6 @@ import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperengine.model.grid.MineGrid
 import com.jayasuryat.minesweeperengine.model.grid.MutableMineGrid
 
-
-internal fun MineGrid.toMutable(): MutableMineGrid {
-    return MutableMineGrid.from(grid = this)
-}
-
 internal fun MutableMineGrid.toImmutable(): MineGrid {
     return MineGrid(
         gridSize = gridSize,

@@ -37,7 +37,9 @@ public class MineGridGenerator : GridGenerator {
 
         val length = rows * columns
 
-        val ignoredIndices = starCell.get3xBlockCellIndexes(gridSize = gridSize)
+        val ignoredIndices = starCell
+            .get3xBlockCellIndexes(gridSize = gridSize)
+            .toSet()
 
         val cellIndexes = (0 until length)
             .map { it }

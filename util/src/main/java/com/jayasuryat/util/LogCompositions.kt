@@ -36,7 +36,7 @@ internal const val EnableDebugCompositionLogs: Boolean = true
  * This is an inline function to act as like a C-style #include to the host composable function.
  * That way we track it's compositions, not this function's compositions.
  *
- * @param tag Log tag used for [Log.d]
+ * @param name Log tag used for [Log.d]
  */
 @Composable
 public inline fun LogCompositions(name: String) {

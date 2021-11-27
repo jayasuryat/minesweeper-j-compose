@@ -19,6 +19,7 @@ public fun MinesweeperTheme(
 
 internal val LocalColors = staticCompositionLocalOf { DefaultColors }
 
+@Suppress("unused")
 internal val MaterialTheme.msColors: MinesweeperColors
     @Composable
     @ReadOnlyComposable
