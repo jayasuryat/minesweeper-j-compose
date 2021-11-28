@@ -55,13 +55,6 @@ internal class ActionListener(
 
         when (event) {
 
-            is MinefieldEvent.OnGridUpdated -> {
-
-                statefulGrid.updateCellsWith(
-                    updatedCells = event.mineGrid.cells.flatten(),
-                )
-            }
-
             is MinefieldEvent.OnCellsUpdated -> {
 
                 statefulGrid.updateCellsWith(
@@ -138,7 +131,6 @@ internal class ActionListener(
 
         val state = when (event) {
 
-            is MinefieldEvent.OnGridUpdated,
             is MinefieldEvent.OnCellsUpdated,
             -> {
                 if (currentState is GameState.Idle) GameState.GameStarted.now() else null
