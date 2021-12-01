@@ -6,8 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import com.jayasuryat.uigame.logic.GameConfiguration
+import androidx.compose.ui.unit.IntOffset
 import com.jayasuryat.uigame.GameScreen
+import com.jayasuryat.uigame.logic.GameConfiguration
 import com.jayasuryat.util.LogCompositions
 import java.util.*
 
@@ -30,12 +31,7 @@ internal fun MinesweeperGame() {
 
     AnimatedContent(
         targetState = gameConfiguration.value,
-        transitionSpec = {
-            val duration = 1000
-            fadeIn(animationSpec = tween(durationMillis = duration)) with
-                    fadeOut(animationSpec = tween(durationMillis = duration,
-                        delayMillis = duration))
-        }
+        transitionSpec = { getContentTransform() }
     ) { configuration ->
 
         key(configuration.gameId) {
@@ -49,4 +45,28 @@ internal fun MinesweeperGame() {
             )
         }
     }
+}
+
+@ExperimentalAnimationApi
+private fun getContentTransform(): ContentTransform {
+
+    val duration = 1000
+    val xOff = 0
+    val yOff = 2000
+
+    val enter = slideIn(
+        initialOffset = { IntOffset(x = -xOff, y = -yOff) },
+        animationSpec = tween(durationMillis = duration)
+    ) + fadeIn(
+        animationSpec = tween(durationMillis = duration)
+    )
+
+    val exit = slideOut(
+        targetOffset = { IntOffset(x = xOff, y = yOff) },
+        animationSpec = tween(durationMillis = duration)
+    ) + fadeOut(
+        animationSpec = tween(durationMillis = duration)
+    )
+
+    return enter with exit
 }
