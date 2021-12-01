@@ -61,9 +61,13 @@ internal class ActionListener(
                     updatedCells = event.updatedCells,
                     onEach = { _, newCell ->
 
-                        if (newCell is RawCell.RevealedCell &&
-                            newCell.cell is MineCell.ValuedCell
-                        ) musicManager.pop()
+                        when (newCell) {
+                            is RawCell.RevealedCell -> {
+                                if (newCell.cell is MineCell.ValuedCell) musicManager.pop()
+                            }
+                            is RawCell.UnrevealedCell.FlaggedCell -> musicManager.affirmative()
+                            is RawCell.UnrevealedCell.UnFlaggedCell -> musicManager.cancel()
+                        }
 
                         delay(30L)
                     }
