@@ -5,11 +5,20 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    background = Vampire,
+    onBackground = Beau,
+
+    primary = Cobalt,
+    onPrimary = Beau,
+
+    secondary = Havelock,
+    onSecondary = Beau,
+
+    error = Ruby,
+    onError = Beau,
 )
 
 private val LightColorPalette = lightColors(
@@ -30,7 +39,7 @@ private val LightColorPalette = lightColors(
 @Composable
 fun MinesweeperJCTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val colors = if (darkTheme) {
         DarkColorPalette
