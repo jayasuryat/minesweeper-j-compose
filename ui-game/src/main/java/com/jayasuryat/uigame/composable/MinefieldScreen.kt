@@ -55,6 +55,6 @@ private fun getMinefieldColors(): MinesweeperColors {
         text = MaterialTheme.colors.onBackground,
         mine = MaterialTheme.colors.error,
         flagIconTint = MaterialTheme.colors.background,
-        mineIconTint = MaterialTheme.colors.onBackground,
+        mineIconTint = MaterialTheme.colors.onError,
     )
 }
