@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -17,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -36,10 +36,10 @@ internal fun GameProgressChip(
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(100))
-            .background(color = Color.Black.copy(alpha = 0.5f))
+            .background(color = MaterialTheme.colors.background.copy(alpha = 0.5f))
             .border(
                 width = 1.dp,
-                color = Color.White,
+                color = MaterialTheme.colors.onBackground,
                 shape = RoundedCornerShape(100),
             )
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -86,7 +86,7 @@ private fun AnimatingFlaggedCount(
 
         Text(
             text = "${progress.totalMinesCount - progress.flaggedMinesCount}",
-            color = Color.White,
+            color = MaterialTheme.colors.onBackground,
         )
     }
 }
@@ -101,7 +101,7 @@ private fun MineIcon(
     Icon(
         modifier = modifier,
         imageVector = Icons.Filled.Favorite,
-        tint = Color.White,
+        tint = MaterialTheme.colors.onBackground,
         contentDescription = null,
     )
 }

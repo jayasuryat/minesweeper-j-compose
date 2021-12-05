@@ -1,11 +1,11 @@
 package com.jayasuryat.uigame.composable.topbar.started
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.jayasuryat.uigame.composable.topbar.TextChip
 import com.jayasuryat.uigame.composable.topbar.formatTime
@@ -30,8 +30,9 @@ internal fun TickerChip(
     TextChip(
         modifier = modifier,
         text = formatTime(elapsedDuration.value),
-        contentColor = Color.Black,
-        strokeColor = Color.White,
+        contentColor = MaterialTheme.colors.background,
+        textColor = MaterialTheme.colors.onBackground,
+        strokeColor = MaterialTheme.colors.onBackground,
     )
 }
 

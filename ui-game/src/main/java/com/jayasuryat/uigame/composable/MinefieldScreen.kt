@@ -1,12 +1,11 @@
 package com.jayasuryat.uigame.composable
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
 import com.jayasuryat.minesweeperui.composable.grid.GridLayoutInformation
 import com.jayasuryat.minesweeperui.composable.grid.Minefield
@@ -51,27 +50,11 @@ internal fun MinefieldScreen(
 @ReadOnlyComposable
 private fun getMinefieldColors(): MinesweeperColors {
 
-    val colors = if (isSystemInDarkTheme()) {
-
-        // Dark colors
-        MinesweeperColors(
-            minefield = Color.Black,
-            text = Color.White,
-            mine = Color.Red,
-            flagIconTint = Color.Black,
-            mineIconTint = Color.White,
-        )
-    } else {
-
-        // Light colors
-        MinesweeperColors(
-            minefield = Color(0xFFA9D2A4),
-            text = Color(0xFFA9D2A4),
-            mine = Color.Red,
-            flagIconTint = Color.White,
-            mineIconTint = Color.White,
-        )
-    }
-
-    return colors
+    return MinesweeperColors(
+        minefield = MaterialTheme.colors.background,
+        text = MaterialTheme.colors.onBackground,
+        mine = MaterialTheme.colors.error,
+        flagIconTint = MaterialTheme.colors.background,
+        mineIconTint = MaterialTheme.colors.onBackground,
+    )
 }

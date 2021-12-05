@@ -2,8 +2,8 @@ package com.jayasuryat.uigame.composable
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
@@ -52,13 +52,9 @@ internal fun AnimatingGradient(
 @ReadOnlyComposable
 private fun getGradientColors(): List<Color> {
 
-    return if (isSystemInDarkTheme()) listOf(
-        Color.Magenta,
-        Color.Cyan,
-        Color.Magenta,
-    ) else listOf(
-        Color(0xFF000000),
-        Color(0xFF2C3E50),
-        Color(0xFF000000),
+    return listOf(
+        MaterialTheme.colors.primary,
+        MaterialTheme.colors.secondary,
+        MaterialTheme.colors.primary,
     )
 }
