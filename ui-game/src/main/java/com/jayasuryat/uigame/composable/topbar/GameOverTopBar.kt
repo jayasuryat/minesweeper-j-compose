@@ -30,7 +30,7 @@ internal fun GameOverTopBar(
                 .align(alignment = Alignment.CenterVertically),
             contentColor = MaterialTheme.colors.error,
             backgroundColor = MaterialTheme.colors.error,
-            strokeColor = MaterialTheme.colors.onError,
+            strokeColor = MaterialTheme.colors.onBackground,
             textColor = MaterialTheme.colors.onError,
         )
 
