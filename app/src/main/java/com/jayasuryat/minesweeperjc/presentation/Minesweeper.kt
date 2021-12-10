@@ -1,4 +1,4 @@
-package com.jayasuryat.minesweeperjc.features
+package com.jayasuryat.minesweeperjc.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme

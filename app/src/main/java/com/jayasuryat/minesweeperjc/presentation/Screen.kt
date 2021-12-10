@@ -1,4 +1,4 @@
-package com.jayasuryat.minesweeperjc.features
+package com.jayasuryat.minesweeperjc.presentation
 
 sealed interface Screen {
 

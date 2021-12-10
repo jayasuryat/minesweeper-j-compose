@@ -1,10 +1,9 @@
-package com.jayasuryat.minesweeperjc.screen
+package com.jayasuryat.minesweeperjc.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.jayasuryat.minesweeperjc.features.MineSweeper
-import com.jayasuryat.minesweeperjc.ui.theme.MinesweeperJCTheme
+import com.jayasuryat.minesweeperjc.theme.MinesweeperJCTheme
 
 class MainActivity : ComponentActivity() {
 

@@ -1,4 +1,4 @@
-package com.jayasuryat.minesweeperjc.ui.theme
+package com.jayasuryat.minesweeperjc.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
