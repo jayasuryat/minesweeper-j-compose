@@ -70,6 +70,7 @@ dependencies {
     androidTestImplementation(Dependency.Test.espresso)
     androidTestImplementation(Dependency.Compose.Test.junit)
 
+    debugImplementation(Dependency.Compose.tooling)
     implementation(Dependency.coreKtx)
     implementation(Dependency.appCompat)
     implementation(Dependency.material)
@@ -77,13 +78,14 @@ dependencies {
     implementation(Dependency.Compose.material)
     implementation(Dependency.Compose.activity)
     implementation(Dependency.Compose.toolingPreview)
-    debugImplementation(Dependency.Compose.tooling)
     implementation(Dependency.Compose.accompanistInsets)
+    implementation(Dependency.Compose.navigation)
 
     implementation(Dependency.lifecycleRuntime)
 
     implementation(project(Dependency.Module.util))
     implementation(project(Dependency.Module.gameScreen))
+    implementation(project(Dependency.Module.difficultySelection))
 
     debugImplementation(Dependency.takt)
     releaseImplementation(Dependency.taktNoOp)

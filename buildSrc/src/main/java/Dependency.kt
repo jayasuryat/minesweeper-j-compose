@@ -18,6 +18,7 @@ object Dependency {
         const val mineSweeperUi = ":core:minesweeper-ui"
 
         const val gameScreen = ":ui-game"
+        const val difficultySelection = ":ui-difficulty-selection"
     }
 
     object Compose {
@@ -29,8 +30,10 @@ object Dependency {
         const val toolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
         const val tooling = "androidx.compose.ui:ui-tooling:$composeVersion"
         const val activity = "androidx.activity:activity-compose:1.4.0"
+        const val navigation = "androidx.navigation:navigation-compose:2.4.0-beta01"
 
         const val accompanistInsets = "com.google.accompanist:accompanist-insets:0.21.2-beta"
+        const val accompanistPager = "com.google.accompanist:accompanist-pager:0.21.2-beta"
 
         object Test {
 
