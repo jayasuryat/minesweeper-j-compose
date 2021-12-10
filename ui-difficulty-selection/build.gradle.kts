@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     kotlin("android")
 }
 
@@ -9,13 +9,8 @@ android {
 
     defaultConfig {
 
-        applicationId = "com.jayasuryat.minesweeperjc"
-
         minSdk = BuildConfig.minSdk
         targetSdk = BuildConfig.targetSdk
-
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -26,8 +21,7 @@ android {
     buildTypes {
 
         getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -70,23 +64,15 @@ dependencies {
     androidTestImplementation(Dependency.Test.espresso)
     androidTestImplementation(Dependency.Compose.Test.junit)
 
-    debugImplementation(Dependency.Compose.tooling)
     implementation(Dependency.coreKtx)
-    implementation(Dependency.appCompat)
     implementation(Dependency.material)
     implementation(Dependency.Compose.ui)
     implementation(Dependency.Compose.material)
-    implementation(Dependency.Compose.activity)
     implementation(Dependency.Compose.toolingPreview)
-    implementation(Dependency.Compose.accompanistInsets)
-    implementation(Dependency.Compose.navigation)
-
-    implementation(Dependency.lifecycleRuntime)
+    debugImplementation(Dependency.Compose.tooling)
 
     implementation(project(Dependency.Module.util))
-    implementation(project(Dependency.Module.gameScreen))
-    implementation(project(Dependency.Module.difficultySelection))
 
-    debugImplementation(Dependency.takt)
-    releaseImplementation(Dependency.taktNoOp)
+    implementation(Dependency.Compose.accompanistPager)
+    implementation(Dependency.Compose.accompanistInsets)
 }

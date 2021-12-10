@@ -15,6 +15,7 @@ include(":util")
 
 // Feature
 include(":ui-game")
+include(":ui-difficulty-selection")
 
 // Core
 include(":core:minesweeper-engine")

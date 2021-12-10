@@ -1,4 +1,4 @@
-package com.jayasuryat.minesweeperjc.ui.theme
+package com.jayasuryat.minesweeperjc.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
