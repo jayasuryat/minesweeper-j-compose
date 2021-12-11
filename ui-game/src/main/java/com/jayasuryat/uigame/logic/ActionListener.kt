@@ -14,6 +14,7 @@ import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.getCurrentGrid
 import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
 import com.jayasuryat.uigame.feedback.MusicManager
+import com.jayasuryat.uigame.feedback.VibrationManager
 import com.jayasuryat.util.exhaustive
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -25,6 +26,7 @@ internal class ActionListener(
     private val minefieldController: MinefieldController,
     private val coroutineScope: CoroutineScope,
     private val musicManager: MusicManager,
+    private val vibrationManager: VibrationManager,
 ) : MinefieldActionsListener {
 
     private val _gameState: MutableState<GameState> = mutableStateOf(GameState.Idle)
@@ -63,7 +65,10 @@ internal class ActionListener(
 
                         when (newCell) {
                             is RawCell.RevealedCell -> {
-                                if (newCell.cell is MineCell.ValuedCell) musicManager.pop()
+                                if (newCell.cell is MineCell.ValuedCell) {
+                                    musicManager.pop()
+                                    vibrationManager.pop()
+                                }
                             }
                             is RawCell.UnrevealedCell.FlaggedCell -> musicManager.affirmative()
                             is RawCell.UnrevealedCell.UnFlaggedCell -> musicManager.cancel()
