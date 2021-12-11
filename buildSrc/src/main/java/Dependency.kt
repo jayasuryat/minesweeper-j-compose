@@ -32,8 +32,13 @@ object Dependency {
         const val activity = "androidx.activity:activity-compose:1.4.0"
         const val navigation = "androidx.navigation:navigation-compose:2.4.0-beta01"
 
-        const val accompanistInsets = "com.google.accompanist:accompanist-insets:0.21.2-beta"
-        const val accompanistPager = "com.google.accompanist:accompanist-pager:0.21.2-beta"
+        private const val accompanaistVersion = "0.20.3"
+        const val accompanistInsets =
+            "com.google.accompanist:accompanist-insets:$accompanaistVersion"
+        const val accompanistPager =
+            "com.google.accompanist:accompanist-pager:$accompanaistVersion"
+        const val accompanistNavAnimation =
+            "com.google.accompanist:accompanist-navigation-animation:$accompanaistVersion"
 
         object Test {
 

@@ -78,8 +78,9 @@ dependencies {
     implementation(Dependency.Compose.material)
     implementation(Dependency.Compose.activity)
     implementation(Dependency.Compose.toolingPreview)
-    implementation(Dependency.Compose.accompanistInsets)
     implementation(Dependency.Compose.navigation)
+    implementation(Dependency.Compose.accompanistInsets)
+    implementation(Dependency.Compose.accompanistNavAnimation)
 
     implementation(Dependency.lifecycleRuntime)
 

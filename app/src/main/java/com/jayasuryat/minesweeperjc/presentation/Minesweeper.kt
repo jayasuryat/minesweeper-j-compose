@@ -1,16 +1,18 @@
 package com.jayasuryat.minesweeperjc.presentation
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jayasuryat.difficultyselection.DifficultySelectionScreen
 import com.jayasuryat.uigame.GameScreen
 import com.jayasuryat.uigame.logic.GameConfiguration
@@ -35,18 +37,31 @@ fun MineSweeper() {
 }
 
 @Composable
+@OptIn(ExperimentalAnimationApi::class)
 private fun MinesweeperApp() {
 
     LogCompositions(name = "MinesweeperApp")
 
-    val navController = rememberNavController()
+    val navController = rememberAnimatedNavController()
 
-    NavHost(
+    AnimatedNavHost(
         navController = navController,
         startDestination = Screen.DifficultySelection.getRoute(),
     ) {
 
         composable(
+            enterTransition = { _, _ ->
+                slideInVertically(
+                    initialOffsetY = { -it },
+                    animationSpec = tween(PAGE_NAV_DURATION),
+                )
+            },
+            exitTransition = { _, _ ->
+                slideOutVertically(
+                    targetOffsetY = { -it },
+                    animationSpec = tween(PAGE_NAV_DURATION),
+                )
+            },
             route = Screen.DifficultySelection.getRoute(),
         ) {
 
@@ -61,6 +76,26 @@ private fun MinesweeperApp() {
         }
 
         composable(
+            enterTransition = { initial, _ ->
+                val isGameRoute = initial.destination.route == Screen.Minefield.getRoute()
+                if (isGameRoute) slideInHorizontally(
+                    initialOffsetX = { it },
+                    animationSpec = tween(PAGE_NAV_DURATION),
+                ) else slideInVertically(
+                    initialOffsetY = { it },
+                    animationSpec = tween(PAGE_NAV_DURATION),
+                )
+            },
+            exitTransition = { _, target ->
+                val isGameRoute = target.destination.route == Screen.Minefield.getRoute()
+                if (isGameRoute) slideOutHorizontally(
+                    targetOffsetX = { -it },
+                    animationSpec = tween(PAGE_NAV_DURATION),
+                ) else slideOutVertically(
+                    targetOffsetY = { it },
+                    animationSpec = tween(PAGE_NAV_DURATION),
+                )
+            },
             route = Screen.Minefield.getRoute(),
             arguments = listOf(
                 navArgument(Screen.Minefield.ROWS) { type = NavType.IntType },
@@ -87,10 +122,18 @@ private fun MinesweeperApp() {
             GameScreen(
                 gameConfiguration = gameConfiguration,
                 onRestartClicked = {
-                    val route = Screen.DifficultySelection.getRoute()
-                    navController.navigate(route = route)
+                    val route = Screen.Minefield.getNavigableRoute(
+                        rows = rows,
+                        columns = columns,
+                        mines = mines,
+                    )
+                    navController.navigate(route = route) {
+                        popUpTo(Screen.Minefield.getRoute()) { inclusive = true }
+                    }
                 }
             )
         }
     }
 }
+
+private const val PAGE_NAV_DURATION: Int = 900
