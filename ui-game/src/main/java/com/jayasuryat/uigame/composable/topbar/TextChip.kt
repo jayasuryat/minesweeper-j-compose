@@ -30,7 +30,7 @@ internal fun TextChip(
             .clip(RoundedCornerShape(100))
             .background(color = backgroundColor)
             .border(
-                width = 1.dp,
+                width = 2.dp,
                 color = strokeColor,
                 shape = RoundedCornerShape(100),
             )

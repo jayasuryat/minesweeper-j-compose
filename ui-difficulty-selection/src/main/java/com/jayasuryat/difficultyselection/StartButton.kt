@@ -30,7 +30,7 @@ internal fun StartButton(
             .wrapContentSize()
             .clip(RoundedCornerShape(100f))
             .border(
-                width = 1.dp,
+                width = 2.dp,
                 color = MaterialTheme.colors.onBackground,
                 shape = RoundedCornerShape(100f),
             )

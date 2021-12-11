@@ -38,7 +38,7 @@ internal fun GameProgressChip(
             .clip(RoundedCornerShape(100))
             .background(color = MaterialTheme.colors.background.copy(alpha = 0.5f))
             .border(
-                width = 1.dp,
+                width = 2.dp,
                 color = MaterialTheme.colors.onBackground,
                 shape = RoundedCornerShape(100),
             )
