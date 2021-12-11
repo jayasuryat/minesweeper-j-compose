@@ -22,6 +22,7 @@ internal class VibrationManager(
     }
 
     fun pop() = vibrationNow(mills = 1, amplitude = 12)
+    fun shortVibrationNow() = vibrationNow(mills = 200, amplitude = 100)
     fun mediumVibrationNow() = vibrationNow(mills = 500, amplitude = 100)
 
     private fun vibrationNow(

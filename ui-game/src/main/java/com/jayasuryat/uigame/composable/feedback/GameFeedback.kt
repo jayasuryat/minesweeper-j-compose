@@ -24,7 +24,9 @@ internal fun GameFeedback(
 
         is GameState.GameStarted -> Unit
 
-        is GameState.GameEnded.GameCompleted -> Unit
+        is GameState.GameEnded.GameCompleted -> {
+            vibrationManager.shortVibrationNow()
+        }
 
         is GameState.GameEnded.GameOver -> {
             vibrationManager.mediumVibrationNow()
