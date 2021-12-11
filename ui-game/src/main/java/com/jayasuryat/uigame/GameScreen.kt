@@ -19,6 +19,7 @@ import com.jayasuryat.uigame.composable.MinefieldScreen
 import com.jayasuryat.uigame.composable.feedback.GameFeedback
 import com.jayasuryat.uigame.composable.topbar.GameTopBar
 import com.jayasuryat.uigame.feedback.MusicManager
+import com.jayasuryat.uigame.feedback.VibrationManager
 import com.jayasuryat.uigame.logic.ActionListener
 import com.jayasuryat.uigame.logic.GameConfiguration
 import com.jayasuryat.util.LogCompositions
@@ -48,12 +49,14 @@ fun GameScreen(
     val layoutInfo = remember { GridLayoutInformation.from(statefulGrid = statefulGrid) }
     val context = LocalContext.current
     val musicManager = MusicManager(context)
+    val vibrationManager = VibrationManager(context)
     val actionsListener = remember {
         ActionListener(
             statefulGrid = statefulGrid,
             minefieldController = GameController.getDefault(),
             coroutineScope = coroutineScope,
-            musicManager = musicManager
+            musicManager = musicManager,
+            vibrationManager = vibrationManager,
         )
     }
 

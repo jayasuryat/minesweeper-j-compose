@@ -7,29 +7,30 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 
-@Suppress("unused")
-internal object VibrationManager {
+internal class VibrationManager(
+    private val context: Context,
+) {
 
-    fun shortVibrationNow(context: Context) = vibrationNow(150, context)
-    fun mediumVibrationNow(context: Context) = vibrationNow(500, context)
-    fun strongVibrationNow(context: Context) = vibrationNow(1000, context)
+    private val vibrator: Vibrator by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            (context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager)
+                .defaultVibrator
+        } else {
+            @Suppress("DEPRECATION")
+            context.getSystemService(VIBRATOR_SERVICE) as Vibrator
+        }
+    }
+
+    fun pop() = vibrationNow(mills = 1, amplitude = 12)
+    fun mediumVibrationNow() = vibrationNow(mills = 500, amplitude = 100)
 
     private fun vibrationNow(
         mills: Long,
-        context: Context,
+        amplitude: Int,
     ) {
 
-        val vibrator: Vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            (context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager?)
-                ?.defaultVibrator
-        } else {
-            @Suppress("DEPRECATION")
-            context.getSystemService(VIBRATOR_SERVICE) as Vibrator?
-        } ?: return
-
         if (Build.VERSION.SDK_INT >= 26) {
-            vibrator.vibrate(VibrationEffect.createOneShot(mills,
-                VibrationEffect.DEFAULT_AMPLITUDE))
+            vibrator.vibrate(VibrationEffect.createOneShot(mills, amplitude))
         } else {
             @Suppress("DEPRECATION")
             vibrator.vibrate(mills)

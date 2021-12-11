@@ -2,6 +2,7 @@ package com.jayasuryat.uigame.composable.feedback
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import com.jayasuryat.uigame.feedback.VibrationManager
 import com.jayasuryat.uigame.logic.GameState
@@ -14,6 +15,9 @@ internal fun GameFeedback(
 
     LogCompositions(name = "GameFeedback")
 
+    val context = LocalContext.current
+    val vibrationManager = remember { VibrationManager(context) }
+
     when (gameState.value) {
 
         is GameState.Idle -> Unit
@@ -23,7 +27,7 @@ internal fun GameFeedback(
         is GameState.GameEnded.GameCompleted -> Unit
 
         is GameState.GameEnded.GameOver -> {
-            VibrationManager.mediumVibrationNow(LocalContext.current)
+            vibrationManager.mediumVibrationNow()
         }
     }
 }
