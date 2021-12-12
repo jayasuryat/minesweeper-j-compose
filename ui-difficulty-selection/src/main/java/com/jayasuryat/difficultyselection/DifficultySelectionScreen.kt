@@ -22,6 +22,7 @@ fun DifficultySelectionScreen(
         GameDifficulty.Easy,
         GameDifficulty.Medium,
         GameDifficulty.Hard,
+        GameDifficulty.Extreme,
     ),
     onDifficultySelected: (difficulty: GameDifficulty) -> Unit,
 ) {

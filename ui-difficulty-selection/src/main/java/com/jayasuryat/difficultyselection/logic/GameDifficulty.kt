@@ -23,4 +23,10 @@ sealed class GameDifficulty {
         override val columns: Int = 15
         override val mines: Int = 37
     }
+
+    internal object Extreme : GameDifficulty() {
+        override val rows: Int = 40
+        override val columns: Int = 20
+        override val mines: Int = 100
+    }
 }

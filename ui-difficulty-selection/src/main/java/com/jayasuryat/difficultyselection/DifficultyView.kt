@@ -90,6 +90,7 @@ private fun GameDifficulty.getTitle(): String {
         is GameDifficulty.Easy -> "Easy"
         is GameDifficulty.Medium -> "Medium"
         is GameDifficulty.Hard -> "Hard"
+        is GameDifficulty.Extreme -> "Extreme"
     }
 }
 
