@@ -53,6 +53,7 @@ fun GameScreen(
     val actionsListener = remember {
         ActionListener(
             statefulGrid = statefulGrid,
+            girdGenerator = MineGridGenerator(),
             minefieldController = GameController.getDefault(),
             coroutineScope = coroutineScope,
             musicManager = musicManager,
