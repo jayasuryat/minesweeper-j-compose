@@ -1,7 +1,7 @@
 package com.jayasuryat.minesweeperui.composable.cell
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -31,6 +31,10 @@ internal fun RawCell(
 
     LogCompositions(name = "RawCell")
 
+    // Commented out AnimatedContent as it is eating up perf. Some animations are getting triggered
+    // redundantly due how some models are modeled. i.e., RawCell.UnrevealedCell
+
+    /*
     AnimatedContent(
         modifier = modifier
             .clipToBounds(),
@@ -43,6 +47,21 @@ internal fun RawCell(
 
         RawCellContent(
             cell = cell,
+            actionListener = actionListener,
+        )
+    }
+    */
+
+    Box(
+        modifier = modifier
+            .clipToBounds(),
+        contentAlignment = Alignment.Center,
+    ) {
+
+        LogCompositions(name = "RawCell\$AnimatedContent")
+
+        RawCellContent(
+            cell = cellState.value,
             actionListener = actionListener,
         )
     }
@@ -92,6 +111,7 @@ private fun RawCellContent(
     }.exhaustive
 }
 
+/*
 @ExperimentalAnimationApi
 private fun getContentTransformAnim(): ContentTransform {
 
@@ -111,3 +131,4 @@ private fun getContentTransformAnim(): ContentTransform {
 
     return ContentTransform(enterAnim, exitAnim)
 }
+*/
