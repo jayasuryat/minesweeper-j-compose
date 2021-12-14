@@ -8,10 +8,8 @@ import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.jayasuryat.minesweeperengine.controller.impl.GameController
-import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.gridGenerator.MineGridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
-import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
 import com.jayasuryat.minesweeperui.composable.grid.GridLayoutInformation
@@ -21,10 +19,10 @@ import com.jayasuryat.uigame.composable.topbar.GameTopBar
 import com.jayasuryat.uigame.feedback.MusicManager
 import com.jayasuryat.uigame.feedback.VibrationManager
 import com.jayasuryat.uigame.logic.ActionListener
+import com.jayasuryat.uigame.logic.EmptyGridGenerator
 import com.jayasuryat.uigame.logic.GameConfiguration
 import com.jayasuryat.util.LogCompositions
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @Composable
 fun GameScreen(
@@ -34,16 +32,12 @@ fun GameScreen(
 
     LogCompositions(name = "GameScreen")
 
-    val statefulGridState = remember { mutableStateOf<StatefulGrid?>(null) }
-
-    LaunchedEffect(key1 = gameConfiguration.gameId) {
-        withContext(Dispatchers.Default) {
-            statefulGridState.value = getStatefulGrid(gameConfiguration)
-        }
+    val statefulGridState = remember {
+        val statefulGrid = getStatefulGrid(gameConfiguration = gameConfiguration)
+        mutableStateOf(statefulGrid)
     }
 
-    // TODO: 25/11/21 : Handle Loading state
-    val statefulGrid = statefulGridState.value ?: return
+    val statefulGrid = statefulGridState.value
 
     val coroutineScope = rememberCoroutineScope { Dispatchers.Default }
     val layoutInfo = remember { GridLayoutInformation.from(statefulGrid = statefulGrid) }
@@ -53,6 +47,7 @@ fun GameScreen(
     val actionsListener = remember {
         ActionListener(
             statefulGrid = statefulGrid,
+            girdGenerator = MineGridGenerator(),
             minefieldController = GameController.getDefault(),
             coroutineScope = coroutineScope,
             musicManager = musicManager,
@@ -90,25 +85,19 @@ fun GameScreen(
 }
 
 @Stable
-private suspend fun getStatefulGrid(
+private fun getStatefulGrid(
     gameConfiguration: GameConfiguration,
 ): StatefulGrid {
 
-    val gridGenerator: GridGenerator = MineGridGenerator()
-    //val gridGenerator: GridGenerator = DebugMineGridGenerator()
-    //val gridGenerator: GridGenerator = RevealedMineGridGenerator(MineGridGenerator())
+    val gridGenerator = EmptyGridGenerator()
 
     val gridSize = GridSize(
         rows = gameConfiguration.rows,
         columns = gameConfiguration.columns,
     )
 
-    // TODO: 14/11/21 : Need to drive this from the first clicked mine
-    val start = Position(row = 1, column = 1)
-
-    val grid = gridGenerator.generateGrid(
+    val grid = gridGenerator.generateEmptyGrid(
         gridSize = gridSize,
-        starCell = start,
         mineCount = gameConfiguration.mines,
     )
 

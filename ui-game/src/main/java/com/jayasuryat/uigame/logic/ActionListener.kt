@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
+import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
@@ -23,6 +24,7 @@ import kotlinx.coroutines.launch
 @Stable
 internal class ActionListener(
     private val statefulGrid: StatefulGrid,
+    private val girdGenerator: GridGenerator,
     private val minefieldController: MinefieldController,
     private val coroutineScope: CoroutineScope,
     private val musicManager: MusicManager,
@@ -43,10 +45,22 @@ internal class ActionListener(
 
     private suspend fun handleAction(action: MinefieldAction) {
 
-        val event: MinefieldEvent = minefieldController.onAction(
-            action = action,
-            mineGrid = statefulGrid.getCurrentGrid(),
-        )
+        val event = if (isInIdleState()) {
+
+            if (action !is MinefieldAction.OnCellClicked) return
+
+            handleFirstClick(
+                action = action,
+                parentGrid = statefulGrid,
+            )
+
+        } else {
+
+            minefieldController.onAction(
+                action = action,
+                mineGrid = statefulGrid.getCurrentGrid(),
+            )
+        }
 
         updateGameState(event = event)
         updateGridForEvent(event = event)
@@ -107,6 +121,31 @@ internal class ActionListener(
         }.exhaustive
     }
 
+    private suspend fun handleFirstClick(
+        action: MinefieldAction.OnCellClicked,
+        parentGrid: StatefulGrid,
+    ): MinefieldEvent {
+
+        val grid = girdGenerator.generateGrid(
+            gridSize = parentGrid.gridSize,
+            starCell = action.cell.position,
+            mineCount = parentGrid.totalMines,
+        )
+
+        parentGrid.updateCellsWith(
+            updatedCells = grid.cells.flatten()
+        )
+
+        val clickEvent = MinefieldAction.OnCellClicked(
+            cell = grid[action.cell.position] as RawCell.UnrevealedCell
+        )
+
+        return minefieldController.onAction(
+            action = clickEvent,
+            mineGrid = grid,
+        )
+    }
+
     private fun updateGameState(event: MinefieldEvent) {
         val newState = resolveGameState(event = event) ?: return
         _gameState.value = newState
@@ -116,6 +155,8 @@ internal class ActionListener(
         val progress = statefulGrid.getCurrentGrid().getProgress()
         _progress.value = progress
     }
+
+    private fun isInIdleState(): Boolean = _gameState.value == GameState.Idle
 
     private fun StatefulGrid.getProgress(): GameProgress =
         this.getCurrentGrid().getProgress()
