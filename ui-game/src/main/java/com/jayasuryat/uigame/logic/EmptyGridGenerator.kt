@@ -29,8 +29,8 @@ internal class EmptyGridGenerator {
         return EmptyGrid(
             gridSize = gridSize,
             totalMines = mineCount,
-            cells = (0..rows).map { row ->
-                (0..columns).map { column ->
+            cells = (0 until rows).map { row ->
+                (0 until columns).map { column ->
                     val position = Position(row = row, column = column)
                     val cell = MineCell.ValuedCell.EmptyCell(position = position)
                     RawCell.UnrevealedCell.UnFlaggedCell(cell = cell)
