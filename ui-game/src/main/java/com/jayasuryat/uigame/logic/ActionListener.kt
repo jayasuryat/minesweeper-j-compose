@@ -7,13 +7,13 @@ import androidx.compose.runtime.mutableStateOf
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
-import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
+import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.getCurrentGrid
-import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.composable.action.MinefieldActionsListener
 import com.jayasuryat.uigame.feedback.MusicManager
 import com.jayasuryat.uigame.feedback.VibrationManager
 import com.jayasuryat.util.exhaustive

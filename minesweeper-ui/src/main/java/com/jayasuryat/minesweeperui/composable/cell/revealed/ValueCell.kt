@@ -24,8 +24,8 @@ import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.composable.cell.VALUE_CELL_TEXT_COVER_PERCENT
 import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
-import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
-import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
+import com.jayasuryat.minesweeperui.composable.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.composable.action.NoOpActionListener
 import com.jayasuryat.minesweeperui.composable.theme.msColors
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp

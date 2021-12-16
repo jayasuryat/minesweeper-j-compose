@@ -4,12 +4,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
-import com.jayasuryat.minesweeperengine.gridGenerator.MineGridGenerator
+import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
+import com.jayasuryat.minesweeperengine.gridgenerator.MineGridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
-import com.jayasuryat.minesweeperui.composable.event.NoOpActionListener
+import com.jayasuryat.minesweeperui.composable.action.NoOpActionListener
 import kotlinx.coroutines.runBlocking
 
 @Preview(widthDp = 1000, heightDp = 1000)

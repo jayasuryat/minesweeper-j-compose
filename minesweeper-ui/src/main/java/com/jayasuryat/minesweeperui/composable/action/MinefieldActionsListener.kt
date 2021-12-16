@@ -1,4 +1,4 @@
-package com.jayasuryat.minesweeperui.composable.event
+package com.jayasuryat.minesweeperui.composable.action
 
 import androidx.compose.runtime.Stable
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction

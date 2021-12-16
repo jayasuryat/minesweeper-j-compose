@@ -16,7 +16,7 @@ import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperui.composable.cell.RawCell
-import com.jayasuryat.minesweeperui.composable.event.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.composable.action.MinefieldActionsListener
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp
 import com.jayasuryat.util.floatValue

@@ -1,6 +1,6 @@
 package com.jayasuryat.minesweeperenginedebug.generator
 
-import com.jayasuryat.minesweeperengine.gridGenerator.GridGenerator
+import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell

@@ -1,4 +1,4 @@
-package com.jayasuryat.minesweeperengine.gridGenerator
+package com.jayasuryat.minesweeperengine.gridgenerator
 
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position

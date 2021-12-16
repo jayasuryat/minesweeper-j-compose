@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.jayasuryat.minesweeperengine.controller.impl.GameController
-import com.jayasuryat.minesweeperengine.gridGenerator.MineGridGenerator
+import com.jayasuryat.minesweeperengine.gridgenerator.MineGridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
