@@ -19,12 +19,21 @@ internal class MusicManager(private val context: Context) {
     private val sfxCancel: MediaPlayer by mediaPlayerOf(R.raw.cancel) {
         setVolume(0.02f, 0.02f)
     }
+    private val sfxSuccess: MediaPlayer by mediaPlayerOf(R.raw.success) {
+        setVolume(0.02f, 0.02f)
+    }
+
+    private val sfxFailure: MediaPlayer by mediaPlayerOf(R.raw.failure) {
+        setVolume(0.02f, 0.02f)
+    }
     // endregion
 
     // region : Public API
     fun pop() = sfxPop.start()
     fun affirmative() = sfxAffirmative.start()
     fun cancel() = sfxCancel.start()
+    fun success() = sfxSuccess.start()
+    fun failure() = sfxFailure.start()
 
     fun dispose() {
         tlc.onEachInitialized { player ->
