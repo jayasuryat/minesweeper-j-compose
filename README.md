@@ -16,6 +16,7 @@ The objective of this game is to clear a rectangular board containing hidden "mi
 * Multiple difficulty levels to choose from
 * Haptic & Aural feedback
 * Day / Night theme
+* Animating gradient cell background
 * Randomly generated levels
 
 ## Controls : 
@@ -73,6 +74,8 @@ com.jayasuryat.minesweeperjc
     
 * [Cell flagging sound](https://freesound.org/people/plasterbrain/sounds/237422/) by [plasterbrain](https://freesound.org/people/plasterbrain/)
 * [Cell unflagging sound](https://freesound.org/people/plasterbrain/sounds/423168/) by [plasterbrain](https://freesound.org/people/plasterbrain/)
+* [Game completed sound](https://freesound.org/people/Leszek_Szary/sounds/171584/) by [Leszek_Szary](https://freesound.org/people/Leszek_Szary/)
+* [Game over sound](https://freesound.org/people/Leszek_Szary/sounds/171526/) by [Leszek_Szary](https://freesound.org/people/Leszek_Szary/)
 * [Cell poping sound](https://freesound.org/people/onikage22/sounds/240566/) by [onikage22](https://freesound.org/people/onikage22/)
   
   </details>
