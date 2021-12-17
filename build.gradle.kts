@@ -17,6 +17,7 @@ buildscript {
 
 apply {
     from("buildScripts/versionsPlugin.gradle")
+    from("buildScripts/spotless.gradle")
 }
 
 plugins {
