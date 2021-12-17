@@ -31,7 +31,6 @@ internal class CellRevealer(
             }
 
             is MineCell.Mine -> gridRevealer.revealAllCells(grid = grid)
-
         }.exhaustive
     }
 }

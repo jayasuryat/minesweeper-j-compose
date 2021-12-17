@@ -20,6 +20,6 @@ sealed interface Screen {
             rows: Int,
             columns: Int,
             mines: Int,
-        ): String = "minefield/${rows}/${columns}/${mines}"
+        ): String = "minefield/$rows/$columns/$mines"
     }
 }

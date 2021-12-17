@@ -2,8 +2,8 @@ package com.jayasuryat.minesweeperui.composable.grid
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.jayasuryat.minesweeperui.composable.component.ZoomableContent
 import com.jayasuryat.minesweeperui.composable.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.composable.component.ZoomableContent
 import com.jayasuryat.util.LogCompositions
 
 @Composable

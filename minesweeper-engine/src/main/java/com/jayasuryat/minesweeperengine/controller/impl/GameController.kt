@@ -50,7 +50,6 @@ public class GameController(
                 action = action,
                 grid = mineGrid,
             )
-
         }.exhaustive
     }
 

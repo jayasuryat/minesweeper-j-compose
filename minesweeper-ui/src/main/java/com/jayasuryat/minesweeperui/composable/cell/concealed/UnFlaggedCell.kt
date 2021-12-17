@@ -21,10 +21,10 @@ import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
-import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
-import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
 import com.jayasuryat.minesweeperui.composable.action.MinefieldActionsListener
 import com.jayasuryat.minesweeperui.composable.action.NoOpActionListener
+import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
+import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.floatValue
 
@@ -76,9 +76,10 @@ private fun Preview() {
         cell = MineCell.ValuedCell.EmptyCell(position = Position.zero())
     )
 
-    Spacer(modifier = Modifier
-        .fillMaxSize()
-        .background(color = MaterialTheme.colors.secondary)
+    Spacer(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colors.secondary)
     )
 
     UnFlaggedCell(

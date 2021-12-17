@@ -26,10 +26,11 @@ internal fun MineCell(
 
     LogCompositions(name = "MineCell")
 
-    BoxWithConstraints(modifier = modifier
-        .aspectRatio(1f)
-        .clipToBounds()
-        .background(color = MaterialTheme.msColors.minefield)
+    BoxWithConstraints(
+        modifier = modifier
+            .aspectRatio(1f)
+            .clipToBounds()
+            .background(color = MaterialTheme.msColors.minefield)
     ) {
 
         val minSize = minOf(maxWidth, maxHeight)

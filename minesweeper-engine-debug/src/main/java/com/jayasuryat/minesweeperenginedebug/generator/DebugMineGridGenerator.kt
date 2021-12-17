@@ -32,7 +32,6 @@ public class DebugMineGridGenerator : GridGenerator {
                     )
                 ) as RawCell
             }.toMutableList()
-
         }.toMutableList()
 
         return DebugMineGrid(

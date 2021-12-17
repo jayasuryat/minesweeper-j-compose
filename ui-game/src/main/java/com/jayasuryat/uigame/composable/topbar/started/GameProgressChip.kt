@@ -54,9 +54,10 @@ internal fun GameProgressChip(
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        MineIcon(modifier = Modifier
-            .size(16.dp)
-            .align(alignment = Alignment.CenterVertically)
+        MineIcon(
+            modifier = Modifier
+                .size(16.dp)
+                .align(alignment = Alignment.CenterVertically)
         )
     }
 }
@@ -111,10 +112,12 @@ private fun MineIcon(
 private fun Preview() {
 
     val gameProgress = remember {
-        mutableStateOf(GameProgress(
-            totalMinesCount = 10,
-            flaggedMinesCount = 7,
-        ))
+        mutableStateOf(
+            GameProgress(
+                totalMinesCount = 10,
+                flaggedMinesCount = 7,
+            )
+        )
     }
 
     GameProgressChip(

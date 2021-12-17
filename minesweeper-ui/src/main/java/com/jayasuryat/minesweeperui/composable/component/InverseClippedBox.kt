@@ -63,26 +63,30 @@ private fun getInvertedBoxPath(
     val rootSquarePath = Path()
     val innerSquarePath = Path()
 
-    rootSquarePath.addRect(rect = Rect(
-        offset = Offset.Zero - Offset(x = padding.width, y = padding.height),
-        size = Size(
-            width = parentSize.width + (padding.width * 2),
-            height = parentSize.height + (padding.height * 2),
-        ),
-    ))
+    rootSquarePath.addRect(
+        rect = Rect(
+            offset = Offset.Zero - Offset(x = padding.width, y = padding.height),
+            size = Size(
+                width = parentSize.width + (padding.width * 2),
+                height = parentSize.height + (padding.height * 2),
+            ),
+        )
+    )
 
     val contentOffset = Offset(
         x = (parentSize.width / 2) - (contentSize.width / 2) + innerInset.width,
         y = (parentSize.height / 2) - (contentSize.height / 2) + innerInset.height,
     )
 
-    innerSquarePath.addRect(rect = Rect(
-        offset = contentOffset,
-        size = Size(
-            width = contentSize.width - (innerInset.width * 2),
-            height = contentSize.height - (innerInset.height * 2),
-        ),
-    ))
+    innerSquarePath.addRect(
+        rect = Rect(
+            offset = contentOffset,
+            size = Size(
+                width = contentSize.width - (innerInset.width * 2),
+                height = contentSize.height - (innerInset.height * 2),
+            ),
+        )
+    )
 
     return Path.combine(
         operation = PathOperation.Difference,

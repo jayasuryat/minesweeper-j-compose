@@ -2,7 +2,6 @@ package com.jayasuryat.uigame.composable.topbar
 
 import androidx.compose.runtime.Stable
 
-
 @Stable
 internal fun formatTime(millis: Long): String {
     val secs = millis / 1000

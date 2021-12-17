@@ -7,7 +7,6 @@ import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperenginedebug.model.DebugMineGrid
 
-
 public class RevealedMineGridGenerator(
     private val backingGenerator: GridGenerator,
 ) : GridGenerator {

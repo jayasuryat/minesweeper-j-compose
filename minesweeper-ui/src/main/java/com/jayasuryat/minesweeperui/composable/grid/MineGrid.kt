@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
-import com.jayasuryat.minesweeperui.composable.cell.RawCell
 import com.jayasuryat.minesweeperui.composable.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.composable.cell.RawCell
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp
 import com.jayasuryat.util.floatValue
@@ -42,8 +42,10 @@ internal fun MineGrid(
         )
 
         InverseClippedBox(
-            parentSize = Size(width = maxWidth.floatValue(),
-                height = maxHeight.floatValue()),
+            parentSize = Size(
+                width = maxWidth.floatValue(),
+                height = maxHeight.floatValue()
+            ),
             contentSize = Size(
                 width = cellSize * gridSize.columns,
                 height = cellSize * gridSize.rows,

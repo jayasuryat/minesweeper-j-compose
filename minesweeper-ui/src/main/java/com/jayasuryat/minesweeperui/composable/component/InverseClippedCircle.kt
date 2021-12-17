@@ -64,23 +64,27 @@ private fun getInvertedCirclePath(
     val squarePath = Path()
     val circlePath = Path()
 
-    squarePath.addRect(rect = Rect(
-        left = 0f,
-        top = 0f,
-        right = width,
-        bottom = height,
-    ))
-
-    circlePath.addOval(oval = Rect(
-        offset = Offset(
-            x = padding,
-            y = padding,
-        ),
-        size = Size(
-            width = width - (padding * 2),
-            height = height - (padding * 2),
+    squarePath.addRect(
+        rect = Rect(
+            left = 0f,
+            top = 0f,
+            right = width,
+            bottom = height,
         )
-    ))
+    )
+
+    circlePath.addOval(
+        oval = Rect(
+            offset = Offset(
+                x = padding,
+                y = padding,
+            ),
+            size = Size(
+                width = width - (padding * 2),
+                height = height - (padding * 2),
+            )
+        )
+    )
 
     return Path.combine(
         operation = PathOperation.Difference,
@@ -97,9 +101,10 @@ private fun Preview() {
         modifier = Modifier.fillMaxSize(),
         iconPadding = 32f,
     ) {
-        Spacer(modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colors.secondary)
+        Spacer(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = MaterialTheme.colors.secondary)
         )
     }
 }

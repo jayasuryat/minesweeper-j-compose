@@ -65,14 +65,16 @@ private fun MinesweeperApp() {
             route = Screen.DifficultySelection.getRoute(),
         ) {
 
-            DifficultySelectionScreen(onDifficultySelected = { difficulty ->
-                val route = Screen.Minefield.getNavigableRoute(
-                    rows = difficulty.rows,
-                    columns = difficulty.columns,
-                    mines = difficulty.mines,
-                )
-                navController.navigate(route = route)
-            })
+            DifficultySelectionScreen(
+                onDifficultySelected = { difficulty ->
+                    val route = Screen.Minefield.getNavigableRoute(
+                        rows = difficulty.rows,
+                        columns = difficulty.columns,
+                        mines = difficulty.mines,
+                    )
+                    navController.navigate(route = route)
+                }
+            )
         }
 
         composable(
