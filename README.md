@@ -16,6 +16,7 @@ The objective of this game is to clear a rectangular board containing hidden "mi
 * Multiple difficulty levels to choose from
 * Haptic & Aural feedback
 * Day / Night theme
+* Animating gradient cell background
 * Randomly generated levels
 
 ## Controls : 
