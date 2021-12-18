@@ -10,12 +10,12 @@ The objective of this game is to clear a rectangular board containing hidden "mi
 
 
 ## Demo
-| Dark mode | Light mode | 
+| Dark mode | Light mode |
 | -- | -- |
 | <img src="https://github.com/JayaSuryaT/minesweeper-j-compose/raw/main/art/Main_DarkTheme.gif" alt="Using Views - Light theme" data-canonical-src="https://github.com/JayaSuryaT/minesweeper-j-compose/raw/main/art/Main_DarkTheme.gif" width="270" height="585" />|<img src="https://github.com/JayaSuryaT/minesweeper-j-compose/raw/main/art/Main_LightTheme.gif" alt="Using Views - Dark theme" data-canonical-src="https://github.com/JayaSuryaT/minesweeper-j-compose/raw/main/art/Main_LightTheme.gif" width="270" height="585" />|
 
 
-## Features : 
+## Features :
 * Zoomable and Panabel minefield
 * Safe first click - The first cell is never a mine as the minefield is generated around the first click
 * Multiple difficulty levels to choose from
@@ -24,7 +24,7 @@ The objective of this game is to clear a rectangular board containing hidden "mi
 * Animating gradient cell background
 * Randomly generated levels
 
-## Controls : 
+## Controls :
 * Tap a cell to reveal it
 * Long press an unrevealed cell to flag/unflag it
 * Tap an already revealed cell to expose potentially solved cells
@@ -36,7 +36,7 @@ com.jayasuryat.minesweeperjc
 ├── 📂 app/                          # App module
 │   ├── presentation/                 # Navigation & Screens
 │   ├── theme/                        # Theming
-│   └── MinesweeperApp.kt    
+│   └── MinesweeperApp.kt
 │
 ├── 📂 minesweeper-engine/           # Module for driving all the logics of the game
 │   ├── controller/                   # Game actions, events, game controller and action handlers
@@ -75,13 +75,13 @@ com.jayasuryat.minesweeperjc
     <summary>
       All the SFX used in this project are sourced from <a href="https://freesound.org/">freesound.org</a> and are licensed under the <a href="https://creativecommons.org/publicdomain/zero/1.0/">Creative Commons 0 License</a>.
     </summary>
-    
+
 * [Cell flagging sound](https://freesound.org/people/plasterbrain/sounds/237422/) by [plasterbrain](https://freesound.org/people/plasterbrain/)
 * [Cell unflagging sound](https://freesound.org/people/plasterbrain/sounds/423168/) by [plasterbrain](https://freesound.org/people/plasterbrain/)
 * [Game completed sound](https://freesound.org/people/Leszek_Szary/sounds/171584/) by [Leszek_Szary](https://freesound.org/people/Leszek_Szary/)
 * [Game over sound](https://freesound.org/people/Leszek_Szary/sounds/171526/) by [Leszek_Szary](https://freesound.org/people/Leszek_Szary/)
 * [Cell poping sound](https://freesound.org/people/onikage22/sounds/240566/) by [onikage22](https://freesound.org/people/onikage22/)
-  
+
   </details>
 </p>
 
