@@ -43,10 +43,12 @@ allprojects {
             target("**/*.kt")
             targetExclude("$buildDir/**/*.kt")
             targetExclude("bin/**/*.kt")
+            targetExclude("buildSrc/**/*.kt")
             ktlint("0.41.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
             indentWithSpaces()
             trimTrailingWhitespace()
             endWithNewline()
+            licenseHeaderFile(rootProject.file("buildScripts/copyright.txt"))
         }
     }
 }
