@@ -31,11 +31,22 @@ allprojects {
     }
 
     spotless {
+
+        format("misc") {
+            target("**/*.gradle", "**/*.md", "**/.gitignore")
+            indentWithSpaces()
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+
         kotlin {
             target("**/*.kt")
             targetExclude("$buildDir/**/*.kt")
             targetExclude("bin/**/*.kt")
             ktlint("0.41.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
+            indentWithSpaces()
+            trimTrailingWhitespace()
+            endWithNewline()
         }
     }
 }
