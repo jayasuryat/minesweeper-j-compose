@@ -17,8 +17,36 @@ buildscript {
 
 apply {
     from("buildScripts/versionsPlugin.gradle")
+    from("buildScripts/spotless.gradle")
 }
 
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+plugins {
+    id("com.diffplug.spotless") version ("5.14.0")
+}
+
+allprojects {
+
+    apply {
+        plugin("com.diffplug.spotless")
+    }
+
+    spotless {
+
+        format("misc") {
+            target("**/*.gradle", "**/*.md", "**/.gitignore")
+            indentWithSpaces()
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+
+        kotlin {
+            target("**/*.kt")
+            targetExclude("$buildDir/**/*.kt")
+            targetExclude("bin/**/*.kt")
+            ktlint("0.41.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
+            indentWithSpaces()
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+    }
 }

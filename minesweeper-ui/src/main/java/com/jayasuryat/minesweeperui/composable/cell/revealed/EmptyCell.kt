@@ -19,10 +19,11 @@ internal fun EmptyCell(
 
     LogCompositions(name = "EmptyCell")
 
-    Spacer(modifier = modifier
-        .aspectRatio(1f)
-        .clipToBounds()
-        .background(color = MaterialTheme.msColors.minefield)
+    Spacer(
+        modifier = modifier
+            .aspectRatio(1f)
+            .clipToBounds()
+            .background(color = MaterialTheme.msColors.minefield)
     )
 }
 

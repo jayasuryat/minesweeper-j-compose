@@ -53,7 +53,6 @@ internal class ActionListener(
                 action = action,
                 parentGrid = statefulGrid,
             )
-
         } else {
 
             minefieldController.onAction(
@@ -117,7 +116,6 @@ internal class ActionListener(
                     updatedCells = event.updatedCells,
                 )
             }
-
         }.exhaustive
     }
 

@@ -111,10 +111,12 @@ private fun Preview(
 
     val state = remember { mutableStateOf(gameState) }
     val progress = remember {
-        mutableStateOf(GameProgress(
-            totalMinesCount = 10,
-            flaggedMinesCount = 7
-        ))
+        mutableStateOf(
+            GameProgress(
+                totalMinesCount = 10,
+                flaggedMinesCount = 7
+            )
+        )
     }
 
     GameTopBar(

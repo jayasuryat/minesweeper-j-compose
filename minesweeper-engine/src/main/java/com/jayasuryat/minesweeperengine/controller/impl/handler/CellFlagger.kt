@@ -21,7 +21,6 @@ internal class CellFlagger : ActionHandler<MinefieldAction.OnCellLongPressed> {
             is RawCell.UnrevealedCell.FlaggedCell -> action.cell.asUnFlagged()
 
             is RawCell.UnrevealedCell.UnFlaggedCell -> action.cell.asFlagged()
-
         }.exhaustive
 
         val isGameComplete = isGameComplete(

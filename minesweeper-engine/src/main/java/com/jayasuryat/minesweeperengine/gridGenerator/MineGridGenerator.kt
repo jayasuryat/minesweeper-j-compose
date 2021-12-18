@@ -162,7 +162,7 @@ public class MineGridGenerator : GridGenerator {
             for (column in (currentColumn - 1)..(currentColumn + 1)) {
 
                 val isValid = (0 until gridSize.rows).contains(row) &&
-                        (0 until gridSize.columns).contains(column)
+                    (0 until gridSize.columns).contains(column)
 
                 if (isValid) {
 

@@ -7,7 +7,6 @@ import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import kotlinx.coroutines.runBlocking
 
-
 // TODO: 10/11/21 Migrate to tests
 private fun main() {
 
