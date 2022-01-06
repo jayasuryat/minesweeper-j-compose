@@ -25,6 +25,7 @@ import com.jayasuryat.util.exhaustive
 
 internal class CellRevealer(
     private val gridRevealer: GridRevealer,
+    private val radiallySorter: RadiallySorter,
 ) : ActionHandler<MinefieldAction.OnCellClicked> {
 
     override suspend fun onAction(
@@ -41,8 +42,16 @@ internal class CellRevealer(
             }
 
             is MineCell.ValuedCell.EmptyCell -> {
-                val updatedCells = cell.getAllValueNeighbours(grid = grid)
-                MinefieldEvent.OnCellsUpdated(updatedCells = updatedCells)
+
+                val updatedCells = cell
+                    .getAllValueNeighbours(grid = grid)
+
+                val sortedCells = radiallySorter.sortRadiallyOut(
+                    startingPosition = cell.position,
+                    cells = updatedCells
+                )
+
+                MinefieldEvent.OnCellsUpdated(updatedCells = sortedCells)
             }
 
             is MineCell.Mine -> gridRevealer.revealAllCells(grid = grid)
