@@ -20,7 +20,9 @@ import com.jayasuryat.minesweeperengine.controller.impl.handler.ValueNeighbourCa
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
+import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
+import com.jayasuryat.minesweeperengine.util.mutate
 import com.jayasuryat.util.exhaustive
 
 internal class CellRevealer(
@@ -38,7 +40,14 @@ internal class CellRevealer(
         return when (val cell = revealed.cell) {
 
             is MineCell.ValuedCell.Cell -> {
-                MinefieldEvent.OnCellsUpdated(updatedCells = listOf(revealed))
+
+                val isGameComplete = isGameComplete(
+                    grid = grid,
+                    updatedCell = revealed,
+                )
+
+                if (isGameComplete) MinefieldEvent.OnGameComplete(updatedCells = listOf(revealed))
+                else MinefieldEvent.OnCellsUpdated(updatedCells = listOf(revealed),)
             }
 
             is MineCell.ValuedCell.EmptyCell -> {
@@ -56,5 +65,20 @@ internal class CellRevealer(
 
             is MineCell.Mine -> gridRevealer.revealAllCells(grid = grid)
         }.exhaustive
+    }
+
+    private fun isGameComplete(
+        grid: Grid,
+        updatedCell: RawCell,
+    ): Boolean {
+
+        val modGrid = grid.mutate { this[updatedCell.position] = updatedCell }
+
+        val totalCount = grid.gridSize.rows * grid.gridSize.columns
+        val nonMineCellsCount = totalCount - grid.totalMines
+
+        val revealedCellsCount = modGrid.cells.flatten().count { it is RawCell.RevealedCell }
+
+        return revealedCellsCount == nonMineCellsCount
     }
 }
