@@ -34,7 +34,7 @@ internal fun AnimatingGradient(
     colors: List<Color> = getGradientColors(),
 ) {
 
-    val offset = 1000f
+    val offset = 2000f
 
     val infiniteTransition = rememberInfiniteTransition()
     val animatedOffset = infiniteTransition.animateFloat(
@@ -42,7 +42,7 @@ internal fun AnimatingGradient(
         targetValue = offset,
         animationSpec = infiniteRepeatable(
             animation = tween(
-                durationMillis = 3000,
+                durationMillis = 14000,
                 easing = LinearEasing,
             ),
             repeatMode = RepeatMode.Restart
