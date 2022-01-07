@@ -18,6 +18,7 @@ package com.jayasuryat.minesweeperengine.controller.impl.handler
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import kotlin.math.atan2
+import kotlin.math.floor
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -36,7 +37,7 @@ internal class RadiallySorter {
 
         return cells.map { cell ->
             RelativeCell(
-                distance = startingPosition.distanceTo(cell.position),
+                distance = floor(startingPosition.distanceTo(cell.position)),
                 angle = startingPosition.angleTo(cell.position),
                 cell = cell,
             )
