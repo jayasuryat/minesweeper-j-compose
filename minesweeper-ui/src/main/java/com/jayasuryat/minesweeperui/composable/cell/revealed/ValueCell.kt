@@ -100,9 +100,9 @@ internal fun ValueCell(
 private fun getAlphaForValue(value: Int): Float {
 
     return when (value) {
-        1 -> 0.75f
-        2 -> 0.5f
-        else -> 0.25f
+        1 -> 0.85f
+        2 -> 0.65f
+        else -> 0.4f
     }
 }
 
