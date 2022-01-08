@@ -87,7 +87,7 @@ com.jayasuryat.minesweeperjc
 
 ## License
 ```
- Copyright 2021 Jaya Surya Thotapalli
+ Copyright 2022 Jaya Surya Thotapalli
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
