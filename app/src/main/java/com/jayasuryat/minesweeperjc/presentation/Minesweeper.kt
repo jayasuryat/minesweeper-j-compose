@@ -22,6 +22,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -29,7 +31,9 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jayasuryat.difficultyselection.DifficultySelectionScreen
+import com.jayasuryat.minesweeperjc.util.ViewModelFactory
 import com.jayasuryat.uigame.GameScreen
+import com.jayasuryat.uigame.GameViewModel
 import com.jayasuryat.uigame.logic.GameConfiguration
 import com.jayasuryat.util.LogCompositions
 import java.util.*
@@ -136,8 +140,17 @@ private fun MinesweeperApp() {
                 mines = mines,
             )
 
+            val context = LocalContext.current.applicationContext
+
             GameScreen(
-                gameConfiguration = gameConfiguration,
+                viewModel = viewModel(
+                    factory = ViewModelFactory {
+                        GameViewModel(
+                            context = context,
+                            gameConfiguration = gameConfiguration,
+                        )
+                    }
+                ),
                 onRestartClicked = {
                     val route = Screen.Minefield.getNavigableRoute(
                         rows = rows,
