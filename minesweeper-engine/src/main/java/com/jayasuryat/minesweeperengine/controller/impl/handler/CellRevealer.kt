@@ -28,6 +28,7 @@ import com.jayasuryat.util.exhaustive
 internal class CellRevealer(
     private val gridRevealer: GridRevealer,
     private val radiallySorter: RadiallySorter,
+    private val successEvaluator: GameSuccessEvaluator,
 ) : ActionHandler<MinefieldAction.OnCellClicked> {
 
     override suspend fun onAction(
@@ -47,7 +48,7 @@ internal class CellRevealer(
                 )
 
                 if (isGameComplete) MinefieldEvent.OnGameComplete(updatedCells = listOf(revealed))
-                else MinefieldEvent.OnCellsUpdated(updatedCells = listOf(revealed),)
+                else MinefieldEvent.OnCellsUpdated(updatedCells = listOf(revealed))
             }
 
             is MineCell.ValuedCell.EmptyCell -> {
@@ -71,14 +72,7 @@ internal class CellRevealer(
         grid: Grid,
         updatedCell: RawCell,
     ): Boolean {
-
         val modGrid = grid.mutate { this[updatedCell.position] = updatedCell }
-
-        val totalCount = grid.gridSize.rows * grid.gridSize.columns
-        val nonMineCellsCount = totalCount - grid.totalMines
-
-        val revealedCellsCount = modGrid.cells.flatten().count { it is RawCell.RevealedCell }
-
-        return revealedCellsCount == nonMineCellsCount
+        return successEvaluator.isGameComplete(modGrid)
     }
 }

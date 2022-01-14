@@ -15,27 +15,21 @@
  */
 package com.jayasuryat.minesweeperengine.controller.impl.handler
 
-import com.jayasuryat.minesweeperengine.controller.ActionHandler
-import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
-import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
+import android.util.Log
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.util.exhaustive
 
-internal class CellFlagger : ActionHandler<MinefieldAction.OnCellLongPressed> {
+internal class GameSuccessEvaluator {
 
-    override suspend fun onAction(
-        action: MinefieldAction.OnCellLongPressed,
+    fun isGameComplete(
         grid: Grid,
-    ): MinefieldEvent {
+    ): Boolean {
 
-        val updatedCell = when (action.cell) {
+        val totalCount = grid.gridSize.rows * grid.gridSize.columns
+        val nonMineCellsCount = totalCount - grid.totalMines
 
-            is RawCell.UnrevealedCell.FlaggedCell -> action.cell.asUnFlagged()
-
-            is RawCell.UnrevealedCell.UnFlaggedCell -> action.cell.asFlagged()
-        }.exhaustive
-
-        return MinefieldEvent.OnCellsUpdated(updatedCells = listOf(updatedCell))
+        val revealedCellsCount = grid.cells.flatten().count { it is RawCell.RevealedCell }
+        Log.d("Im alive", "Im alive, (revealedCellsCount) $revealedCellsCount == $nonMineCellsCount (nonMineCellsCount)")
+        return revealedCellsCount == nonMineCellsCount
     }
 }

@@ -69,13 +69,18 @@ public class GameController(
 
         public fun getDefault(): GameController {
             val gridRevealer = GridRevealer()
+            val successEvaluator = GameSuccessEvaluator()
             return GameController(
                 cellReveler = CellRevealer(
                     gridRevealer = gridRevealer,
                     radiallySorter = RadiallySorter(),
+                    successEvaluator = successEvaluator,
                 ),
                 cellFlagger = CellFlagger(),
-                valueCellReveler = ValueCellRevealer(gridRevealer = gridRevealer),
+                valueCellReveler = ValueCellRevealer(
+                    gridRevealer = gridRevealer,
+                    successEvaluator = successEvaluator,
+                ),
             )
         }
     }
