@@ -23,9 +23,11 @@ import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
+import com.jayasuryat.minesweeperengine.util.mutate
 
 internal class ValueCellRevealer(
     private val gridRevealer: GridRevealer,
+    private val successEvaluator: GameSuccessEvaluator,
 ) : ActionHandler<MinefieldAction.OnValueCellClicked> {
 
     override suspend fun onAction(
@@ -72,6 +74,12 @@ internal class ValueCellRevealer(
             }
         }.flatten().distinctBy { it.position }
 
+        val isGameComplete = isGameComplete(
+            grid = grid,
+            updatedCells = updatedCells
+        )
+
+        if (isGameComplete) MinefieldEvent.OnGameComplete(updatedCells = updatedCells)
         return MinefieldEvent.OnCellsUpdated(updatedCells = updatedCells)
     }
 
@@ -87,5 +95,15 @@ internal class ValueCellRevealer(
                 grid.getOrNull(position = Position(row = row, column = col))
             }
         }.flatten().filterNotNull()
+    }
+
+    private fun isGameComplete(
+        grid: Grid,
+        updatedCells: List<RawCell>,
+    ): Boolean {
+        val modGrid = grid.mutate {
+            updatedCells.forEach { cell -> this[cell.position] = cell }
+        }
+        return successEvaluator.isGameComplete(modGrid)
     }
 }
