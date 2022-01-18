@@ -39,7 +39,7 @@ internal class MutableStatefulGrid(
     override fun get(position: Position): State<RawCell> = getMutableCell(position)
 
     override fun getOrNull(position: Position): State<RawCell>? {
-        return kotlin.runCatching { mutableCells[position.row][position.column] }.getOrNull()
+        return kotlin.runCatching { getMutableCell(position) }.getOrNull()
     }
 
     override fun updateCellsWith(updatedCells: List<RawCell>) {

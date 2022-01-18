@@ -155,17 +155,17 @@ public class MineGridGenerator : GridGenerator {
         }
     }
 
-    private fun getIndex(
-        row: Int,
-        column: Int,
-        gridSize: GridSize,
-    ): Int {
-        return (row * gridSize.columns) + column
-    }
-
     private fun Position.get3xBlockCellIndexes(
         gridSize: GridSize,
     ): List<Int> {
+
+        fun getIndex(
+            row: Int,
+            column: Int,
+            gridSize: GridSize,
+        ): Int {
+            return (row * gridSize.columns) + column
+        }
 
         val currentRow = this.row
         val currentColumn = this.column
