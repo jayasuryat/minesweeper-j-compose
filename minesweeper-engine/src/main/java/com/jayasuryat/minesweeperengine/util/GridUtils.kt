@@ -16,8 +16,8 @@
 package com.jayasuryat.minesweeperengine.util
 
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.minesweeperengine.model.grid.MineGrid
-import com.jayasuryat.minesweeperengine.model.grid.MutableMineGrid
+import com.jayasuryat.minesweeperengine.model.grid.impl.MineGrid
+import com.jayasuryat.minesweeperengine.model.grid.impl.MutableMineGrid
 
 internal fun MutableMineGrid.toImmutable(): MineGrid {
     return MineGrid(

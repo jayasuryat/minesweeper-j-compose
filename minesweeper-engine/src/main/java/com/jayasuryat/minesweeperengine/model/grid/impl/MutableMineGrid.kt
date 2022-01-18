@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperengine.model.grid
+package com.jayasuryat.minesweeperengine.model.grid.impl
 
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
+import com.jayasuryat.minesweeperengine.model.grid.Grid
 
 internal data class MutableMineGrid(
     override val gridSize: GridSize,
