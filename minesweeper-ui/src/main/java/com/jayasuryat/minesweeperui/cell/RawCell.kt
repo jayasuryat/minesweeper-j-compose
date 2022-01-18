@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.composable.cell
+package com.jayasuryat.minesweeperui.cell
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
@@ -26,12 +26,12 @@ import androidx.compose.ui.draw.clipToBounds
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell.RevealedCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell.UnrevealedCell
-import com.jayasuryat.minesweeperui.composable.action.MinefieldActionsListener
-import com.jayasuryat.minesweeperui.composable.cell.concealed.FlaggedCell
-import com.jayasuryat.minesweeperui.composable.cell.concealed.UnFlaggedCell
-import com.jayasuryat.minesweeperui.composable.cell.revealed.EmptyCell
-import com.jayasuryat.minesweeperui.composable.cell.revealed.MineCell
-import com.jayasuryat.minesweeperui.composable.cell.revealed.ValueCell
+import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.cell.concealed.FlaggedCell
+import com.jayasuryat.minesweeperui.cell.concealed.UnFlaggedCell
+import com.jayasuryat.minesweeperui.cell.revealed.EmptyCell
+import com.jayasuryat.minesweeperui.cell.revealed.MineCell
+import com.jayasuryat.minesweeperui.cell.revealed.ValueCell
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.exhaustive
 import com.jayasuryat.minesweeperengine.model.cell.RawCell as RawCellData

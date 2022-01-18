@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.composable.grid
+package com.jayasuryat.minesweeperui.grid
 
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State

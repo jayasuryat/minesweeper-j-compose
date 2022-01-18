@@ -13,29 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.composable.grid
+package com.jayasuryat.minesweeperui.theme
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import com.jayasuryat.minesweeperui.composable.action.MinefieldActionsListener
-import com.jayasuryat.minesweeperui.composable.component.ZoomableContent
-import com.jayasuryat.util.LogCompositions
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.staticCompositionLocalOf
 
 @Composable
-public fun Minefield(
-    modifier: Modifier,
-    gridInfo: GridLayoutInformation,
-    actionListener: MinefieldActionsListener,
+public fun MinesweeperTheme(
+    colors: MinesweeperColors = DefaultColors,
+    content: @Composable () -> Unit,
 ) {
 
-    LogCompositions(name = "Minefield")
-
-    ZoomableContent { zoomModifier: Modifier ->
-
-        MineGrid(
-            modifier = modifier.then(zoomModifier),
-            gridInfo = gridInfo,
-            actionListener = actionListener,
-        )
+    CompositionLocalProvider(LocalColors provides colors) {
+        content()
     }
 }
+
+private val LocalColors = staticCompositionLocalOf { DefaultColors }
+
+@Suppress("unused")
+internal val MaterialTheme.msColors: MinesweeperColors
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalColors.current

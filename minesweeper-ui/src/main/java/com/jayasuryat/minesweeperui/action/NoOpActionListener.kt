@@ -13,7 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.composable.cell
+package com.jayasuryat.minesweeperui.action
 
-internal const val CELL_PADDING_PERCENT: Float = 0.08f
-internal const val VALUE_CELL_TEXT_COVER_PERCENT: Float = 0.5f
+import android.util.Log
+import androidx.compose.runtime.Stable
+
+@Stable
+internal val NoOpActionListener: MinefieldActionsListener
+    get() = MinefieldActionsListener { event ->
+        Log.d("MinefieldAction", "On action received : $event")
+    }

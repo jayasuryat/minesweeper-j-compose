@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.composable.component
+package com.jayasuryat.minesweeperui.component
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -32,7 +32,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathOperation
 import androidx.compose.ui.tooling.preview.Preview
-import com.jayasuryat.minesweeperui.composable.theme.msColors
+import com.jayasuryat.minesweeperui.theme.msColors
 
 @Composable
 internal fun InverseClippedCircle(

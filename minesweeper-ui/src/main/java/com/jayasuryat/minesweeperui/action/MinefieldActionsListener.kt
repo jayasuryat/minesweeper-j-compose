@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.composable.action
+package com.jayasuryat.minesweeperui.action
 
-import android.util.Log
 import androidx.compose.runtime.Stable
+import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 
 @Stable
-internal val NoOpActionListener: MinefieldActionsListener
-    get() = MinefieldActionsListener { event ->
-        Log.d("MinefieldAction", "On action received : $event")
-    }
+public fun interface MinefieldActionsListener {
+
+    public fun action(action: MinefieldAction)
+}

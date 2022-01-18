@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.composable.cell.concealed
+package com.jayasuryat.minesweeperui.cell.concealed
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -36,22 +36,20 @@ import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
-import com.jayasuryat.minesweeperui.composable.action.MinefieldActionsListener
-import com.jayasuryat.minesweeperui.composable.action.NoOpActionListener
-import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
-import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
-import com.jayasuryat.util.LogCompositions
+import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.action.NoOpActionListener
+import com.jayasuryat.minesweeperui.cell.CELL_PADDING_PERCENT
+import com.jayasuryat.minesweeperui.component.InverseClippedCircle
+import com.jayasuryat.minesweeperui.theme.msColors
 import com.jayasuryat.util.floatValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun UnFlaggedCell(
+internal fun FlaggedCell(
     modifier: Modifier = Modifier,
-    cell: RawCell.UnrevealedCell.UnFlaggedCell,
+    cell: RawCell.UnrevealedCell.FlaggedCell,
     actionListener: MinefieldActionsListener,
 ) {
-
-    LogCompositions(name = "UnFlaggedCell")
 
     val haptic = LocalHapticFeedback.current
 
@@ -62,10 +60,7 @@ internal fun UnFlaggedCell(
             .combinedClickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
-                onClick = {
-                    val action = MinefieldAction.OnCellClicked(cell)
-                    actionListener.action(action)
-                },
+                onClick = {},
                 onLongClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     val action = MinefieldAction.OnCellLongPressed(cell)
@@ -78,6 +73,14 @@ internal fun UnFlaggedCell(
         val minSize = minOf(maxWidth, maxHeight)
         val padding = minSize * CELL_PADDING_PERCENT
 
+        Icon(
+            modifier = modifier
+                .padding(all = padding * 2),
+            imageVector = Icons.Filled.Favorite,
+            tint = MaterialTheme.msColors.flagIconTint,
+            contentDescription = null,
+        )
+
         InverseClippedCircle(iconPadding = padding.floatValue())
     }
 }
@@ -87,7 +90,7 @@ internal fun UnFlaggedCell(
 @Composable
 private fun Preview() {
 
-    val cell = RawCell.UnrevealedCell.UnFlaggedCell(
+    val cell = RawCell.UnrevealedCell.FlaggedCell(
         cell = MineCell.ValuedCell.EmptyCell(position = Position.zero())
     )
 
@@ -97,7 +100,7 @@ private fun Preview() {
             .background(color = MaterialTheme.colors.secondary)
     )
 
-    UnFlaggedCell(
+    FlaggedCell(
         modifier = Modifier.fillMaxSize(),
         cell = cell,
         actionListener = NoOpActionListener,

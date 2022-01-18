@@ -13,13 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.composable.action
+package com.jayasuryat.minesweeperui.cell
 
-import androidx.compose.runtime.Stable
-import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
-
-@Stable
-public fun interface MinefieldActionsListener {
-
-    public fun action(action: MinefieldAction)
-}
+internal const val CELL_PADDING_PERCENT: Float = 0.08f
+internal const val VALUE_CELL_TEXT_COVER_PERCENT: Float = 0.5f

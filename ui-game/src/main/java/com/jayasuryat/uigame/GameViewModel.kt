@@ -24,7 +24,7 @@ import com.jayasuryat.minesweeperengine.gridgenerator.MineGridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
-import com.jayasuryat.minesweeperui.composable.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
 import com.jayasuryat.uigame.feedback.MusicManager
 import com.jayasuryat.uigame.feedback.VibrationManager
 import com.jayasuryat.uigame.logic.*

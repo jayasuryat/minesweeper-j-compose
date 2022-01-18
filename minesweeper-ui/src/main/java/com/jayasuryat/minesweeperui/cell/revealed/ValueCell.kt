@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.composable.cell.revealed
+package com.jayasuryat.minesweeperui.cell.revealed
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,12 +36,12 @@ import androidx.compose.ui.unit.TextUnit
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
-import com.jayasuryat.minesweeperui.composable.action.MinefieldActionsListener
-import com.jayasuryat.minesweeperui.composable.action.NoOpActionListener
-import com.jayasuryat.minesweeperui.composable.cell.CELL_PADDING_PERCENT
-import com.jayasuryat.minesweeperui.composable.cell.VALUE_CELL_TEXT_COVER_PERCENT
-import com.jayasuryat.minesweeperui.composable.component.InverseClippedCircle
-import com.jayasuryat.minesweeperui.composable.theme.msColors
+import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.action.NoOpActionListener
+import com.jayasuryat.minesweeperui.cell.CELL_PADDING_PERCENT
+import com.jayasuryat.minesweeperui.cell.VALUE_CELL_TEXT_COVER_PERCENT
+import com.jayasuryat.minesweeperui.component.InverseClippedCircle
+import com.jayasuryat.minesweeperui.theme.msColors
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp
 import com.jayasuryat.util.floatValue

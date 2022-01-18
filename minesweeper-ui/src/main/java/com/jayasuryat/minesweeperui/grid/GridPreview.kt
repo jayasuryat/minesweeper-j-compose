@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.composable.grid
+package com.jayasuryat.minesweeperui.grid
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -24,7 +24,7 @@ import com.jayasuryat.minesweeperengine.gridgenerator.MineGridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
-import com.jayasuryat.minesweeperui.composable.action.NoOpActionListener
+import com.jayasuryat.minesweeperui.action.NoOpActionListener
 import kotlinx.coroutines.runBlocking
 
 @Preview(widthDp = 1000, heightDp = 1000)
