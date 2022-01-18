@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperengine.controller.impl.handler
+package com.jayasuryat.minesweeperengine.controller.impl.handler.helper
 
 import android.util.Log
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
