@@ -19,7 +19,7 @@ import com.jayasuryat.minesweeperengine.controller.ActionHandler
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GameSuccessEvaluator
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GridRevealer
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.RadiallySorter
-import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.ValueNeighbourCalculator.getAllValueNeighbours
+import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.ValueNeighbourCalculator
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
@@ -32,6 +32,7 @@ internal class CellRevealer(
     private val gridRevealer: GridRevealer,
     private val radiallySorter: RadiallySorter,
     private val successEvaluator: GameSuccessEvaluator,
+    private val neighbourCalculator: ValueNeighbourCalculator,
 ) : ActionHandler<MinefieldAction.OnCellClicked> {
 
     override suspend fun onAction(
@@ -56,8 +57,10 @@ internal class CellRevealer(
 
             is MineCell.ValuedCell.EmptyCell -> {
 
-                val updatedCells = cell
-                    .getAllValueNeighbours(grid = grid)
+                val updatedCells = neighbourCalculator.getAllValueNeighbours(
+                    cell = cell,
+                    grid = grid,
+                )
 
                 val sortedCells = radiallySorter.sortRadiallyOut(
                     startingPosition = cell.position,

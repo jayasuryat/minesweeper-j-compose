@@ -17,10 +17,13 @@ package com.jayasuryat.minesweeperengine.controller.impl
 
 import com.jayasuryat.minesweeperengine.controller.ActionHandler
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
-import com.jayasuryat.minesweeperengine.controller.impl.handler.*
+import com.jayasuryat.minesweeperengine.controller.impl.handler.CellFlagger
+import com.jayasuryat.minesweeperengine.controller.impl.handler.CellRevealer
+import com.jayasuryat.minesweeperengine.controller.impl.handler.ValueCellRevealer
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GameSuccessEvaluator
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GridRevealer
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.RadiallySorter
+import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.ValueNeighbourCalculator
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.model.grid.Grid
@@ -73,16 +76,19 @@ public class GameController(
         public fun getDefault(): GameController {
             val gridRevealer = GridRevealer()
             val successEvaluator = GameSuccessEvaluator()
+            val neighbourCalculator = ValueNeighbourCalculator()
             return GameController(
                 cellReveler = CellRevealer(
                     gridRevealer = gridRevealer,
                     radiallySorter = RadiallySorter(),
                     successEvaluator = successEvaluator,
+                    neighbourCalculator = neighbourCalculator,
                 ),
                 cellFlagger = CellFlagger(),
                 valueCellReveler = ValueCellRevealer(
                     gridRevealer = gridRevealer,
                     successEvaluator = successEvaluator,
+                    neighbourCalculator = neighbourCalculator,
                 ),
             )
         }

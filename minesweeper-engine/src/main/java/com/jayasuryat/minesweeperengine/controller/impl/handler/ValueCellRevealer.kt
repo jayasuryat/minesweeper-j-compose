@@ -18,7 +18,7 @@ package com.jayasuryat.minesweeperengine.controller.impl.handler
 import com.jayasuryat.minesweeperengine.controller.ActionHandler
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GameSuccessEvaluator
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GridRevealer
-import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.ValueNeighbourCalculator.getAllValueNeighbours
+import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.ValueNeighbourCalculator
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
 import com.jayasuryat.minesweeperengine.model.block.Position
@@ -30,6 +30,7 @@ import com.jayasuryat.minesweeperengine.util.mutate
 internal class ValueCellRevealer(
     private val gridRevealer: GridRevealer,
     private val successEvaluator: GameSuccessEvaluator,
+    private val neighbourCalculator: ValueNeighbourCalculator,
 ) : ActionHandler<MinefieldAction.OnValueCellClicked> {
 
     override suspend fun onAction(
@@ -68,9 +69,9 @@ internal class ValueCellRevealer(
                     when (val valueCell = revealed.cell) {
                         is MineCell.Mine -> throw IllegalArgumentException("This shouldn't be possible")
                         is MineCell.ValuedCell.Cell -> listOf(revealed)
-                        is MineCell.ValuedCell.EmptyCell -> {
-                            valueCell.getAllValueNeighbours(grid)
-                        }
+                        is MineCell.ValuedCell.EmptyCell ->
+                            neighbourCalculator
+                                .getAllValueNeighbours(cell = valueCell, grid = grid)
                     }
                 }
             }

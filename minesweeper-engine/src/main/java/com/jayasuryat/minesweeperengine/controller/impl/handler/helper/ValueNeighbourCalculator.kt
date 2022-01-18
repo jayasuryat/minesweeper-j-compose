@@ -22,13 +22,14 @@ import com.jayasuryat.minesweeperengine.model.grid.Grid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-internal object ValueNeighbourCalculator {
+internal class ValueNeighbourCalculator {
 
-    suspend fun MineCell.ValuedCell.EmptyCell.getAllValueNeighbours(
+    suspend fun getAllValueNeighbours(
+        cell: MineCell.ValuedCell.EmptyCell,
         grid: Grid,
     ): List<RawCell.RevealedCell> = withContext(Dispatchers.Default) {
         getAllNeighbouringValueCell(
-            cell = this@getAllValueNeighbours,
+            cell = cell,
             grid = grid,
         )
     }
