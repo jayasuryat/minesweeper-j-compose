@@ -23,7 +23,7 @@ import com.jayasuryat.util.exhaustive
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-internal class GridRevealer {
+internal class GameEndRevealer {
 
     suspend fun revealAllCells(
         grid: Grid,
@@ -67,63 +67,3 @@ internal class GridRevealer {
         )
     }
 }
-
-/*
-private fun revealCellsInsideOut(
-        startCell: RawCell,
-        grid: Grid,
-    ): MinefieldEvent {
-
-        fun getRevealedCell(row: Int, column: Int): RawCell.RevealedCell? {
-            val position = Position(
-                row = row,
-                column = column,
-            )
-            return when (val cell = grid.getOrNull(position = position)) {
-                null -> null
-                is RawCell.RevealedCell -> null
-                is RawCell.UnrevealedCell -> cell.asRevealed()
-            }
-        }
-
-        val cRow = startCell.position.row
-        val cCol = startCell.position.column
-
-        val maxIterations = maxOf((grid.gridSize.rows - cRow), (grid.gridSize.columns - cCol))
-
-        val cells: MutableList<RawCell.RevealedCell> = mutableListOf()
-
-        repeat(maxIterations) { iteration ->
-
-            val startCol = cCol - iteration
-            val endCol = cCol + iteration
-            val startRow = cRow - iteration
-            val endRow = cRow + iteration
-
-            // Left to Right
-            for (col in (startCol + 1)..endCol) {
-                getRevealedCell(row = startRow, column = col)?.let { modCell -> cells.add(modCell) }
-            }
-
-            // Top to Bottom
-            for (row in startRow..endRow) {
-                getRevealedCell(row = row, column = endCol)?.let { modCell -> cells.add(modCell) }
-            }
-
-            // Right to Left
-            for (col in endCol downTo startCol) {
-                getRevealedCell(row = endRow, column = col)?.let { modCell -> cells.add(modCell) }
-            }
-
-            // Bottom to Top
-            for (row in endRow downTo startRow) {
-                getRevealedCell(row = row, column = startCol)?.let { modCell -> cells.add(modCell) }
-            }
-        }
-
-        return MinefieldEvent.OnCellsUpdated(
-            updatedCells = cells
-                .distinctBy { it.position },
-        )
-    }
-*/

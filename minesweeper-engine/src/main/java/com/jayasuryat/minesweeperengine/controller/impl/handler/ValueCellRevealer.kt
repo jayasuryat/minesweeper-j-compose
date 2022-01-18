@@ -17,7 +17,7 @@ package com.jayasuryat.minesweeperengine.controller.impl.handler
 
 import com.jayasuryat.minesweeperengine.controller.ActionHandler
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GameSuccessEvaluator
-import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GridRevealer
+import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GameEndRevealer
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.ValueNeighbourCalculator
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
@@ -28,7 +28,7 @@ import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperengine.util.mutate
 
 internal class ValueCellRevealer(
-    private val gridRevealer: GridRevealer,
+    private val gameEndRevealer: GameEndRevealer,
     private val successEvaluator: GameSuccessEvaluator,
     private val neighbourCalculator: ValueNeighbourCalculator,
 ) : ActionHandler<MinefieldAction.OnValueCellClicked> {
@@ -57,7 +57,7 @@ internal class ValueCellRevealer(
         val areFlagsCorrect = neighbours.filterIsInstance<RawCell.UnrevealedCell.FlaggedCell>()
             .all { flaggedCell -> flaggedCell.asRevealed().cell is MineCell.Mine }
 
-        if (!areFlagsCorrect) return gridRevealer.revealAllCells(grid = grid)
+        if (!areFlagsCorrect) return gameEndRevealer.revealAllCells(grid = grid)
 
         val updatedCells = neighbours.map {
             when (it) {

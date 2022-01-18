@@ -21,7 +21,7 @@ import com.jayasuryat.minesweeperengine.controller.impl.handler.CellFlagger
 import com.jayasuryat.minesweeperengine.controller.impl.handler.CellRevealer
 import com.jayasuryat.minesweeperengine.controller.impl.handler.ValueCellRevealer
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GameSuccessEvaluator
-import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GridRevealer
+import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GameEndRevealer
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.RadiallySorter
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.ValueNeighbourCalculator
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
@@ -74,7 +74,7 @@ public class GameController(
     public companion object {
 
         public fun getDefault(): GameController {
-            val gridRevealer = GridRevealer()
+            val gridRevealer = GameEndRevealer()
             val successEvaluator = GameSuccessEvaluator()
             val neighbourCalculator = ValueNeighbourCalculator()
             return GameController(

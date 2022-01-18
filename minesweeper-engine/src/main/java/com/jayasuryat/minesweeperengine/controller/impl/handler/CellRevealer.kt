@@ -17,7 +17,7 @@ package com.jayasuryat.minesweeperengine.controller.impl.handler
 
 import com.jayasuryat.minesweeperengine.controller.ActionHandler
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GameSuccessEvaluator
-import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GridRevealer
+import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GameEndRevealer
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.RadiallySorter
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.ValueNeighbourCalculator
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
@@ -29,7 +29,7 @@ import com.jayasuryat.minesweeperengine.util.mutate
 import com.jayasuryat.util.exhaustive
 
 internal class CellRevealer(
-    private val gridRevealer: GridRevealer,
+    private val gameEndRevealer: GameEndRevealer,
     private val radiallySorter: RadiallySorter,
     private val successEvaluator: GameSuccessEvaluator,
     private val neighbourCalculator: ValueNeighbourCalculator,
@@ -70,7 +70,7 @@ internal class CellRevealer(
                 MinefieldEvent.OnCellsUpdated(updatedCells = sortedCells)
             }
 
-            is MineCell.Mine -> gridRevealer.revealAllCells(grid = grid)
+            is MineCell.Mine -> gameEndRevealer.revealAllCells(grid = grid)
         }.exhaustive
     }
 
