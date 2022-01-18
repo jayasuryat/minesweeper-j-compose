@@ -57,7 +57,6 @@ public class MineGridGenerator : GridGenerator {
             .toSet()
 
         val cellIndexes = (0 until length)
-            .map { it }
             .toMutableList()
             .apply { removeAll(ignoredIndices) }
 
@@ -68,7 +67,7 @@ public class MineGridGenerator : GridGenerator {
             val mine = cellIndexes[randomPosition]
             cellIndexes.removeAt(randomPosition)
             mine
-        }.toMutableList()
+        }
 
         val mineCells: List<MineCell.Mine> = mineIndexes.map { position ->
             MineCell.Mine(
