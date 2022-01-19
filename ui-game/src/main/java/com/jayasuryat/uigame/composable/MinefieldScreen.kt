@@ -21,11 +21,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
-import com.jayasuryat.minesweeperui.composable.action.MinefieldActionsListener
-import com.jayasuryat.minesweeperui.composable.grid.GridLayoutInformation
-import com.jayasuryat.minesweeperui.composable.grid.Minefield
-import com.jayasuryat.minesweeperui.composable.theme.MinesweeperColors
-import com.jayasuryat.minesweeperui.composable.theme.MinesweeperTheme
+import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.grid.GridLayoutInformation
+import com.jayasuryat.minesweeperui.grid.Minefield
+import com.jayasuryat.minesweeperui.theme.MinesweeperColors
+import com.jayasuryat.minesweeperui.theme.MinesweeperTheme
 import com.jayasuryat.util.LogCompositions
 
 @Composable

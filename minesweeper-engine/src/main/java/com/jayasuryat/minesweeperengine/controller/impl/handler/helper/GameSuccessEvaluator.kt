@@ -13,18 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperjc.theme
+package com.jayasuryat.minesweeperengine.controller.impl.handler.helper
 
-import androidx.compose.material.Typography
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import android.util.Log
+import com.jayasuryat.minesweeperengine.model.cell.RawCell
+import com.jayasuryat.minesweeperengine.model.grid.Grid
 
-val Typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
-)
+internal class GameSuccessEvaluator {
+
+    fun isGameComplete(
+        grid: Grid,
+    ): Boolean {
+
+        val totalCount = grid.gridSize.rows * grid.gridSize.columns
+        val nonMineCellsCount = totalCount - grid.totalMines
+
+        val revealedCellsCount = grid.cells.flatten().count { it is RawCell.RevealedCell }
+        return revealedCellsCount == nonMineCellsCount
+    }
+}

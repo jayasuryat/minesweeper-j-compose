@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperjc.theme
+package com.jayasuryat.minesweeperui.action
 
-import androidx.compose.material.Typography
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.Stable
+import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 
-val Typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
-)
+@Stable
+public fun interface MinefieldActionsListener {
+
+    public fun action(action: MinefieldAction)
+}

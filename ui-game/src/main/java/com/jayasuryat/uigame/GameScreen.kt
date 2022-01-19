@@ -22,7 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
-import com.jayasuryat.minesweeperui.composable.grid.GridLayoutInformation
+import com.jayasuryat.minesweeperui.grid.GridLayoutInformation
 import com.jayasuryat.uigame.composable.MinefieldScreen
 import com.jayasuryat.uigame.composable.feedback.GameFeedback
 import com.jayasuryat.uigame.composable.topbar.GameTopBar

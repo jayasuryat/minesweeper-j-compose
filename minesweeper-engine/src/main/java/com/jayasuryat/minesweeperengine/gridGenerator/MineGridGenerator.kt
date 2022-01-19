@@ -20,7 +20,7 @@ import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.minesweeperengine.model.grid.MineGrid
+import com.jayasuryat.minesweeperengine.model.grid.impl.MineGrid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
@@ -57,7 +57,6 @@ public class MineGridGenerator : GridGenerator {
             .toSet()
 
         val cellIndexes = (0 until length)
-            .map { it }
             .toMutableList()
             .apply { removeAll(ignoredIndices) }
 
@@ -68,7 +67,7 @@ public class MineGridGenerator : GridGenerator {
             val mine = cellIndexes[randomPosition]
             cellIndexes.removeAt(randomPosition)
             mine
-        }.toMutableList()
+        }
 
         val mineCells: List<MineCell.Mine> = mineIndexes.map { position ->
             MineCell.Mine(
@@ -156,17 +155,17 @@ public class MineGridGenerator : GridGenerator {
         }
     }
 
-    private fun getIndex(
-        row: Int,
-        column: Int,
-        gridSize: GridSize,
-    ): Int {
-        return (row * gridSize.columns) + column
-    }
-
     private fun Position.get3xBlockCellIndexes(
         gridSize: GridSize,
     ): List<Int> {
+
+        fun getIndex(
+            row: Int,
+            column: Int,
+            gridSize: GridSize,
+        ): Int {
+            return (row * gridSize.columns) + column
+        }
 
         val currentRow = this.row
         val currentColumn = this.column

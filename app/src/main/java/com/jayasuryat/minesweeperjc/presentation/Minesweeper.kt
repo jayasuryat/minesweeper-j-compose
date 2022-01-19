@@ -68,6 +68,7 @@ private fun MinesweeperApp() {
         startDestination = Screen.DifficultySelection.getRoute(),
     ) {
 
+        // region : Difficulty Selection
         composable(
             enterTransition = { _, _ ->
                 slideInVertically(
@@ -95,7 +96,9 @@ private fun MinesweeperApp() {
                 }
             )
         }
+        // endregion
 
+        // region : Minefield
         composable(
             enterTransition = { initial, _ ->
                 val isGameRoute = initial.destination.route == Screen.Minefield.getRoute()
@@ -163,6 +166,7 @@ private fun MinesweeperApp() {
                 }
             )
         }
+        // endregion
     }
 }
 

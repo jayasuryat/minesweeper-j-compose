@@ -13,18 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperjc.theme
+package com.jayasuryat.minesweeperui.theme
 
-import androidx.compose.material.Typography
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.Color
 
-val Typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
+@Stable
+public class MinesweeperColors(
+    public val minefield: Color,
+    public val text: Color,
+    public val mine: Color,
+    public val flagIconTint: Color,
+    public val mineIconTint: Color,
+)
+
+internal val DefaultColors: MinesweeperColors = MinesweeperColors(
+    minefield = Color.Black,
+    text = Color.White,
+    mine = Color.Red,
+    flagIconTint = Color.Black,
+    mineIconTint = Color.White,
 )
