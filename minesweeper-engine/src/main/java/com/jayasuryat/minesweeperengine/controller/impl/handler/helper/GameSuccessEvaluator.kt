@@ -29,7 +29,6 @@ internal class GameSuccessEvaluator {
         val nonMineCellsCount = totalCount - grid.totalMines
 
         val revealedCellsCount = grid.cells.flatten().count { it is RawCell.RevealedCell }
-        Log.d("Im alive", "Im alive, (revealedCellsCount) $revealedCellsCount == $nonMineCellsCount (nonMineCellsCount)")
         return revealedCellsCount == nonMineCellsCount
     }
 }

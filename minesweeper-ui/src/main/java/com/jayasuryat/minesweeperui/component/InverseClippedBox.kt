@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.grid
+package com.jayasuryat.minesweeperui.component
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size

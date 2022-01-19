@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathOperation
 import androidx.compose.ui.tooling.preview.Preview
 import com.jayasuryat.minesweeperui.theme.msColors
+import com.jayasuryat.util.LogCompositions
 
 @Composable
 internal fun InverseClippedCircle(
@@ -40,6 +41,8 @@ internal fun InverseClippedCircle(
     iconPadding: Float,
     content: @Composable () -> Unit = {},
 ) {
+
+    LogCompositions(name = "InverseClippedCircle")
 
     Box(
         modifier = modifier
