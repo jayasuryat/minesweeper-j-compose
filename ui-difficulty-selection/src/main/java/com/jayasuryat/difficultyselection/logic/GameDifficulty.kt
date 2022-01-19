@@ -15,6 +15,8 @@
  */
 package com.jayasuryat.difficultyselection.logic
 
+private const val DEFAULT_MINES_PERCENTAGE: Float = 0.10f
+
 sealed class GameDifficulty {
 
     abstract val rows: Int
@@ -24,24 +26,28 @@ sealed class GameDifficulty {
     internal object Easy : GameDifficulty() {
         override val rows: Int = 10
         override val columns: Int = 10
-        override val mines: Int = 10
+        override val mines: Int = getPercentMineCount()
     }
 
     internal object Medium : GameDifficulty() {
         override val rows: Int = 15
         override val columns: Int = 15
-        override val mines: Int = 23
+        override val mines: Int = getPercentMineCount()
     }
 
     internal object Hard : GameDifficulty() {
         override val rows: Int = 25
         override val columns: Int = 15
-        override val mines: Int = 37
+        override val mines: Int = getPercentMineCount()
     }
 
     internal object Extreme : GameDifficulty() {
         override val rows: Int = 40
         override val columns: Int = 20
-        override val mines: Int = 100
+        override val mines: Int = getPercentMineCount()
     }
+
+    internal fun getPercentMineCount(
+        percent: Float = DEFAULT_MINES_PERCENTAGE,
+    ): Int = (rows * columns * percent).toInt()
 }
