@@ -74,19 +74,19 @@ public class GameController(
     public companion object {
 
         public fun getDefault(): GameController {
-            val gridRevealer = GameEndRevealer()
+            val gameEndRevealer = GameEndRevealer()
             val successEvaluator = GameSuccessEvaluator()
             val neighbourCalculator = ValueNeighbourCalculator()
             return GameController(
                 cellReveler = CellRevealer(
-                    gridRevealer = gridRevealer,
+                    gameEndRevealer = gameEndRevealer,
                     radiallySorter = RadiallySorter(),
                     successEvaluator = successEvaluator,
                     neighbourCalculator = neighbourCalculator,
                 ),
                 cellFlagger = CellFlagger(),
                 valueCellReveler = ValueCellRevealer(
-                    gridRevealer = gridRevealer,
+                    gameEndRevealer = gameEndRevealer,
                     successEvaluator = successEvaluator,
                     neighbourCalculator = neighbourCalculator,
                 ),
