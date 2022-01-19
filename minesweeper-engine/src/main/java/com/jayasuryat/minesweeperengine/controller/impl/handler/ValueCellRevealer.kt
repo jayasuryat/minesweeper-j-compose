@@ -82,8 +82,8 @@ internal class ValueCellRevealer(
             updatedCells = updatedCells
         )
 
-        if (isGameComplete) MinefieldEvent.OnGameComplete(updatedCells = updatedCells)
-        return MinefieldEvent.OnCellsUpdated(updatedCells = updatedCells)
+        return if (isGameComplete) MinefieldEvent.OnGameComplete(updatedCells = updatedCells)
+        else MinefieldEvent.OnCellsUpdated(updatedCells = updatedCells)
     }
 
     private fun MineCell.ValuedCell.Cell.getX3Neighbours(
