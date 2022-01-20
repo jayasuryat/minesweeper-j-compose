@@ -15,7 +15,6 @@
  */
 package com.jayasuryat.minesweeperengine.controller.impl.handler.helper
 
-import android.util.Log
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 
