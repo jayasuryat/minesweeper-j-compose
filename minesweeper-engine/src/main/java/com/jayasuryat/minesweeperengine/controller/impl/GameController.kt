@@ -32,7 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 public class GameController(
-    private val cellReveler: ActionHandler<MinefieldAction.OnCellClicked>,
+    private val cellReveler: ActionHandler<MinefieldAction.OnCellRevealed>,
     private val cellFlagger: ActionHandler<MinefieldAction.OnCellLongPressed>,
     private val valueCellReveler: ActionHandler<MinefieldAction.OnValueCellClicked>,
 ) : MinefieldController {
@@ -54,7 +54,7 @@ public class GameController(
 
         return when (action) {
 
-            is MinefieldAction.OnCellClicked -> cellReveler.onAction(
+            is MinefieldAction.OnCellRevealed -> cellReveler.onAction(
                 action = action,
                 grid = mineGrid,
             )

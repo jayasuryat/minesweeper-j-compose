@@ -62,7 +62,7 @@ internal class ActionListener(
 
         val event = if (isInIdleState()) {
 
-            if (action !is MinefieldAction.OnCellClicked) return
+            if (action !is MinefieldAction.OnCellRevealed) return
 
             handleFirstClick(
                 action = action,
@@ -135,7 +135,7 @@ internal class ActionListener(
     }
 
     private suspend fun handleFirstClick(
-        action: MinefieldAction.OnCellClicked,
+        action: MinefieldAction.OnCellRevealed,
         parentGrid: StatefulGrid,
     ): MinefieldEvent {
 
@@ -149,7 +149,7 @@ internal class ActionListener(
             updatedCells = grid.cells.flatten()
         )
 
-        val clickEvent = MinefieldAction.OnCellClicked(
+        val clickEvent = MinefieldAction.OnCellRevealed(
             cell = grid[action.cell.position] as RawCell.UnrevealedCell
         )
 

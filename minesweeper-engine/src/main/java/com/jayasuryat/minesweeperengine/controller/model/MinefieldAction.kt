@@ -23,7 +23,7 @@ import com.jayasuryat.minesweeperengine.model.cell.RawCell
 public sealed interface MinefieldAction {
 
     @Immutable
-    public data class OnCellClicked(
+    public data class OnCellRevealed(
         val cell: RawCell.UnrevealedCell,
     ) : MinefieldAction
 

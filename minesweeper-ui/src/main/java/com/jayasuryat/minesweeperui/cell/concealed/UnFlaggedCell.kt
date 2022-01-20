@@ -63,7 +63,7 @@ internal fun UnFlaggedCell(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = {
-                    val action = MinefieldAction.OnCellClicked(cell)
+                    val action = MinefieldAction.OnCellRevealed(cell)
                     actionListener.action(action)
                 },
                 onLongClick = {
