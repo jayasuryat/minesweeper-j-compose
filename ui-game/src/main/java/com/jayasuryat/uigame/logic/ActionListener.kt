@@ -53,9 +53,9 @@ internal class ActionListener(
     private val _progress: MutableState<GameProgress> = mutableStateOf(statefulGrid.getProgress())
     val gameProgress: State<GameProgress> = _progress
 
-    override fun action(action: MinefieldAction) {
+    override fun action(action: CellInteraction) {
         coroutineScope.launch {
-            handleAction(action = action)
+            handleAction(action = action.mapToAction())
         }
     }
 
@@ -211,5 +211,24 @@ internal class ActionListener(
         }
 
         return state
+    }
+
+    private fun CellInteraction.mapToAction(): MinefieldAction {
+
+        // Flag mode
+        return when (this) {
+            is CellInteraction.OnCellClicked -> MinefieldAction.OnFlagToggled(cell = cell)
+            is CellInteraction.OnCellLongPressed -> MinefieldAction.OnCellRevealed(cell = cell)
+            is CellInteraction.OnValueCellClicked -> MinefieldAction.OnValueCellClicked(cell = cell)
+        }
+
+        /*
+        // Reveal mode
+        return when (this) {
+            is CellInteraction.OnCellClicked -> MinefieldAction.OnCellRevealed(cell = cell)
+            is CellInteraction.OnCellLongPressed -> MinefieldAction.OnFlagToggled(cell = cell)
+            is CellInteraction.OnValueCellClicked -> MinefieldAction.OnValueCellClicked(cell = cell)
+        }
+        */
     }
 }
