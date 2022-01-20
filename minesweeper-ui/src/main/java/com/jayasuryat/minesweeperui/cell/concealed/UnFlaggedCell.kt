@@ -68,7 +68,7 @@ internal fun UnFlaggedCell(
                 },
                 onLongClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    val action = MinefieldAction.OnCellLongPressed(cell)
+                    val action = MinefieldAction.OnFlagToggled(cell)
                     actionListener.action(action)
                 },
             ),

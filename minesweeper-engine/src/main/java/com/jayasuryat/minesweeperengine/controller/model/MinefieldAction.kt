@@ -33,7 +33,7 @@ public sealed interface MinefieldAction {
     ) : MinefieldAction
 
     @Immutable
-    public data class OnCellLongPressed(
+    public data class OnFlagToggled(
         val cell: RawCell.UnrevealedCell,
     ) : MinefieldAction
 }
