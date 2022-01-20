@@ -15,11 +15,10 @@
  */
 package com.jayasuryat.minesweeperui.action
 
-import android.util.Log
 import androidx.compose.runtime.Stable
 
 @Stable
-internal val NoOpInteractionListener: CellInteractionListener
-    get() = CellInteractionListener { event ->
-        Log.d("MinefieldAction", "On action received : $event")
-    }
+public fun interface CellInteractionListener {
+
+    public fun action(action: CellInteraction)
+}
