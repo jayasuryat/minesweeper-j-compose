@@ -21,7 +21,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
-import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.grid.GridLayoutInformation
 import com.jayasuryat.minesweeperui.grid.Minefield
 import com.jayasuryat.minesweeperui.theme.MinesweeperColors
@@ -32,7 +32,7 @@ import com.jayasuryat.util.LogCompositions
 internal fun MinefieldScreen(
     modifier: Modifier = Modifier,
     layoutInfo: GridLayoutInformation,
-    actionListener: MinefieldActionsListener,
+    actionListener: CellInteractionListener,
 ) {
 
     LogCompositions(name = "MinefieldScreen")

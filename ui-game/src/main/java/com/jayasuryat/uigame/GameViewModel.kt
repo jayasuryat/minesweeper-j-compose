@@ -24,7 +24,7 @@ import com.jayasuryat.minesweeperengine.gridgenerator.MineGridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
-import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.uigame.feedback.MusicManager
 import com.jayasuryat.uigame.feedback.VibrationManager
 import com.jayasuryat.uigame.logic.*
@@ -48,7 +48,7 @@ class GameViewModel(
         musicManager = MusicManager(context),
         vibrationManager = VibrationManager(context),
     )
-    internal val actionLister: MinefieldActionsListener = _actionListener
+    internal val actionLister: CellInteractionListener = _actionListener
 
     internal val gameState: State<GameState> = _actionListener.gameState
     internal val gameProgress: State<GameProgress> = _actionListener.gameProgress

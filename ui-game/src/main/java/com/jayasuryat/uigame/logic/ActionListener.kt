@@ -28,7 +28,8 @@ import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.getCurrentGrid
-import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.action.CellInteraction
+import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.uigame.feedback.MusicManager
 import com.jayasuryat.uigame.feedback.VibrationManager
 import com.jayasuryat.util.exhaustive
@@ -44,7 +45,7 @@ internal class ActionListener(
     private val coroutineScope: CoroutineScope,
     private val musicManager: MusicManager,
     private val vibrationManager: VibrationManager,
-) : MinefieldActionsListener {
+) : CellInteractionListener {
 
     private val _gameState: MutableState<GameState> = mutableStateOf(GameState.Idle)
     val gameState: State<GameState> = _gameState
