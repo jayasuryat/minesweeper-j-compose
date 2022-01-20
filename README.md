@@ -70,7 +70,7 @@ com.jayasuryat.minesweeperjc
 ```
 
 ## Contributions
-Contributions are wellcome! See [Contributing Guidelines](https://github.com/JayaSuryaT/minesweeper-j-compose/blob/main/CONTRIBUTING.md).
+Contributions are welcome! See [Contributing Guidelines](https://github.com/JayaSuryaT/minesweeper-j-compose/blob/main/CONTRIBUTING.md).
 
 
 ## Credits
