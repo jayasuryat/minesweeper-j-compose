@@ -17,15 +17,22 @@ package com.jayasuryat.uigame
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.LocalWindowInsets
 import com.jayasuryat.minesweeperui.grid.GridLayoutInformation
 import com.jayasuryat.uigame.composable.MinefieldScreen
 import com.jayasuryat.uigame.composable.feedback.GameFeedback
+import com.jayasuryat.uigame.composable.toggle.Toggle
 import com.jayasuryat.uigame.composable.topbar.GameTopBar
+import com.jayasuryat.uigame.logic.ToggleState
 import com.jayasuryat.util.LogCompositions
 
 @Composable
@@ -61,6 +68,18 @@ fun GameScreen(
                 .wrapContentSize()
                 .align(alignment = TopCenter),
             onRestartClicked = onRestartClicked,
+        )
+
+        val bottomPadding = with(LocalDensity.current) {
+            LocalWindowInsets.current.navigationBars.bottom.toDp()
+        } + 16.dp
+
+        Toggle(
+            modifier = Modifier
+                .align(alignment = BottomCenter)
+                .padding(bottom = bottomPadding),
+            defaultState = ToggleState.Reveal,
+            onToggleStateChanged = viewModel::onToggleStateUpdated,
         )
     }
 }

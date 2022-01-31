@@ -42,6 +42,7 @@ internal class ActionListener(
     private val statefulGrid: StatefulGrid,
     private val girdGenerator: GridGenerator,
     private val minefieldController: MinefieldController,
+    private val toggleState: State<ToggleState>,
     private val coroutineScope: CoroutineScope,
     private val musicManager: MusicManager,
     private val vibrationManager: VibrationManager,
@@ -195,8 +196,7 @@ internal class ActionListener(
 
         val state = when (event) {
 
-            is MinefieldEvent.OnCellsUpdated,
-            -> {
+            is MinefieldEvent.OnCellsUpdated -> {
                 if (currentState is GameState.Idle) GameState.GameStarted.now() else null
             }
 
@@ -205,8 +205,11 @@ internal class ActionListener(
             }
 
             is MinefieldEvent.OnGameComplete -> {
-                require(currentState is GameState.GameStarted) { "Game cannot complete without being in started state" }
-                GameState.GameEnded.GameCompleted.now(startTime = currentState.startTime)
+                require(currentState !is GameState.Idle) {
+                    "Game cannot complete without being in started state, current state : $currentState"
+                }
+                if (currentState !is GameState.GameStarted) null
+                else GameState.GameEnded.GameCompleted.now(startTime = currentState.startTime)
             }
         }
 
@@ -215,20 +218,19 @@ internal class ActionListener(
 
     private fun CellInteraction.mapToAction(): MinefieldAction {
 
-        // Flag mode
-        return when (this) {
-            is CellInteraction.OnCellClicked -> MinefieldAction.OnFlagToggled(cell = cell)
-            is CellInteraction.OnCellLongPressed -> MinefieldAction.OnCellRevealed(cell = cell)
-            is CellInteraction.OnValueCellClicked -> MinefieldAction.OnValueCellClicked(cell = cell)
-        }
+        return when (toggleState.value) {
 
-        /*
-        // Reveal mode
-        return when (this) {
-            is CellInteraction.OnCellClicked -> MinefieldAction.OnCellRevealed(cell = cell)
-            is CellInteraction.OnCellLongPressed -> MinefieldAction.OnFlagToggled(cell = cell)
-            is CellInteraction.OnValueCellClicked -> MinefieldAction.OnValueCellClicked(cell = cell)
+            ToggleState.Flag -> when (this) {
+                is CellInteraction.OnCellClicked -> MinefieldAction.OnFlagToggled(cell = cell)
+                is CellInteraction.OnCellLongPressed -> MinefieldAction.OnCellRevealed(cell = cell)
+                is CellInteraction.OnValueCellClicked -> MinefieldAction.OnValueCellClicked(cell = cell)
+            }
+
+            ToggleState.Reveal -> when (this) {
+                is CellInteraction.OnCellClicked -> MinefieldAction.OnCellRevealed(cell = cell)
+                is CellInteraction.OnCellLongPressed -> MinefieldAction.OnFlagToggled(cell = cell)
+                is CellInteraction.OnValueCellClicked -> MinefieldAction.OnValueCellClicked(cell = cell)
+            }
         }
-        */
     }
 }

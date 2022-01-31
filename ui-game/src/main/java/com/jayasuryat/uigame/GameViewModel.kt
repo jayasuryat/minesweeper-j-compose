@@ -16,8 +16,10 @@
 package com.jayasuryat.uigame
 
 import android.content.Context
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.jayasuryat.minesweeperengine.controller.impl.GameController
 import com.jayasuryat.minesweeperengine.gridgenerator.MineGridGenerator
@@ -40,10 +42,13 @@ class GameViewModel(
         gameConfiguration = gameConfiguration,
     )
 
+    private val toggleState: MutableState<ToggleState> = mutableStateOf(ToggleState.Reveal)
+
     private val _actionListener: ActionListener = ActionListener(
         statefulGrid = statefulGrid,
         girdGenerator = MineGridGenerator(),
         minefieldController = GameController.getDefault(),
+        toggleState = toggleState,
         coroutineScope = CoroutineScope(Dispatchers.Default),
         musicManager = MusicManager(context),
         vibrationManager = VibrationManager(context),
@@ -52,6 +57,10 @@ class GameViewModel(
 
     internal val gameState: State<GameState> = _actionListener.gameState
     internal val gameProgress: State<GameProgress> = _actionListener.gameProgress
+
+    internal fun onToggleStateUpdated(newState: ToggleState) {
+        toggleState.value = newState
+    }
 
     @Stable
     private fun getStatefulGrid(
