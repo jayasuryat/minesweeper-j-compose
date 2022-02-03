@@ -17,7 +17,7 @@ package com.jayasuryat.minesweeperui.grid
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.component.ZoomableContent
 import com.jayasuryat.util.LogCompositions
 
@@ -25,7 +25,7 @@ import com.jayasuryat.util.LogCompositions
 public fun Minefield(
     modifier: Modifier,
     gridInfo: GridLayoutInformation,
-    actionListener: MinefieldActionsListener,
+    actionListener: CellInteractionListener,
 ) {
 
     LogCompositions(name = "Minefield")

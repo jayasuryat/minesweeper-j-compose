@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
-import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.cell.RawCell
 import com.jayasuryat.minesweeperui.component.InverseClippedBox
 import com.jayasuryat.util.LogCompositions
@@ -42,7 +42,7 @@ internal fun MineGrid(
     modifier: Modifier,
     horizontalPadding: Dp = 16.dp,
     gridInfo: GridLayoutInformation,
-    actionListener: MinefieldActionsListener,
+    actionListener: CellInteractionListener,
 ) {
 
     BoxWithConstraints(
@@ -85,7 +85,7 @@ private fun Grid(
     parentHeight: Dp,
     horizontalPadding: Dp,
     gridInfo: GridLayoutInformation,
-    actionListener: MinefieldActionsListener,
+    actionListener: CellInteractionListener,
     cellSize: Float,
 ) {
 

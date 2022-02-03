@@ -16,15 +16,17 @@
 package com.jayasuryat.uigame
 
 import android.content.Context
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.jayasuryat.minesweeperengine.controller.impl.GameController
 import com.jayasuryat.minesweeperengine.gridgenerator.MineGridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
-import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.uigame.feedback.MusicManager
 import com.jayasuryat.uigame.feedback.VibrationManager
 import com.jayasuryat.uigame.logic.*
@@ -40,18 +42,25 @@ class GameViewModel(
         gameConfiguration = gameConfiguration,
     )
 
+    private val toggleState: MutableState<ToggleState> = mutableStateOf(ToggleState.Reveal)
+
     private val _actionListener: ActionListener = ActionListener(
         statefulGrid = statefulGrid,
         girdGenerator = MineGridGenerator(),
         minefieldController = GameController.getDefault(),
+        toggleState = toggleState,
         coroutineScope = CoroutineScope(Dispatchers.Default),
         musicManager = MusicManager(context),
         vibrationManager = VibrationManager(context),
     )
-    internal val actionLister: MinefieldActionsListener = _actionListener
+    internal val actionLister: CellInteractionListener = _actionListener
 
     internal val gameState: State<GameState> = _actionListener.gameState
     internal val gameProgress: State<GameProgress> = _actionListener.gameProgress
+
+    internal fun onToggleStateUpdated(newState: ToggleState) {
+        toggleState.value = newState
+    }
 
     @Stable
     private fun getStatefulGrid(

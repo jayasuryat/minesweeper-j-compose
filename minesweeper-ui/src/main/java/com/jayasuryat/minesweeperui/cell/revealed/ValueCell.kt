@@ -33,11 +33,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
-import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
-import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
-import com.jayasuryat.minesweeperui.action.NoOpActionListener
+import com.jayasuryat.minesweeperui.action.CellInteraction
+import com.jayasuryat.minesweeperui.action.CellInteractionListener
+import com.jayasuryat.minesweeperui.action.NoOpInteractionListener
 import com.jayasuryat.minesweeperui.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.cell.VALUE_CELL_TEXT_COVER_PERCENT
 import com.jayasuryat.minesweeperui.component.InverseClippedCircle
@@ -51,7 +51,7 @@ import com.jayasuryat.util.sp
 internal fun ValueCell(
     modifier: Modifier = Modifier,
     cell: MineCell.ValuedCell.Cell,
-    actionListener: MinefieldActionsListener,
+    actionListener: CellInteractionListener,
 ) {
 
     LogCompositions(name = "ValueCell")
@@ -64,7 +64,7 @@ internal fun ValueCell(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
             ) {
-                val action = MinefieldAction.OnValueCellClicked(cell = cell)
+                val action = CellInteraction.OnValueCellClicked(cell = cell)
                 actionListener.action(action)
             },
         contentAlignment = Alignment.Center
@@ -77,7 +77,10 @@ internal fun ValueCell(
             modifier = Modifier
                 .fillMaxSize()
                 .padding((padding - 2f).dp())
-                .background(color = MaterialTheme.msColors.minefield.copy(alpha = getAlphaForValue(cell.value)))
+                .background(
+                    color = MaterialTheme.msColors.minefield
+                        .copy(alpha = getAlphaForValue(cell.value))
+                )
         )
 
         Text(
@@ -137,6 +140,6 @@ private fun Preview() {
     ValueCell(
         cell = MineCell.ValuedCell.Cell(value = 1, position = Position.zero()),
         modifier = Modifier.fillMaxSize(),
-        actionListener = NoOpActionListener,
+        actionListener = NoOpInteractionListener,
     )
 }

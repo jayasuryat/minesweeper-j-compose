@@ -26,7 +26,7 @@ import androidx.compose.ui.draw.clipToBounds
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell.RevealedCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell.UnrevealedCell
-import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
+import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.cell.concealed.FlaggedCell
 import com.jayasuryat.minesweeperui.cell.concealed.UnFlaggedCell
 import com.jayasuryat.minesweeperui.cell.revealed.EmptyCell
@@ -41,7 +41,7 @@ import com.jayasuryat.minesweeperengine.model.cell.RawCell as RawCellData
 internal fun RawCell(
     modifier: Modifier,
     cellState: State<RawCellData>,
-    actionListener: MinefieldActionsListener,
+    actionListener: CellInteractionListener,
 ) {
 
     LogCompositions(name = "RawCell")
@@ -85,7 +85,7 @@ internal fun RawCell(
 @Composable
 private fun RawCellContent(
     cell: RawCellData,
-    actionListener: MinefieldActionsListener,
+    actionListener: CellInteractionListener,
 ) {
 
     LogCompositions(name = "RawCellContent")

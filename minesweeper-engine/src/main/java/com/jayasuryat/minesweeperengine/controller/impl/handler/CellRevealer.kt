@@ -33,10 +33,10 @@ internal class CellRevealer(
     private val radiallySorter: RadiallySorter,
     private val successEvaluator: GameSuccessEvaluator,
     private val neighbourCalculator: ValueNeighbourCalculator,
-) : ActionHandler<MinefieldAction.OnCellClicked> {
+) : ActionHandler<MinefieldAction.OnCellRevealed> {
 
     override suspend fun onAction(
-        action: MinefieldAction.OnCellClicked,
+        action: MinefieldAction.OnCellRevealed,
         grid: Grid,
     ): MinefieldEvent {
 

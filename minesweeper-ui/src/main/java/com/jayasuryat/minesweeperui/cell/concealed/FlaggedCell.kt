@@ -32,12 +32,12 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
-import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
-import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
-import com.jayasuryat.minesweeperui.action.NoOpActionListener
+import com.jayasuryat.minesweeperui.action.CellInteraction
+import com.jayasuryat.minesweeperui.action.CellInteractionListener
+import com.jayasuryat.minesweeperui.action.NoOpInteractionListener
 import com.jayasuryat.minesweeperui.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.component.InverseClippedCircle
 import com.jayasuryat.minesweeperui.theme.msColors
@@ -48,7 +48,7 @@ import com.jayasuryat.util.floatValue
 internal fun FlaggedCell(
     modifier: Modifier = Modifier,
     cell: RawCell.UnrevealedCell.FlaggedCell,
-    actionListener: MinefieldActionsListener,
+    actionListener: CellInteractionListener,
 ) {
 
     val haptic = LocalHapticFeedback.current
@@ -60,10 +60,16 @@ internal fun FlaggedCell(
             .combinedClickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
-                onClick = {},
-                onLongClick = {
+                onClick = {
+                    // TODO: 20/01/22 Handle haptics properly
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    val action = MinefieldAction.OnCellLongPressed(cell)
+                    val action = CellInteraction.OnCellClicked(cell)
+                    actionListener.action(action)
+                },
+                onLongClick = {
+                    // TODO: 20/01/22 Handle haptics properly
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    val action = CellInteraction.OnCellLongPressed(cell)
                     actionListener.action(action)
                 },
             ),
@@ -103,6 +109,6 @@ private fun Preview() {
     FlaggedCell(
         modifier = Modifier.fillMaxSize(),
         cell = cell,
-        actionListener = NoOpActionListener,
+        actionListener = NoOpInteractionListener,
     )
 }

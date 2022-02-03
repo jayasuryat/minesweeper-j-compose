@@ -32,12 +32,12 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
-import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
-import com.jayasuryat.minesweeperui.action.MinefieldActionsListener
-import com.jayasuryat.minesweeperui.action.NoOpActionListener
+import com.jayasuryat.minesweeperui.action.CellInteraction
+import com.jayasuryat.minesweeperui.action.CellInteractionListener
+import com.jayasuryat.minesweeperui.action.NoOpInteractionListener
 import com.jayasuryat.minesweeperui.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.component.InverseClippedCircle
 import com.jayasuryat.util.LogCompositions
@@ -48,7 +48,7 @@ import com.jayasuryat.util.floatValue
 internal fun UnFlaggedCell(
     modifier: Modifier = Modifier,
     cell: RawCell.UnrevealedCell.UnFlaggedCell,
-    actionListener: MinefieldActionsListener,
+    actionListener: CellInteractionListener,
 ) {
 
     LogCompositions(name = "UnFlaggedCell")
@@ -63,12 +63,12 @@ internal fun UnFlaggedCell(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = {
-                    val action = MinefieldAction.OnCellClicked(cell)
+                    val action = CellInteraction.OnCellClicked(cell)
                     actionListener.action(action)
                 },
                 onLongClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    val action = MinefieldAction.OnCellLongPressed(cell)
+                    val action = CellInteraction.OnCellLongPressed(cell)
                     actionListener.action(action)
                 },
             ),
@@ -100,6 +100,6 @@ private fun Preview() {
     UnFlaggedCell(
         modifier = Modifier.fillMaxSize(),
         cell = cell,
-        actionListener = NoOpActionListener,
+        actionListener = NoOpInteractionListener,
     )
 }

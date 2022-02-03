@@ -15,11 +15,25 @@
  */
 package com.jayasuryat.minesweeperui.action
 
-import androidx.compose.runtime.Stable
-import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
+import androidx.compose.runtime.Immutable
+import com.jayasuryat.minesweeperengine.model.cell.MineCell
+import com.jayasuryat.minesweeperengine.model.cell.RawCell
 
-@Stable
-public fun interface MinefieldActionsListener {
+@Immutable
+public sealed interface CellInteraction {
 
-    public fun action(action: MinefieldAction)
+    @Immutable
+    public data class OnCellClicked(
+        val cell: RawCell.UnrevealedCell,
+    ) : CellInteraction
+
+    @Immutable
+    public data class OnValueCellClicked(
+        val cell: MineCell.ValuedCell.Cell,
+    ) : CellInteraction
+
+    @Immutable
+    public data class OnCellLongPressed(
+        val cell: RawCell.UnrevealedCell,
+    ) : CellInteraction
 }

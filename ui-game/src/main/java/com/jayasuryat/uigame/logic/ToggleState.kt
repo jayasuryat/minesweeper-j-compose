@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.action
+package com.jayasuryat.uigame.logic
 
-import android.util.Log
-import androidx.compose.runtime.Stable
+internal sealed interface ToggleState {
 
-@Stable
-internal val NoOpInteractionListener: CellInteractionListener
-    get() = CellInteractionListener { event ->
-        Log.d("MinefieldAction", "On action received : $event")
-    }
+    object Flag : ToggleState
+    object Reveal : ToggleState
+}

@@ -23,7 +23,7 @@ import com.jayasuryat.minesweeperengine.model.cell.RawCell
 public sealed interface MinefieldAction {
 
     @Immutable
-    public data class OnCellClicked(
+    public data class OnCellRevealed(
         val cell: RawCell.UnrevealedCell,
     ) : MinefieldAction
 
@@ -33,7 +33,7 @@ public sealed interface MinefieldAction {
     ) : MinefieldAction
 
     @Immutable
-    public data class OnCellLongPressed(
+    public data class OnFlagToggled(
         val cell: RawCell.UnrevealedCell,
     ) : MinefieldAction
 }

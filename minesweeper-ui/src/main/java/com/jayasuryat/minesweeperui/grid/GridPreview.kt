@@ -24,7 +24,7 @@ import com.jayasuryat.minesweeperengine.gridgenerator.MineGridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
-import com.jayasuryat.minesweeperui.action.NoOpActionListener
+import com.jayasuryat.minesweeperui.action.NoOpInteractionListener
 import kotlinx.coroutines.runBlocking
 
 @Preview(widthDp = 1000, heightDp = 1000)
@@ -49,6 +49,6 @@ private fun Preview() {
     Minefield(
         modifier = Modifier.fillMaxSize(),
         gridInfo = mineGrid,
-        actionListener = NoOpActionListener,
+        actionListener = NoOpInteractionListener,
     )
 }

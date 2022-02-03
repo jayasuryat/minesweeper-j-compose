@@ -22,10 +22,10 @@ import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.util.exhaustive
 
-internal class CellFlagger : ActionHandler<MinefieldAction.OnCellLongPressed> {
+internal class CellFlagger : ActionHandler<MinefieldAction.OnFlagToggled> {
 
     override suspend fun onAction(
-        action: MinefieldAction.OnCellLongPressed,
+        action: MinefieldAction.OnFlagToggled,
         grid: Grid,
     ): MinefieldEvent {
 
