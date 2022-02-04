@@ -19,6 +19,7 @@ The objective of this game is to clear a rectangular board containing hidden "mi
 * Zoomable and Pannable minefield
 * Safe first click - The first cell is never a mine as the minefield is generated around the first click
 * Multiple difficulty levels to choose from
+* Quick toggle for click / flag mode
 * Haptic & Aural feedback
 * Day / Night theme
 * Animating gradient cell background
