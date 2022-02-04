@@ -18,6 +18,7 @@ package com.jayasuryat.minesweeperengine.controller.impl.handler
 import com.jayasuryat.minesweeperengine.controller.ActionHandler
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GameEndRevealer
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.GameSuccessEvaluator
+import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.RadiallySorter
 import com.jayasuryat.minesweeperengine.controller.impl.handler.helper.ValueNeighbourCalculator
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldAction
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
@@ -29,6 +30,7 @@ import com.jayasuryat.minesweeperengine.util.mutate
 
 internal class ValueCellRevealer(
     private val gameEndRevealer: GameEndRevealer,
+    private val radiallySorter: RadiallySorter,
     private val successEvaluator: GameSuccessEvaluator,
     private val neighbourCalculator: ValueNeighbourCalculator,
 ) : ActionHandler<MinefieldAction.OnValueCellClicked> {
@@ -82,8 +84,19 @@ internal class ValueCellRevealer(
             updatedCells = updatedCells
         )
 
-        return if (isGameComplete) MinefieldEvent.OnGameComplete(updatedCells = updatedCells)
-        else MinefieldEvent.OnCellsUpdated(updatedCells = updatedCells)
+        val event = if (isGameComplete) {
+
+            MinefieldEvent.OnGameComplete(updatedCells = updatedCells)
+        } else {
+
+            val sortedCells = radiallySorter.sortRadiallyOut(
+                startingPosition = action.cell.position,
+                cells = updatedCells,
+            )
+            MinefieldEvent.OnCellsUpdated(updatedCells = sortedCells)
+        }
+
+        return event
     }
 
     private fun MineCell.ValuedCell.Cell.getX3Neighbours(

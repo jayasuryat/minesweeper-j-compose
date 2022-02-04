@@ -77,16 +77,18 @@ public class GameController(
             val gameEndRevealer = GameEndRevealer()
             val successEvaluator = GameSuccessEvaluator()
             val neighbourCalculator = ValueNeighbourCalculator()
+            val radiallySorter = RadiallySorter()
             return GameController(
                 cellReveler = CellRevealer(
                     gameEndRevealer = gameEndRevealer,
-                    radiallySorter = RadiallySorter(),
+                    radiallySorter = radiallySorter,
                     successEvaluator = successEvaluator,
                     neighbourCalculator = neighbourCalculator,
                 ),
                 cellFlagger = CellFlagger(),
                 valueCellReveler = ValueCellRevealer(
                     gameEndRevealer = gameEndRevealer,
+                    radiallySorter = radiallySorter,
                     successEvaluator = successEvaluator,
                     neighbourCalculator = neighbourCalculator,
                 ),
