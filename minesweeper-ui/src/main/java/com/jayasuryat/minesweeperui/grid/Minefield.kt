@@ -16,7 +16,11 @@
 package com.jayasuryat.minesweeperui.grid
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.component.ZoomableContent
 import com.jayasuryat.util.LogCompositions
@@ -30,10 +34,30 @@ public fun Minefield(
 
     LogCompositions(name = "Minefield")
 
-    ZoomableContent { zoomModifier: Modifier ->
+    val savableState = rememberSaveable {
+        mutableStateOf(
+            ZoomPanState(
+                scale = 1f,
+                translationX = 0f,
+                translationY = 0f,
+            )
+        )
+    }
+    val zoomPanState = remember { savableState.value }
+
+    ZoomableContent(
+        defaultState = zoomPanState,
+    ) { zoomState: ZoomPanState ->
+
+        savableState.value = zoomState
 
         MineGrid(
-            modifier = modifier.then(zoomModifier),
+            modifier = modifier.then(Modifier.graphicsLayer {
+                scaleX = zoomState.scale
+                scaleY = zoomState.scale
+                translationX = zoomState.translationX
+                translationY = zoomState.translationY
+            }),
             gridInfo = gridInfo,
             actionListener = actionListener,
         )

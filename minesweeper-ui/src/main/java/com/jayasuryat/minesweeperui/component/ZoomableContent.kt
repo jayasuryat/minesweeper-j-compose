@@ -22,19 +22,20 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import com.jayasuryat.minesweeperui.grid.ZoomPanState
 import kotlin.math.absoluteValue
 
 @Composable
 internal fun ZoomableContent(
     modifier: Modifier = Modifier,
-    content: @Composable (zoomModifier: Modifier) -> Unit,
+    defaultState: ZoomPanState,
+    content: @Composable (zoomPanState: ZoomPanState) -> Unit,
 ) {
 
-    val scale = remember { mutableStateOf(1f) }
-    val translateX = remember { mutableStateOf(0f) }
-    val translateY = remember { mutableStateOf(0f) }
+    val scale = remember { mutableStateOf(defaultState.scale) }
+    val translateX = remember { mutableStateOf(defaultState.translationX) }
+    val translateY = remember { mutableStateOf(defaultState.translationY) }
 
     Box(
         modifier = modifier
@@ -68,13 +69,11 @@ internal fun ZoomableContent(
     ) {
 
         content(
-            zoomModifier = Modifier
-                .graphicsLayer(
-                    scaleX = scale.value,
-                    scaleY = scale.value,
-                    translationX = translateX.value,
-                    translationY = translateY.value,
-                )
+            ZoomPanState(
+                scale = scale.value,
+                translationX = translateX.value,
+                translationY = translateY.value,
+            )
         )
     }
 }
