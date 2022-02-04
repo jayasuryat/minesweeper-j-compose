@@ -52,12 +52,14 @@ public fun Minefield(
         savableState.value = zoomState
 
         MineGrid(
-            modifier = modifier.then(Modifier.graphicsLayer {
-                scaleX = zoomState.scale
-                scaleY = zoomState.scale
-                translationX = zoomState.translationX
-                translationY = zoomState.translationY
-            }),
+            modifier = modifier.then(
+                Modifier.graphicsLayer {
+                    scaleX = zoomState.scale
+                    scaleY = zoomState.scale
+                    translationX = zoomState.translationX
+                    translationY = zoomState.translationY
+                }
+            ),
             gridInfo = gridInfo,
             actionListener = actionListener,
         )
