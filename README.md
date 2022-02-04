@@ -6,7 +6,7 @@ The objective of this game is to clear a rectangular board containing hidden "mi
 
 ##### Try out the app, download the apk from the link below:
 
-[![Minesweeper-JC](https://img.shields.io/badge/Minesweeper--JC-v1.0.0--alpha01-%2306090E?style=for-the-badge&logo=android)](https://github.com/JayaSuryaT/minesweeper-j-compose/releases/download/v1.0.0-alpha01/Minesweeper-jc-v1.0.0-alpha01.apk)
+[![Minesweeper-JC](https://img.shields.io/badge/Minesweeper--JC-v1.0.0--alpha03-%2306090E?style=for-the-badge&logo=android)](https://github.com/JayaSuryaT/minesweeper-j-compose/releases/download/v1.0.0-alpha03/Minesweeper-jc-v1.0.0-alpha03.apk)
 
 
 ## Demo
