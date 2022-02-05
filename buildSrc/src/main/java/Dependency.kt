@@ -19,6 +19,8 @@ object Dependency {
 
         const val gameScreen = ":ui-game"
         const val difficultySelection = ":ui-difficulty-selection"
+
+        const val data = ":data"
     }
 
     object Compose {
@@ -55,4 +57,7 @@ object Dependency {
     private const val taktVersion = "2.1.1"
     const val takt = "jp.wasabeef:takt:$taktVersion"
     const val taktNoOp = "jp.wasabeef:takt-no-op:$taktVersion"
+
+    const val settings = "com.russhwolf:multiplatform-settings-no-arg:0.8.1"
+    const val kotlinxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
 }
