@@ -23,7 +23,11 @@ import kotlinx.serialization.json.Json
 @Suppress("RedundantSuspendModifier", "unused")
 public class DataStore constructor(
     private val settings: Settings,
-    @PublishedApi internal val json: Json,
+    @PublishedApi internal val json: Json = Json {
+        encodeDefaults = true
+        ignoreUnknownKeys = true
+        isLenient = true
+    },
 ) {
 
     public suspend fun putString(key: String, value: String): Unit = settings.putString(key, value)
