@@ -51,7 +51,7 @@ fun SettingsScreen(
                 start = 16.dp,
                 end = 16.dp,
             ),
-        onBackPressed = {},
+        onBackPressed = onBackPressed,
         soundEnabled = viewModel.soundEnabled.value,
         vibrationEnabled = viewModel.vibrationEnabled.value,
         toggleEnabled = viewModel.toggleEnabled.value,
