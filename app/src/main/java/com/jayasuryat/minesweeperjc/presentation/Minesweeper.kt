@@ -31,10 +31,14 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jayasuryat.difficultyselection.DifficultySelectionScreen
+import com.jayasuryat.minesweeperjc.data.SettingsPreferencesImpl
+import com.jayasuryat.minesweeperjc.data.SettingsUpdateCallbackImpl
 import com.jayasuryat.minesweeperjc.util.ViewModelFactory
 import com.jayasuryat.uigame.GameScreen
 import com.jayasuryat.uigame.GameViewModel
 import com.jayasuryat.uigame.logic.GameConfiguration
+import com.jayasuryat.uisettings.SettingsScreen
+import com.jayasuryat.uisettings.logic.SettingsViewModel
 import com.jayasuryat.util.LogCompositions
 import java.util.*
 
@@ -70,15 +74,17 @@ private fun MinesweeperApp() {
 
         // region : Difficulty Selection
         composable(
-            enterTransition = { _, _ ->
+            enterTransition = { initial, _ ->
+                val offset = if (initial.destination.route == Screen.Settings.getRoute()) 1 else -1
                 slideInVertically(
-                    initialOffsetY = { -it },
+                    initialOffsetY = { it * offset },
                     animationSpec = tween(PAGE_NAV_DURATION),
                 )
             },
-            exitTransition = { _, _ ->
+            exitTransition = { _, target ->
+                val offset = if (target.destination.route == Screen.Settings.getRoute()) 1 else -1
                 slideOutVertically(
-                    targetOffsetY = { -it },
+                    targetOffsetY = { it * offset },
                     animationSpec = tween(PAGE_NAV_DURATION),
                 )
             },
@@ -93,7 +99,41 @@ private fun MinesweeperApp() {
                         mines = difficulty.mines,
                     )
                     navController.navigate(route = route)
+                },
+                onSettingsClicked = {
+                    navController.navigate(route = Screen.Settings.getRoute())
                 }
+            )
+        }
+        // endregion
+
+        // region : Settings Selection
+        composable(
+            enterTransition = { _, _ ->
+                slideInVertically(
+                    initialOffsetY = { -it },
+                    animationSpec = tween(PAGE_NAV_DURATION),
+                )
+            },
+            exitTransition = { _, _ ->
+                slideOutVertically(
+                    targetOffsetY = { -it },
+                    animationSpec = tween(PAGE_NAV_DURATION),
+                )
+            },
+            route = Screen.Settings.getRoute(),
+        ) {
+
+            SettingsScreen(
+                viewModel = viewModel(
+                    factory = ViewModelFactory {
+                        SettingsViewModel(
+                            settingsUpdateCallback = SettingsUpdateCallbackImpl(),
+                            settingsPreferences = SettingsPreferencesImpl(),
+                        )
+                    }
+                ),
+                onBackPressed = { navController.popBackStack() }
             )
         }
         // endregion

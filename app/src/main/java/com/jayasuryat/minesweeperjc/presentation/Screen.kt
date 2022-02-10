@@ -23,6 +23,10 @@ sealed interface Screen {
         override fun getRoute(): String = "difficultySelection"
     }
 
+    object Settings : Screen {
+        override fun getRoute(): String = "settings"
+    }
+
     object Minefield : Screen {
 
         internal const val ROWS: String = "rows"

@@ -41,7 +41,11 @@ class SettingsViewModel(
     private val _toggleMode: MutableState<ToggleMode> = mutableStateOf(ToggleMode.Reveal)
     internal val toggleMode: MutableState<ToggleMode> = _toggleMode
 
-    fun loadInitialState() {
+    init {
+        loadInitialState()
+    }
+
+    private fun loadInitialState() {
 
         ioScope.launch {
 

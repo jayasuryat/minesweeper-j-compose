@@ -87,6 +87,7 @@ dependencies {
     implementation(project(Dependency.Module.util))
     implementation(project(Dependency.Module.gameScreen))
     implementation(project(Dependency.Module.difficultySelection))
+    implementation(project(Dependency.Module.settings))
 
     debugImplementation(Dependency.takt)
     releaseImplementation(Dependency.taktNoOp)
