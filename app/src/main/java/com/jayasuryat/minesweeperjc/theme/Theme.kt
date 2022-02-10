@@ -29,6 +29,7 @@ private val DarkColorPalette = darkColors(
     onPrimary = Beau,
 
     secondary = Havelock,
+    secondaryVariant = Havelock,
     onSecondary = Beau,
 
     error = Ruby,
@@ -43,6 +44,7 @@ private val LightColorPalette = lightColors(
     onPrimary = Beech,
 
     secondary = Tuscany,
+    secondaryVariant = Tuscany,
     onSecondary = Beech,
 
     error = Ruby,
