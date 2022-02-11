@@ -13,6 +13,8 @@ include(":app")
 
 include(":util")
 
+include(":data")
+
 // Feature
 include(":ui-game")
 include(":ui-difficulty-selection")

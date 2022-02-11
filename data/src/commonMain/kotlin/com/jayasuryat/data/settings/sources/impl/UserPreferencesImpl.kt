@@ -30,9 +30,19 @@ public class UserPreferencesImpl(
     override suspend fun setIsVibrationEnabled(enabled: Boolean): Unit =
         store.putBoolean(PREF_VIBRATION_ENABLED, enabled)
 
+    override suspend fun getShouldShowToggle(): Boolean = store.getBoolean(PREF_SHOW_TOGGLE)
+    override suspend fun setShouldShowToggle(show: Boolean): Unit =
+        store.putBoolean(PREF_SHOW_TOGGLE, show)
+
+    override suspend fun getDefaultToggleMode(): String? = store.getString(PREF_DEFAULT_TOGGLE)
+    override suspend fun setDefaultToggleMode(string: String): Unit =
+        store.putString(PREF_DEFAULT_TOGGLE, string)
+
     private companion object {
 
         private const val PREF_SOUND_ENABLED: String = "pref:sound"
         private const val PREF_VIBRATION_ENABLED: String = "pref:vibration"
+        private const val PREF_SHOW_TOGGLE: String = "pref:showToggle"
+        private const val PREF_DEFAULT_TOGGLE: String = "pref:defaultToggle"
     }
 }

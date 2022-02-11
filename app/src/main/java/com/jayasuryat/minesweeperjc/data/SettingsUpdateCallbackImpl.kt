@@ -15,24 +15,23 @@
  */
 package com.jayasuryat.minesweeperjc.data
 
+import com.jayasuryat.data.settings.sources.definitions.UserPreferences
 import com.jayasuryat.uisettings.composable.ToggleMode
 import com.jayasuryat.uisettings.logic.SettingsUpdateCallback
 
-class SettingsUpdateCallbackImpl : SettingsUpdateCallback {
+class SettingsUpdateCallbackImpl(
+    private val userPreferences: UserPreferences,
+) : SettingsUpdateCallback {
 
-    override suspend fun onSoundToggled(enabled: Boolean) {
-        InMemoryDataSource.isSoundEnabled = enabled
-    }
+    override suspend fun onSoundToggled(enabled: Boolean) =
+        userPreferences.setIsSoundEnabled(enabled)
 
-    override suspend fun onVibrationToggled(enabled: Boolean) {
-        InMemoryDataSource.isVibrationEnabled = enabled
-    }
+    override suspend fun onVibrationToggled(enabled: Boolean) =
+        userPreferences.setIsVibrationEnabled(enabled)
 
-    override suspend fun onModeToggled(enabled: Boolean) {
-        InMemoryDataSource.isToggleEnabled = enabled
-    }
+    override suspend fun onModeToggled(enabled: Boolean) =
+        userPreferences.setShouldShowToggle(enabled)
 
-    override suspend fun onDefaultModeToggled(mode: ToggleMode) {
-        InMemoryDataSource.toggleMode = mode
-    }
+    override suspend fun onDefaultModeToggled(mode: ToggleMode) =
+        userPreferences.setDefaultToggleMode(mode.name)
 }

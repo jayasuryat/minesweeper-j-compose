@@ -30,6 +30,9 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.jayasuryat.data.settings.sources.definitions.UserPreferences
+import com.jayasuryat.data.settings.sources.impl.UserPreferencesImpl
+import com.jayasuryat.data.store.DataStore
 import com.jayasuryat.difficultyselection.DifficultySelectionScreen
 import com.jayasuryat.minesweeperjc.data.SettingsPreferencesImpl
 import com.jayasuryat.minesweeperjc.data.SettingsUpdateCallbackImpl
@@ -40,6 +43,7 @@ import com.jayasuryat.uigame.logic.GameConfiguration
 import com.jayasuryat.uisettings.SettingsScreen
 import com.jayasuryat.uisettings.logic.SettingsViewModel
 import com.jayasuryat.util.LogCompositions
+import com.russhwolf.settings.Settings
 import java.util.*
 
 @Composable
@@ -127,9 +131,15 @@ private fun MinesweeperApp() {
             SettingsScreen(
                 viewModel = viewModel(
                     factory = ViewModelFactory {
+                        val preferences: UserPreferences = UserPreferencesImpl(
+                            store = DataStore(
+                                settings = Settings(),
+                            )
+                        )
+
                         SettingsViewModel(
-                            settingsUpdateCallback = SettingsUpdateCallbackImpl(),
-                            settingsPreferences = SettingsPreferencesImpl(),
+                            settingsUpdateCallback = SettingsUpdateCallbackImpl(preferences),
+                            settingsPreferences = SettingsPreferencesImpl(preferences),
                         )
                     }
                 ),

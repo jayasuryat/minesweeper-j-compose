@@ -15,13 +15,20 @@
  */
 package com.jayasuryat.minesweeperjc.data
 
+import com.jayasuryat.data.settings.sources.definitions.UserPreferences
 import com.jayasuryat.uisettings.composable.ToggleMode
 import com.jayasuryat.uisettings.logic.SettingsPreferences
 
-class SettingsPreferencesImpl : SettingsPreferences {
+class SettingsPreferencesImpl(
+    private val userPreferences: UserPreferences,
+) : SettingsPreferences {
 
-    override suspend fun getIsSoundEnabled(): Boolean = InMemoryDataSource.isSoundEnabled
-    override suspend fun getIsVibrationEnabled(): Boolean = InMemoryDataSource.isVibrationEnabled
-    override suspend fun getIsToggleEnabled(): Boolean = InMemoryDataSource.isToggleEnabled
-    override suspend fun getDefaultToggleMode(): ToggleMode = InMemoryDataSource.toggleMode
+    override suspend fun getIsSoundEnabled(): Boolean = userPreferences.getIsSoundEnabled()
+    override suspend fun getIsVibrationEnabled(): Boolean = userPreferences.getIsVibrationEnabled()
+    override suspend fun getIsToggleEnabled(): Boolean = userPreferences.getShouldShowToggle()
+    override suspend fun getDefaultToggleMode(): ToggleMode {
+        val mode = userPreferences.getDefaultToggleMode()
+            .takeIf { !it.isNullOrEmpty() } ?: return ToggleMode.Reveal
+        return ToggleMode.valueOf(mode)
+    }
 }

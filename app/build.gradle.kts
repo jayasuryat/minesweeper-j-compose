@@ -83,8 +83,11 @@ dependencies {
     implementation(Dependency.Compose.accompanistNavAnimation)
 
     implementation(Dependency.lifecycleRuntime)
+    implementation(Dependency.settings)
+    implementation(Dependency.kotlinxSerialization)
 
     implementation(project(Dependency.Module.util))
+    implementation(project(Dependency.Module.data))
     implementation(project(Dependency.Module.gameScreen))
     implementation(project(Dependency.Module.difficultySelection))
     implementation(project(Dependency.Module.settings))

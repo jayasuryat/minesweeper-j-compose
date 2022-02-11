@@ -22,4 +22,10 @@ public interface UserPreferences {
 
     public suspend fun getIsVibrationEnabled(): Boolean
     public suspend fun setIsVibrationEnabled(enabled: Boolean)
+
+    public suspend fun getShouldShowToggle(): Boolean
+    public suspend fun setShouldShowToggle(show: Boolean)
+
+    public suspend fun getDefaultToggleMode(): String?
+    public suspend fun setDefaultToggleMode(string: String)
 }
