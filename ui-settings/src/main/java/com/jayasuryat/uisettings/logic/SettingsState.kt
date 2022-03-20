@@ -15,10 +15,12 @@
  */
 package com.jayasuryat.uisettings.logic
 
-interface SettingsUpdateCallback {
+import androidx.compose.runtime.Immutable
 
-    suspend fun onSoundToggled(enabled: Boolean)
-    suspend fun onVibrationToggled(enabled: Boolean)
-    suspend fun onModeToggled(enabled: Boolean)
-    suspend fun onDefaultModeToggled(mode: ToggleMode)
-}
+@Immutable
+internal data class SettingsState(
+    val isSoundEnabled: Boolean,
+    val isVibrationEnabled: Boolean,
+    val isToggleEnabled: Boolean,
+    val defaultToggleMode: ToggleMode,
+)

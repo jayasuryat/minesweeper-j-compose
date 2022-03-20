@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.jayasuryat.uisettings.R
+import com.jayasuryat.uisettings.composable.param.BooleanParamProvider
 
 @Composable
 internal fun ToggleableItem(
@@ -83,6 +84,7 @@ internal fun ToggleableItem(
 }
 
 @Preview(
+    name = "Toggleable item",
     widthDp = 256,
     showBackground = true,
 )

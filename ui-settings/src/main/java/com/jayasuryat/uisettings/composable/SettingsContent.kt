@@ -15,7 +15,6 @@
  */
 package com.jayasuryat.uisettings.composable
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -28,17 +27,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.jayasuryat.uisettings.R
+import com.jayasuryat.uisettings.composable.param.SettingsStateParamProvider
+import com.jayasuryat.uisettings.logic.SettingsState
+import com.jayasuryat.uisettings.logic.ToggleMode
 
 @Composable
 internal fun SettingsContent(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
+    settingsState: SettingsState,
     onBackPressed: () -> Unit,
-    soundEnabled: Boolean,
-    vibrationEnabled: Boolean,
-    toggleEnabled: Boolean,
-    toggleMode: ToggleMode,
     onSoundToggled: (enabled: Boolean) -> Unit,
     onVibrationToggled: (enabled: Boolean) -> Unit,
     onToggleToggled: (enabled: Boolean) -> Unit,
@@ -73,10 +73,7 @@ internal fun SettingsContent(
         Spacer(modifier = Modifier.height(32.dp))
 
         Settings(
-            soundEnabled = soundEnabled,
-            vibrationEnabled = vibrationEnabled,
-            toggleEnabled = toggleEnabled,
-            toggleMode = toggleMode,
+            settingsState = settingsState,
             onSoundToggled = onSoundToggled,
             onVibrationToggled = onVibrationToggled,
             onToggleToggled = onToggleToggled,
@@ -85,19 +82,20 @@ internal fun SettingsContent(
     }
 }
 
-@Preview
+@Preview(
+    name = "Settings content",
+    showBackground = true,
+    widthDp = 512,
+)
 @Composable
-private fun Preview() {
+private fun Preview(
+    @PreviewParameter(SettingsStateParamProvider::class) settingsState: SettingsState,
+) {
 
     SettingsContent(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colors.onBackground),
+        modifier = Modifier.padding(all = 24.dp),
         onBackPressed = { },
-        soundEnabled = true,
-        vibrationEnabled = true,
-        toggleEnabled = true,
-        toggleMode = ToggleMode.Reveal,
+        settingsState = settingsState,
         onSoundToggled = { },
         onVibrationToggled = { },
         onToggleToggled = { },

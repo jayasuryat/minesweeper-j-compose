@@ -20,18 +20,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.LocalWindowInsets
 import com.jayasuryat.uisettings.composable.SettingsContent
+import com.jayasuryat.uisettings.logic.SettingsChangeEvent
 import com.jayasuryat.uisettings.logic.SettingsViewModel
 
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
+    onSettingsChanged: (event: SettingsChangeEvent) -> Unit,
     onBackPressed: () -> Unit,
 ) {
+
+    val settingsState = remember { viewModel.settingsState }
+    val state = settingsState.value ?: return
 
     val topPadding = with(LocalDensity.current) {
         LocalWindowInsets.current.statusBars.top.toDp()
@@ -40,6 +46,13 @@ fun SettingsScreen(
     val bottomPadding = with(LocalDensity.current) {
         LocalWindowInsets.current.navigationBars.bottom.toDp()
     } + 32.dp
+
+    fun onEvent(
+        event: SettingsChangeEvent,
+    ) {
+        viewModel.onSettingsChanged(event = event)
+        onSettingsChanged(event)
+    }
 
     SettingsContent(
         modifier = Modifier
@@ -52,13 +65,18 @@ fun SettingsScreen(
                 end = 16.dp,
             ),
         onBackPressed = onBackPressed,
-        soundEnabled = viewModel.soundEnabled.value,
-        vibrationEnabled = viewModel.vibrationEnabled.value,
-        toggleEnabled = viewModel.toggleEnabled.value,
-        toggleMode = viewModel.toggleMode.value,
-        onSoundToggled = viewModel::onSoundToggled,
-        onVibrationToggled = viewModel::onVibrationToggled,
-        onToggleToggled = viewModel::onToggleToggled,
-        onDefaultModeChanged = viewModel::onDefaultToggleModeChanged,
+        settingsState = state,
+        onSoundToggled = { enabled ->
+            onEvent(SettingsChangeEvent.OnSoundToggled(isEnabled = enabled))
+        },
+        onVibrationToggled = { enabled ->
+            onEvent(SettingsChangeEvent.OnVibrationToggled(isEnabled = enabled))
+        },
+        onToggleToggled = { enabled ->
+            onEvent(SettingsChangeEvent.OnShowModeToggleToggled(isEnabled = enabled))
+        },
+        onDefaultModeChanged = { toggleMode ->
+            onEvent(SettingsChangeEvent.OnDefaultToggleModeChanged(toggleMode = toggleMode))
+        },
     )
 }

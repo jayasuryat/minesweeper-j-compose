@@ -19,16 +19,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.jayasuryat.uisettings.R
+import com.jayasuryat.uisettings.composable.param.SettingsStateParamProvider
+import com.jayasuryat.uisettings.logic.SettingsState
+import com.jayasuryat.uisettings.logic.ToggleMode
 
 @Composable
 internal fun Settings(
     modifier: Modifier = Modifier,
-    soundEnabled: Boolean,
-    vibrationEnabled: Boolean,
-    toggleEnabled: Boolean,
-    toggleMode: ToggleMode,
+    settingsState: SettingsState,
     onSoundToggled: (enabled: Boolean) -> Unit,
     onVibrationToggled: (enabled: Boolean) -> Unit,
     onToggleToggled: (enabled: Boolean) -> Unit,
@@ -37,6 +38,7 @@ internal fun Settings(
 
     Column(
         modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(space = 24.dp),
     ) {
 
         // Sound item
@@ -46,11 +48,9 @@ internal fun Settings(
                 .wrapContentHeight(),
             title = "Sound",
             icon = R.drawable.ic_sound,
-            isEnabled = soundEnabled,
-            onClicked = { onSoundToggled(!soundEnabled) },
+            isEnabled = settingsState.isSoundEnabled,
+            onClicked = { onSoundToggled(!settingsState.isSoundEnabled) },
         )
-
-        Spacer(modifier = Modifier.height(24.dp))
 
         // Vibration item
         SettingsToggleableItem(
@@ -59,11 +59,9 @@ internal fun Settings(
                 .wrapContentHeight(),
             title = "Vibration",
             icon = R.drawable.ic_vibration,
-            isEnabled = vibrationEnabled,
-            onClicked = { onVibrationToggled(!vibrationEnabled) }
+            isEnabled = settingsState.isVibrationEnabled,
+            onClicked = { onVibrationToggled(!settingsState.isVibrationEnabled) }
         )
-
-        Spacer(modifier = Modifier.height(24.dp))
 
         // Show mode toggle
         SettingsToggleableItem(
@@ -72,35 +70,33 @@ internal fun Settings(
                 .wrapContentHeight(),
             title = "Show mode toggle",
             icon = R.drawable.ic_toggle,
-            isEnabled = toggleEnabled,
-            onClicked = { onToggleToggled(!toggleEnabled) }
+            isEnabled = settingsState.isToggleEnabled,
+            onClicked = { onToggleToggled(!settingsState.isToggleEnabled) }
         )
-
-        Spacer(modifier = Modifier.height(24.dp))
 
         // Default toggle mode
         DefaultToggleMode(
             modifier = Modifier.padding(horizontal = 8.dp),
-            isEnabled = !toggleEnabled,
-            toggleState = toggleMode,
+            isEnabled = !settingsState.isToggleEnabled,
+            toggleState = settingsState.defaultToggleMode,
             onModeChanged = { onDefaultModeChanged(it) }
         )
     }
 }
 
 @Preview(
+    name = "Settings",
     showBackground = true,
-    widthDp = 512
+    widthDp = 512,
 )
 @Composable
-private fun Preview() {
+private fun Preview(
+    @PreviewParameter(SettingsStateParamProvider::class) settingsState: SettingsState,
+) {
 
     Settings(
         modifier = Modifier.padding(all = 32.dp),
-        soundEnabled = true,
-        vibrationEnabled = true,
-        toggleEnabled = true,
-        toggleMode = ToggleMode.Reveal,
+        settingsState = settingsState,
         onSoundToggled = {},
         onVibrationToggled = {},
         onToggleToggled = {},

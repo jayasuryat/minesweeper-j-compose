@@ -13,12 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uisettings.composable
+package com.jayasuryat.uisettings.logic
 
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-
-internal class BooleanParamProvider : PreviewParameterProvider<Boolean> {
-
-    override val values: Sequence<Boolean>
-        get() = sequenceOf(true, false)
-}
+enum class ToggleMode { Reveal, Flag }

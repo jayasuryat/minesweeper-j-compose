@@ -15,10 +15,10 @@
  */
 package com.jayasuryat.uisettings.logic
 
-interface SettingsUpdateCallback {
+sealed interface SettingsChangeEvent {
 
-    suspend fun onSoundToggled(enabled: Boolean)
-    suspend fun onVibrationToggled(enabled: Boolean)
-    suspend fun onModeToggled(enabled: Boolean)
-    suspend fun onDefaultModeToggled(mode: ToggleMode)
+    data class OnSoundToggled(val isEnabled: Boolean) : SettingsChangeEvent
+    data class OnVibrationToggled(val isEnabled: Boolean) : SettingsChangeEvent
+    data class OnShowModeToggleToggled(val isEnabled: Boolean) : SettingsChangeEvent
+    data class OnDefaultToggleModeChanged(val toggleMode: ToggleMode) : SettingsChangeEvent
 }

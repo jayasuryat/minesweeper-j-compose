@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.jayasuryat.uisettings.R
+import com.jayasuryat.uisettings.composable.param.BooleanParamProvider
 
 @Composable
 internal fun SettingsToggleableItem(
@@ -88,7 +89,10 @@ internal fun SettingsToggleableItem(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    name = "Settings toggleable item",
+    showBackground = true,
+)
 @Composable
 private fun Preview(
     @PreviewParameter(BooleanParamProvider::class) isEnabled: Boolean,

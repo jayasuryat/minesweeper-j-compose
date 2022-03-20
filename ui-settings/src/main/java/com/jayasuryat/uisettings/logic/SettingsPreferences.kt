@@ -15,8 +15,6 @@
  */
 package com.jayasuryat.uisettings.logic
 
-import com.jayasuryat.uisettings.composable.ToggleMode
-
 interface SettingsPreferences {
 
     suspend fun getIsSoundEnabled(): Boolean

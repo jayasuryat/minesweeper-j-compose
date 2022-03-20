@@ -19,27 +19,16 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.jayasuryat.uisettings.composable.ToggleMode
 import kotlinx.coroutines.*
 
 class SettingsViewModel(
-    private val settingsUpdateCallback: SettingsUpdateCallback,
     private val settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
 
     private val ioScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.IO) }
 
-    private val _soundEnabled: MutableState<Boolean> = mutableStateOf(true)
-    internal val soundEnabled: State<Boolean> = _soundEnabled
-
-    private val _vibrationEnabled: MutableState<Boolean> = mutableStateOf(true)
-    internal val vibrationEnabled: MutableState<Boolean> = _vibrationEnabled
-
-    private val _toggleEnabled: MutableState<Boolean> = mutableStateOf(true)
-    internal val toggleEnabled: MutableState<Boolean> = _toggleEnabled
-
-    private val _toggleMode: MutableState<ToggleMode> = mutableStateOf(ToggleMode.Reveal)
-    internal val toggleMode: MutableState<ToggleMode> = _toggleMode
+    private val _settingsState: MutableState<SettingsState?> = mutableStateOf(null)
+    internal val settingsState: State<SettingsState?> = _settingsState
 
     init {
         loadInitialState()
@@ -56,40 +45,40 @@ class SettingsViewModel(
 
             withContext(Dispatchers.Main) {
 
-                _soundEnabled.value = isSoundEnabled
-                _vibrationEnabled.value = isVibrationEnabled
-                _toggleEnabled.value = isToggleEnabled
-                _toggleMode.value = toggleState
+                val state = SettingsState(
+                    isSoundEnabled = isSoundEnabled,
+                    isVibrationEnabled = isVibrationEnabled,
+                    isToggleEnabled = isToggleEnabled,
+                    defaultToggleMode = toggleState,
+                )
+
+                _settingsState.value = state
             }
         }
     }
 
-    internal fun onSoundToggled(enabled: Boolean) {
-        ioScope.launch {
-            settingsUpdateCallback.onSoundToggled(enabled = enabled)
-            _soundEnabled.value = settingsPreferences.getIsSoundEnabled()
-        }
-    }
+    internal fun onSettingsChanged(
+        event: SettingsChangeEvent,
+    ) {
 
-    internal fun onVibrationToggled(enabled: Boolean) {
-        ioScope.launch {
-            settingsUpdateCallback.onVibrationToggled(enabled = enabled)
-            _vibrationEnabled.value = settingsPreferences.getIsVibrationEnabled()
-        }
-    }
+        val state = _settingsState.value ?: return
 
-    internal fun onToggleToggled(enabled: Boolean) {
-        ioScope.launch {
-            settingsUpdateCallback.onModeToggled(enabled = enabled)
-            _toggleEnabled.value = settingsPreferences.getIsToggleEnabled()
-        }
-    }
+        val updatedState = when (event) {
 
-    internal fun onDefaultToggleModeChanged(mode: ToggleMode) {
-        ioScope.launch {
-            settingsUpdateCallback.onDefaultModeToggled(mode = mode)
-            _toggleMode.value = settingsPreferences.getDefaultToggleMode()
+            is SettingsChangeEvent.OnSoundToggled ->
+                state.copy(isSoundEnabled = event.isEnabled)
+
+            is SettingsChangeEvent.OnVibrationToggled ->
+                state.copy(isVibrationEnabled = event.isEnabled)
+
+            is SettingsChangeEvent.OnShowModeToggleToggled ->
+                state.copy(isToggleEnabled = event.isEnabled)
+
+            is SettingsChangeEvent.OnDefaultToggleModeChanged ->
+                state.copy(defaultToggleMode = event.toggleMode)
         }
+
+        _settingsState.value = updatedState
     }
 
     override fun onCleared() {

@@ -25,6 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.jayasuryat.uisettings.R
+import com.jayasuryat.uisettings.composable.param.BooleanParamProvider
+import com.jayasuryat.uisettings.logic.ToggleMode
 
 @Composable
 internal fun DefaultToggleMode(
@@ -71,7 +73,10 @@ internal fun DefaultToggleMode(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    name = "Default toggle mode",
+    showBackground = true,
+)
 @Composable
 private fun Preview(
     @PreviewParameter(BooleanParamProvider::class) isEnabled: Boolean,
