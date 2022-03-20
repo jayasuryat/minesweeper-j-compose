@@ -34,8 +34,10 @@ import com.jayasuryat.data.settings.sources.definitions.UserPreferences
 import com.jayasuryat.data.settings.sources.impl.UserPreferencesImpl
 import com.jayasuryat.data.store.DataStore
 import com.jayasuryat.difficultyselection.DifficultySelectionScreen
+import com.jayasuryat.minesweeperjc.data.GameDataSourceImpl
+import com.jayasuryat.minesweeperjc.data.SettingsChangeEventListener
 import com.jayasuryat.minesweeperjc.data.SettingsPreferencesImpl
-import com.jayasuryat.minesweeperjc.data.SettingsUpdateCallbackImpl
+import com.jayasuryat.minesweeperjc.data.ToggleStateChangeListener
 import com.jayasuryat.minesweeperjc.util.ViewModelFactory
 import com.jayasuryat.uigame.GameScreen
 import com.jayasuryat.uigame.GameViewModel
@@ -128,22 +130,24 @@ private fun MinesweeperApp() {
             route = Screen.Settings.getRoute(),
         ) {
 
+            val preferences: UserPreferences = UserPreferencesImpl(
+                store = DataStore(
+                    settings = Settings(),
+                )
+            )
+            val eventListener = SettingsChangeEventListener(preferences)
+
             SettingsScreen(
                 viewModel = viewModel(
                     factory = ViewModelFactory {
-                        val preferences: UserPreferences = UserPreferencesImpl(
-                            store = DataStore(
-                                settings = Settings(),
-                            )
-                        )
 
                         SettingsViewModel(
-                            settingsUpdateCallback = SettingsUpdateCallbackImpl(preferences),
                             settingsPreferences = SettingsPreferencesImpl(preferences),
                         )
                     }
                 ),
-                onBackPressed = { navController.popBackStack() }
+                onSettingsChanged = eventListener,
+                onBackPressed = { navController.popBackStack() },
             )
         }
         // endregion
@@ -195,15 +199,30 @@ private fun MinesweeperApp() {
 
             val context = LocalContext.current.applicationContext
 
+            val preferences: UserPreferences = UserPreferencesImpl(
+                store = DataStore(
+                    settings = Settings(),
+                )
+            )
+
+            val toggleListener = ToggleStateChangeListener(userPreferences = preferences)
+
             GameScreen(
                 viewModel = viewModel(
                     factory = ViewModelFactory {
+
+                        val dataSource = GameDataSourceImpl(
+                            userPreferences = preferences
+                        )
+
                         GameViewModel(
                             context = context,
                             gameConfiguration = gameConfiguration,
+                            dataSource = dataSource,
                         )
                     }
                 ),
+                onToggleStateChanged = toggleListener,
                 onRestartClicked = {
                     val route = Screen.Minefield.getNavigableRoute(
                         rows = rows,

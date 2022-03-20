@@ -16,19 +16,23 @@
 package com.jayasuryat.minesweeperjc.data
 
 import com.jayasuryat.data.settings.sources.definitions.UserPreferences
-import com.jayasuryat.uisettings.logic.SettingsPreferences
-import com.jayasuryat.uisettings.logic.ToggleMode
+import com.jayasuryat.uigame.logic.ToggleState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
-class SettingsPreferencesImpl(
+class ToggleStateChangeListener(
     private val userPreferences: UserPreferences,
-) : SettingsPreferences {
+) : (ToggleState) -> Unit {
 
-    override suspend fun getIsSoundEnabled(): Boolean = userPreferences.getIsSoundEnabled()
-    override suspend fun getIsVibrationEnabled(): Boolean = userPreferences.getIsVibrationEnabled()
-    override suspend fun getIsToggleEnabled(): Boolean = userPreferences.getShouldShowToggle()
-    override suspend fun getDefaultToggleMode(): ToggleMode {
-        val mode = userPreferences.getDefaultToggleMode()
-            .takeIf { !it.isNullOrEmpty() } ?: return ToggleMode.Reveal
-        return ToggleMode.valueOf(mode)
+    private val ioScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
+
+    override fun invoke(event: ToggleState) {
+        ioScope.launch { handleEvent(event = event) }
+    }
+
+    private suspend fun handleEvent(event: ToggleState) {
+        userPreferences.setDefaultToggleMode(event.toToggleMode().name)
     }
 }

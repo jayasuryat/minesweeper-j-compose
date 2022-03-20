@@ -16,22 +16,17 @@
 package com.jayasuryat.minesweeperjc.data
 
 import com.jayasuryat.data.settings.sources.definitions.UserPreferences
-import com.jayasuryat.uisettings.composable.ToggleMode
-import com.jayasuryat.uisettings.logic.SettingsUpdateCallback
+import com.jayasuryat.uigame.data.GameDataSource
+import com.jayasuryat.uigame.logic.ToggleState
+import com.jayasuryat.uisettings.logic.ToggleMode
 
-class SettingsUpdateCallbackImpl(
+class GameDataSourceImpl(
     private val userPreferences: UserPreferences,
-) : SettingsUpdateCallback {
+) : GameDataSource {
 
-    override suspend fun onSoundToggled(enabled: Boolean) =
-        userPreferences.setIsSoundEnabled(enabled)
-
-    override suspend fun onVibrationToggled(enabled: Boolean) =
-        userPreferences.setIsVibrationEnabled(enabled)
-
-    override suspend fun onModeToggled(enabled: Boolean) =
-        userPreferences.setShouldShowToggle(enabled)
-
-    override suspend fun onDefaultModeToggled(mode: ToggleMode) =
-        userPreferences.setDefaultToggleMode(mode.name)
+    override suspend fun getToggleState(): ToggleState {
+        val mode = userPreferences.getDefaultToggleMode()
+            .takeIf { !it.isNullOrEmpty() } ?: return ToggleState.Reveal
+        return ToggleMode.valueOf(mode).toToggleState()
+    }
 }
