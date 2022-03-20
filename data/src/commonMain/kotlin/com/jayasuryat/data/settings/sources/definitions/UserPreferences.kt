@@ -27,5 +27,5 @@ public interface UserPreferences {
     public suspend fun setShouldShowToggle(show: Boolean)
 
     public suspend fun getDefaultToggleMode(): String?
-    public suspend fun setDefaultToggleMode(string: String)
+    public suspend fun setDefaultToggleMode(mode: String)
 }
