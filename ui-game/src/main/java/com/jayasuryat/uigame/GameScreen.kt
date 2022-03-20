@@ -59,7 +59,9 @@ fun GameScreen(
         LogCompositions(name = "GameScreen\$Box")
 
         GameFeedback(
-            gameState = viewModel.gameState
+            gameState = viewModel.gameState,
+            soundManger = viewModel.soundManager,
+            vibrationManager = viewModel.vibrationManager,
         )
 
         MinefieldScreen(

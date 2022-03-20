@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.feedback
+package com.jayasuryat.uigame.feedback.vibration
 
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
@@ -24,6 +24,7 @@ import android.os.VibratorManager
 
 internal class VibrationManager(
     private val context: Context,
+    private val vibrationStatusProvider: VibrationStatusProvider,
 ) {
 
     private val vibrator: Vibrator by lazy {
@@ -44,6 +45,8 @@ internal class VibrationManager(
         mills: Long,
         amplitude: Int,
     ) {
+
+        if (!vibrationStatusProvider.isVibrationEnabled()) return
 
         if (Build.VERSION.SDK_INT >= 26) {
             vibrator.vibrate(VibrationEffect.createOneShot(mills, amplitude))

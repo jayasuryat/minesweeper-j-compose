@@ -30,8 +30,8 @@ import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.getCurrentGrid
 import com.jayasuryat.minesweeperui.action.CellInteraction
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
-import com.jayasuryat.uigame.feedback.MusicManager
-import com.jayasuryat.uigame.feedback.VibrationManager
+import com.jayasuryat.uigame.feedback.sound.MusicManager
+import com.jayasuryat.uigame.feedback.vibration.VibrationManager
 import com.jayasuryat.util.exhaustive
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay

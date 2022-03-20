@@ -28,8 +28,8 @@ import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.uigame.data.GameDataSource
-import com.jayasuryat.uigame.feedback.MusicManager
-import com.jayasuryat.uigame.feedback.VibrationManager
+import com.jayasuryat.uigame.feedback.sound.MusicManager
+import com.jayasuryat.uigame.feedback.vibration.VibrationManager
 import com.jayasuryat.uigame.logic.*
 import kotlinx.coroutines.*
 
@@ -48,14 +48,17 @@ class GameViewModel(
     private val _toggleState: MutableState<ToggleState> = mutableStateOf(ToggleState.Reveal)
     internal val toggleState: State<ToggleState> = _toggleState
 
+    internal val soundManager: MusicManager by lazy { MusicManager(context) { true } }
+    internal val vibrationManager: VibrationManager by lazy { VibrationManager(context) { true } }
+
     private val _actionListener: ActionListener = ActionListener(
         statefulGrid = statefulGrid,
         girdGenerator = MineGridGenerator(),
         minefieldController = GameController.getDefault(),
         toggleState = toggleState,
         coroutineScope = CoroutineScope(Dispatchers.Default),
-        musicManager = MusicManager(context),
-        vibrationManager = VibrationManager(context),
+        musicManager = soundManager,
+        vibrationManager = vibrationManager,
     )
 
     internal val actionLister: CellInteractionListener = _actionListener
