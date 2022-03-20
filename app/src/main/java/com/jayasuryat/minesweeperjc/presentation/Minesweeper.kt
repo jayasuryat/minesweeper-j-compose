@@ -135,7 +135,7 @@ private fun MinesweeperApp() {
                     settings = Settings(),
                 )
             )
-            val eventListener = SettingsChangeEventListener(preferences)
+            val eventListener = SettingsChangeEventListener.getInstance(preferences)
 
             SettingsScreen(
                 viewModel = viewModel(
@@ -215,9 +215,13 @@ private fun MinesweeperApp() {
                             userPreferences = preferences
                         )
 
+                        val eventListener = SettingsChangeEventListener.getInstance(preferences)
+
                         GameViewModel(
                             context = context,
                             gameConfiguration = gameConfiguration,
+                            soundStatusProvider = eventListener,
+                            vibrationStatusProvider = eventListener,
                             dataSource = dataSource,
                         )
                     }
