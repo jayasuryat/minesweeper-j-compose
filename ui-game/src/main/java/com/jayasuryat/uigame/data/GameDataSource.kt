@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.logic
+package com.jayasuryat.uigame.data
 
-sealed interface ToggleState {
+import com.jayasuryat.uigame.logic.ToggleState
 
-    object Flag : ToggleState
-    object Reveal : ToggleState
+interface GameDataSource {
+
+    suspend fun getToggleState(): ToggleState
 }

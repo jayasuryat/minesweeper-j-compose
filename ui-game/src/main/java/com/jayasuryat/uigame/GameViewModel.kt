@@ -27,22 +27,26 @@ import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
+import com.jayasuryat.uigame.data.GameDataSource
 import com.jayasuryat.uigame.feedback.MusicManager
 import com.jayasuryat.uigame.feedback.VibrationManager
 import com.jayasuryat.uigame.logic.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 
 class GameViewModel(
     context: Context,
     gameConfiguration: GameConfiguration,
+    private val dataSource: GameDataSource,
 ) : ViewModel() {
+
+    private val ioScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
 
     internal val statefulGrid: StatefulGrid = getStatefulGrid(
         gameConfiguration = gameConfiguration,
     )
 
-    private val toggleState: MutableState<ToggleState> = mutableStateOf(ToggleState.Reveal)
+    private val _toggleState: MutableState<ToggleState> = mutableStateOf(ToggleState.Reveal)
+    internal val toggleState: State<ToggleState> = _toggleState
 
     private val _actionListener: ActionListener = ActionListener(
         statefulGrid = statefulGrid,
@@ -53,13 +57,19 @@ class GameViewModel(
         musicManager = MusicManager(context),
         vibrationManager = VibrationManager(context),
     )
-    internal val actionLister: CellInteractionListener = _actionListener
 
+    internal val actionLister: CellInteractionListener = _actionListener
     internal val gameState: State<GameState> = _actionListener.gameState
     internal val gameProgress: State<GameProgress> = _actionListener.gameProgress
 
+    internal fun loadToggleState() {
+        ioScope.launch {
+            _toggleState.value = dataSource.getToggleState()
+        }
+    }
+
     internal fun onToggleStateUpdated(newState: ToggleState) {
-        toggleState.value = newState
+        _toggleState.value = newState
     }
 
     @Stable
@@ -80,5 +90,10 @@ class GameViewModel(
         )
 
         return grid.asStatefulGrid()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        ioScope.cancel()
     }
 }
