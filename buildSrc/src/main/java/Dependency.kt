@@ -61,4 +61,7 @@ object Dependency {
 
     const val settings = "com.russhwolf:multiplatform-settings-no-arg:0.8.1"
     const val kotlinxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
+
+    const val hilt = "com.google.dagger:hilt-android:2.40.4"
+    const val hiltCompiler = "com.google.dagger:hilt-android-compiler:2.40.4"
 }

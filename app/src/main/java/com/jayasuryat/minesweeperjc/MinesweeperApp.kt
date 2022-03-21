@@ -16,10 +16,12 @@
 package com.jayasuryat.minesweeperjc
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 import jp.wasabeef.takt.Seat
 import jp.wasabeef.takt.Takt
 
 @Suppress("unused")
+@HiltAndroidApp
 class MinesweeperApp : Application() {
 
     override fun onCreate() {

@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -86,6 +88,9 @@ dependencies {
     implementation(Dependency.settings)
     implementation(Dependency.kotlinxSerialization)
 
+    implementation(Dependency.hilt)
+    kapt(Dependency.hiltCompiler)
+
     implementation(project(Dependency.Module.util))
     implementation(project(Dependency.Module.data))
     implementation(project(Dependency.Module.gameScreen))
@@ -94,4 +99,9 @@ dependencies {
 
     debugImplementation(Dependency.takt)
     releaseImplementation(Dependency.taktNoOp)
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }
