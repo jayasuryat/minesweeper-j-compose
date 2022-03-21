@@ -49,6 +49,9 @@ class GameViewModel(
         gameConfiguration = gameConfiguration,
     )
 
+    private val _shouldShowToggle: MutableState<Boolean> = mutableStateOf(false)
+    val shouldShowToggle: State<Boolean> = _shouldShowToggle
+
     private val _toggleState: MutableState<ToggleState> = mutableStateOf(ToggleState.Reveal)
     internal val toggleState: State<ToggleState> = _toggleState
 
@@ -74,6 +77,7 @@ class GameViewModel(
     internal fun loadToggleState() {
         ioScope.launch {
             _toggleState.value = dataSource.getToggleState()
+            _shouldShowToggle.value = dataSource.shouldShowToggle()
         }
     }
 

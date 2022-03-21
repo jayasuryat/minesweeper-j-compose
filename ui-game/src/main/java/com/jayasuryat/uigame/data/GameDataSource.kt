@@ -20,4 +20,6 @@ import com.jayasuryat.uigame.logic.ToggleState
 interface GameDataSource {
 
     suspend fun getToggleState(): ToggleState
+
+    suspend fun shouldShowToggle(): Boolean
 }

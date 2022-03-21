@@ -29,4 +29,7 @@ class GameDataSourceImpl(
             .takeIf { !it.isNullOrEmpty() } ?: return ToggleState.Reveal
         return ToggleMode.valueOf(mode).toToggleState()
     }
+
+    override suspend fun shouldShowToggle(): Boolean =
+        userPreferences.getShouldShowToggle()
 }

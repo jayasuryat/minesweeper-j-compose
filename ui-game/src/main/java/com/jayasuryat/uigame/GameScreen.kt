@@ -78,19 +78,22 @@ fun GameScreen(
             onRestartClicked = onRestartClicked,
         )
 
-        val bottomPadding = with(LocalDensity.current) {
-            LocalWindowInsets.current.navigationBars.bottom.toDp()
-        } + 16.dp
+        if (viewModel.shouldShowToggle.value) {
 
-        Toggle(
-            modifier = Modifier
-                .align(alignment = BottomCenter)
-                .padding(bottom = bottomPadding),
-            toggleState = viewModel.toggleState,
-            onToggleStateChanged = { toggleState ->
-                onToggleStateChanged(toggleState)
-                viewModel.onToggleStateUpdated(toggleState)
-            },
-        )
+            val bottomPadding = with(LocalDensity.current) {
+                LocalWindowInsets.current.navigationBars.bottom.toDp()
+            } + 16.dp
+
+            Toggle(
+                modifier = Modifier
+                    .align(alignment = BottomCenter)
+                    .padding(bottom = bottomPadding),
+                toggleState = viewModel.toggleState,
+                onToggleStateChanged = { toggleState ->
+                    onToggleStateChanged(toggleState)
+                    viewModel.onToggleStateUpdated(toggleState)
+                },
+            )
+        }
     }
 }
