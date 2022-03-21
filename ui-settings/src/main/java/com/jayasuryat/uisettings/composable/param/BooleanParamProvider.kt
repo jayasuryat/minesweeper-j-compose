@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.logic
+package com.jayasuryat.uisettings.composable.param
 
-sealed interface ToggleState {
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 
-    object Flag : ToggleState
-    object Reveal : ToggleState
+internal class BooleanParamProvider : PreviewParameterProvider<Boolean> {
+
+    override val values: Sequence<Boolean>
+        get() = sequenceOf(true, false)
 }

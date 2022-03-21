@@ -13,10 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.logic
+package com.jayasuryat.minesweeperjc.data
 
-sealed interface ToggleState {
+import com.jayasuryat.uigame.logic.ToggleState
+import com.jayasuryat.uisettings.logic.ToggleMode
 
-    object Flag : ToggleState
-    object Reveal : ToggleState
+internal fun ToggleMode.toToggleState(): ToggleState = when (this) {
+    ToggleMode.Reveal -> ToggleState.Reveal
+    ToggleMode.Flag -> ToggleState.Flag
+}
+
+internal fun ToggleState.toToggleMode(): ToggleMode = when (this) {
+    is ToggleState.Reveal -> ToggleMode.Reveal
+    is ToggleState.Flag -> ToggleMode.Flag
 }

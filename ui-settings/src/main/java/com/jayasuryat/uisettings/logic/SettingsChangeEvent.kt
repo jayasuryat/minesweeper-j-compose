@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.logic
+package com.jayasuryat.uisettings.logic
 
-sealed interface ToggleState {
+sealed interface SettingsChangeEvent {
 
-    object Flag : ToggleState
-    object Reveal : ToggleState
+    data class OnSoundToggled(val isEnabled: Boolean) : SettingsChangeEvent
+    data class OnVibrationToggled(val isEnabled: Boolean) : SettingsChangeEvent
+    data class OnShowModeToggleToggled(val isEnabled: Boolean) : SettingsChangeEvent
+    data class OnDefaultToggleModeChanged(val toggleMode: ToggleMode) : SettingsChangeEvent
 }

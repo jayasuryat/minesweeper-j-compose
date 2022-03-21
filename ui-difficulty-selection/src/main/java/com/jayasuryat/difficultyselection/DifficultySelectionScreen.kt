@@ -16,12 +16,16 @@
 package com.jayasuryat.difficultyselection
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +44,7 @@ fun DifficultySelectionScreen(
         GameDifficulty.Extreme,
     ),
     onDifficultySelected: (difficulty: GameDifficulty) -> Unit,
+    onSettingsClicked: () -> Unit,
 ) {
 
     Column(
@@ -84,6 +89,29 @@ fun DifficultySelectionScreen(
                 onDifficultySelected(difficulty)
             },
         )
+
+        Spacer(
+            modifier = Modifier.height(64.dp),
+        )
+
+        Text(
+            modifier = Modifier
+                .align(alignment = Alignment.CenterHorizontally)
+                .wrapContentSize()
+                .clip(RoundedCornerShape(100f))
+                .border(
+                    width = 2.dp,
+                    color = MaterialTheme.colors.onBackground,
+                    shape = RoundedCornerShape(100f),
+                )
+                .clickable { onSettingsClicked() }
+                .padding(
+                    vertical = 12.dp,
+                    horizontal = 40.dp,
+                ),
+            color = MaterialTheme.colors.onBackground,
+            text = "Settings",
+        )
     }
 }
 
@@ -93,5 +121,6 @@ private fun Preview() {
 
     DifficultySelectionScreen(
         onDifficultySelected = {},
+        onSettingsClicked = {},
     )
 }

@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.feedback
+package com.jayasuryat.uigame.feedback.sound
 
 import android.content.Context
 import android.media.MediaPlayer
 import com.jayasuryat.uigame.R
 import com.jayasuryat.util.TrackedLazyCollector
 
-internal class MusicManager(private val context: Context) {
+internal class MusicManager(
+    private val context: Context,
+    private val soundStatusProvider: SoundStatusProvider,
+) {
 
     private val tlc: TrackedLazyCollector<MediaPlayer> by lazy { TrackedLazyCollector() }
 
@@ -44,11 +47,11 @@ internal class MusicManager(private val context: Context) {
     // endregion
 
     // region : Public API
-    fun pop() = sfxPop.start()
-    fun affirmative() = sfxAffirmative.start()
-    fun cancel() = sfxCancel.start()
-    fun success() = sfxSuccess.start()
-    fun failure() = sfxFailure.start()
+    fun pop() = sfxPop.play()
+    fun affirmative() = sfxAffirmative.play()
+    fun cancel() = sfxCancel.play()
+    fun success() = sfxSuccess.play()
+    fun failure() = sfxFailure.play()
 
     fun dispose() {
         tlc.onEachInitialized { player ->
@@ -59,6 +62,11 @@ internal class MusicManager(private val context: Context) {
     // endregion
 
     // region : Helper methods
+
+    private fun MediaPlayer.play() {
+        if (!soundStatusProvider.isSoundEnabled()) return
+        this.start()
+    }
 
     private val MediaPlayer.isPaused: Boolean
         get() = !isPlaying && currentPosition > 1

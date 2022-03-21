@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.logic
+package com.jayasuryat.uigame.feedback.vibration
 
-sealed interface ToggleState {
-
-    object Flag : ToggleState
-    object Reveal : ToggleState
+fun interface VibrationStatusProvider {
+    fun isVibrationEnabled(): Boolean
 }

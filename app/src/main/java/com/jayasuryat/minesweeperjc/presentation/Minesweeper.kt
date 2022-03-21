@@ -30,12 +30,22 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.jayasuryat.data.settings.sources.definitions.UserPreferences
+import com.jayasuryat.data.settings.sources.impl.UserPreferencesImpl
+import com.jayasuryat.data.store.DataStore
 import com.jayasuryat.difficultyselection.DifficultySelectionScreen
+import com.jayasuryat.minesweeperjc.data.GameDataSourceImpl
+import com.jayasuryat.minesweeperjc.data.SettingsChangeEventListener
+import com.jayasuryat.minesweeperjc.data.SettingsPreferencesImpl
+import com.jayasuryat.minesweeperjc.data.ToggleStateChangeListener
 import com.jayasuryat.minesweeperjc.util.ViewModelFactory
 import com.jayasuryat.uigame.GameScreen
 import com.jayasuryat.uigame.GameViewModel
 import com.jayasuryat.uigame.logic.GameConfiguration
+import com.jayasuryat.uisettings.SettingsScreen
+import com.jayasuryat.uisettings.logic.SettingsViewModel
 import com.jayasuryat.util.LogCompositions
+import com.russhwolf.settings.Settings
 import java.util.*
 
 @Composable
@@ -70,15 +80,17 @@ private fun MinesweeperApp() {
 
         // region : Difficulty Selection
         composable(
-            enterTransition = { _, _ ->
+            enterTransition = { initial, _ ->
+                val offset = if (initial.destination.route == Screen.Settings.getRoute()) 1 else -1
                 slideInVertically(
-                    initialOffsetY = { -it },
+                    initialOffsetY = { it * offset },
                     animationSpec = tween(PAGE_NAV_DURATION),
                 )
             },
-            exitTransition = { _, _ ->
+            exitTransition = { _, target ->
+                val offset = if (target.destination.route == Screen.Settings.getRoute()) 1 else -1
                 slideOutVertically(
-                    targetOffsetY = { -it },
+                    targetOffsetY = { it * offset },
                     animationSpec = tween(PAGE_NAV_DURATION),
                 )
             },
@@ -93,7 +105,49 @@ private fun MinesweeperApp() {
                         mines = difficulty.mines,
                     )
                     navController.navigate(route = route)
+                },
+                onSettingsClicked = {
+                    navController.navigate(route = Screen.Settings.getRoute())
                 }
+            )
+        }
+        // endregion
+
+        // region : Settings Selection
+        composable(
+            enterTransition = { _, _ ->
+                slideInVertically(
+                    initialOffsetY = { -it },
+                    animationSpec = tween(PAGE_NAV_DURATION),
+                )
+            },
+            exitTransition = { _, _ ->
+                slideOutVertically(
+                    targetOffsetY = { -it },
+                    animationSpec = tween(PAGE_NAV_DURATION),
+                )
+            },
+            route = Screen.Settings.getRoute(),
+        ) {
+
+            val preferences: UserPreferences = UserPreferencesImpl(
+                store = DataStore(
+                    settings = Settings(),
+                )
+            )
+            val eventListener = SettingsChangeEventListener.getInstance(preferences)
+
+            SettingsScreen(
+                viewModel = viewModel(
+                    factory = ViewModelFactory {
+
+                        SettingsViewModel(
+                            settingsPreferences = SettingsPreferencesImpl(preferences),
+                        )
+                    }
+                ),
+                onSettingsChanged = eventListener,
+                onBackPressed = { navController.popBackStack() },
             )
         }
         // endregion
@@ -145,15 +199,34 @@ private fun MinesweeperApp() {
 
             val context = LocalContext.current.applicationContext
 
+            val preferences: UserPreferences = UserPreferencesImpl(
+                store = DataStore(
+                    settings = Settings(),
+                )
+            )
+
+            val toggleListener = ToggleStateChangeListener(userPreferences = preferences)
+
             GameScreen(
                 viewModel = viewModel(
                     factory = ViewModelFactory {
+
+                        val dataSource = GameDataSourceImpl(
+                            userPreferences = preferences
+                        )
+
+                        val eventListener = SettingsChangeEventListener.getInstance(preferences)
+
                         GameViewModel(
                             context = context,
                             gameConfiguration = gameConfiguration,
+                            soundStatusProvider = eventListener,
+                            vibrationStatusProvider = eventListener,
+                            dataSource = dataSource,
                         )
                     }
                 ),
+                onToggleStateChanged = toggleListener,
                 onRestartClicked = {
                     val route = Screen.Minefield.getNavigableRoute(
                         rows = rows,

@@ -27,22 +27,38 @@ import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
-import com.jayasuryat.uigame.feedback.MusicManager
-import com.jayasuryat.uigame.feedback.VibrationManager
+import com.jayasuryat.uigame.data.GameDataSource
+import com.jayasuryat.uigame.feedback.sound.MusicManager
+import com.jayasuryat.uigame.feedback.sound.SoundStatusProvider
+import com.jayasuryat.uigame.feedback.vibration.VibrationManager
+import com.jayasuryat.uigame.feedback.vibration.VibrationStatusProvider
 import com.jayasuryat.uigame.logic.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 
 class GameViewModel(
     context: Context,
     gameConfiguration: GameConfiguration,
+    soundStatusProvider: SoundStatusProvider,
+    vibrationStatusProvider: VibrationStatusProvider,
+    private val dataSource: GameDataSource,
 ) : ViewModel() {
+
+    private val ioScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
 
     internal val statefulGrid: StatefulGrid = getStatefulGrid(
         gameConfiguration = gameConfiguration,
     )
 
-    private val toggleState: MutableState<ToggleState> = mutableStateOf(ToggleState.Reveal)
+    private val _shouldShowToggle: MutableState<Boolean> = mutableStateOf(false)
+    val shouldShowToggle: State<Boolean> = _shouldShowToggle
+
+    private val _toggleState: MutableState<ToggleState> = mutableStateOf(ToggleState.Reveal)
+    internal val toggleState: State<ToggleState> = _toggleState
+
+    internal val soundManager: MusicManager by lazy { MusicManager(context, soundStatusProvider) }
+    internal val vibrationManager: VibrationManager by lazy {
+        VibrationManager(context, vibrationStatusProvider)
+    }
 
     private val _actionListener: ActionListener = ActionListener(
         statefulGrid = statefulGrid,
@@ -50,16 +66,23 @@ class GameViewModel(
         minefieldController = GameController.getDefault(),
         toggleState = toggleState,
         coroutineScope = CoroutineScope(Dispatchers.Default),
-        musicManager = MusicManager(context),
-        vibrationManager = VibrationManager(context),
+        musicManager = soundManager,
+        vibrationManager = vibrationManager,
     )
-    internal val actionLister: CellInteractionListener = _actionListener
 
+    internal val actionLister: CellInteractionListener = _actionListener
     internal val gameState: State<GameState> = _actionListener.gameState
     internal val gameProgress: State<GameProgress> = _actionListener.gameProgress
 
+    internal fun loadToggleState() {
+        ioScope.launch {
+            _toggleState.value = dataSource.getToggleState()
+            _shouldShowToggle.value = dataSource.shouldShowToggle()
+        }
+    }
+
     internal fun onToggleStateUpdated(newState: ToggleState) {
-        toggleState.value = newState
+        _toggleState.value = newState
     }
 
     @Stable
@@ -80,5 +103,10 @@ class GameViewModel(
         )
 
         return grid.asStatefulGrid()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        ioScope.cancel()
     }
 }

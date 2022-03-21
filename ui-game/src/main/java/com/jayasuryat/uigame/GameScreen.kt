@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.TopCenter
@@ -38,10 +39,15 @@ import com.jayasuryat.util.LogCompositions
 @Composable
 fun GameScreen(
     viewModel: GameViewModel,
+    onToggleStateChanged: (toggleState: ToggleState) -> Unit,
     onRestartClicked: () -> Unit,
 ) {
 
     LogCompositions(name = "GameScreen")
+
+    LaunchedEffect(key1 = null) {
+        viewModel.loadToggleState()
+    }
 
     val actionsListener = remember { viewModel.actionLister }
     val layoutInfo = remember { GridLayoutInformation.from(statefulGrid = viewModel.statefulGrid) }
@@ -53,7 +59,9 @@ fun GameScreen(
         LogCompositions(name = "GameScreen\$Box")
 
         GameFeedback(
-            gameState = viewModel.gameState
+            gameState = viewModel.gameState,
+            soundManger = viewModel.soundManager,
+            vibrationManager = viewModel.vibrationManager,
         )
 
         MinefieldScreen(
@@ -70,16 +78,22 @@ fun GameScreen(
             onRestartClicked = onRestartClicked,
         )
 
-        val bottomPadding = with(LocalDensity.current) {
-            LocalWindowInsets.current.navigationBars.bottom.toDp()
-        } + 16.dp
+        if (viewModel.shouldShowToggle.value) {
 
-        Toggle(
-            modifier = Modifier
-                .align(alignment = BottomCenter)
-                .padding(bottom = bottomPadding),
-            defaultState = ToggleState.Reveal,
-            onToggleStateChanged = viewModel::onToggleStateUpdated,
-        )
+            val bottomPadding = with(LocalDensity.current) {
+                LocalWindowInsets.current.navigationBars.bottom.toDp()
+            } + 16.dp
+
+            Toggle(
+                modifier = Modifier
+                    .align(alignment = BottomCenter)
+                    .padding(bottom = bottomPadding),
+                toggleState = viewModel.toggleState,
+                onToggleStateChanged = { toggleState ->
+                    onToggleStateChanged(toggleState)
+                    viewModel.onToggleStateUpdated(toggleState)
+                },
+            )
+        }
     }
 }

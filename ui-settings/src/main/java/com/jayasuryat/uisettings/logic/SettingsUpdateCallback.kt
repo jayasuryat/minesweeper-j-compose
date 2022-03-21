@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.logic
+package com.jayasuryat.uisettings.logic
 
-sealed interface ToggleState {
+interface SettingsUpdateCallback {
 
-    object Flag : ToggleState
-    object Reveal : ToggleState
+    suspend fun onSoundToggled(enabled: Boolean)
+    suspend fun onVibrationToggled(enabled: Boolean)
+    suspend fun onModeToggled(enabled: Boolean)
+    suspend fun onDefaultModeToggled(mode: ToggleMode)
 }

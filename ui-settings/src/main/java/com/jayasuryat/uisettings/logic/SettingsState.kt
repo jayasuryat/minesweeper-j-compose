@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.logic
+package com.jayasuryat.uisettings.logic
 
-sealed interface ToggleState {
+import androidx.compose.runtime.Immutable
 
-    object Flag : ToggleState
-    object Reveal : ToggleState
-}
+@Immutable
+internal data class SettingsState(
+    val isSoundEnabled: Boolean,
+    val isVibrationEnabled: Boolean,
+    val isToggleEnabled: Boolean,
+    val defaultToggleMode: ToggleMode,
+)

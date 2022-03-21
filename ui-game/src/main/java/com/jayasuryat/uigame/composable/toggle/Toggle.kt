@@ -25,6 +25,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -41,16 +42,13 @@ import com.jayasuryat.util.LogCompositions
 @Composable
 internal fun Toggle(
     modifier: Modifier,
-    defaultState: ToggleState,
+    toggleState: State<ToggleState>,
     onToggleStateChanged: (newState: ToggleState) -> Unit,
 ) {
-
-    val state = remember { mutableStateOf(defaultState) }
 
     LogCompositions(name = "Toggle")
 
     fun updateState(newState: ToggleState) {
-        state.value = newState
         onToggleStateChanged(newState)
     }
 
@@ -68,7 +66,7 @@ internal fun Toggle(
     ) {
 
         AnimatedContent(
-            targetState = state.value,
+            targetState = toggleState.value,
             transitionSpec = {
                 fadeIn(animationSpec = tween(300)) with
                     fadeOut(animationSpec = tween(300, delayMillis = 150))
@@ -115,9 +113,10 @@ private fun ToggleIcons(
 @Preview(backgroundColor = 0x00FFFFFF)
 @Composable
 private fun Preview() {
+
     Toggle(
         modifier = Modifier,
-        defaultState = ToggleState.Flag,
+        toggleState = remember { mutableStateOf(ToggleState.Flag) },
         onToggleStateChanged = {},
     )
 }

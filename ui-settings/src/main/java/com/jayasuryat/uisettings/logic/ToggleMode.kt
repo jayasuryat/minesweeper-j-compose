@@ -13,10 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.logic
+package com.jayasuryat.uisettings.logic
 
-sealed interface ToggleState {
-
-    object Flag : ToggleState
-    object Reveal : ToggleState
-}
+enum class ToggleMode { Reveal, Flag }

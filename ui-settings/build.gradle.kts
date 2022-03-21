@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     kotlin("android")
 }
 
@@ -9,13 +9,8 @@ android {
 
     defaultConfig {
 
-        applicationId = "com.jayasuryat.minesweeperjc"
-
         minSdk = BuildConfig.minSdk
         targetSdk = BuildConfig.targetSdk
-
-        versionCode = 2
-        versionName = "1.0.0-alpha03"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -26,8 +21,7 @@ android {
     buildTypes {
 
         getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -59,10 +53,6 @@ android {
     }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class).all {
-    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
-}
-
 dependencies {
 
     testImplementation(Dependency.Test.junit)
@@ -70,28 +60,11 @@ dependencies {
     androidTestImplementation(Dependency.Test.espresso)
     androidTestImplementation(Dependency.Compose.Test.junit)
 
-    debugImplementation(Dependency.Compose.tooling)
-    implementation(Dependency.coreKtx)
-    implementation(Dependency.appCompat)
     implementation(Dependency.material)
     implementation(Dependency.Compose.ui)
     implementation(Dependency.Compose.material)
-    implementation(Dependency.Compose.activity)
     implementation(Dependency.Compose.toolingPreview)
-    implementation(Dependency.Compose.navigation)
+    debugImplementation(Dependency.Compose.tooling)
+
     implementation(Dependency.Compose.accompanistInsets)
-    implementation(Dependency.Compose.accompanistNavAnimation)
-
-    implementation(Dependency.lifecycleRuntime)
-    implementation(Dependency.settings)
-    implementation(Dependency.kotlinxSerialization)
-
-    implementation(project(Dependency.Module.util))
-    implementation(project(Dependency.Module.data))
-    implementation(project(Dependency.Module.gameScreen))
-    implementation(project(Dependency.Module.difficultySelection))
-    implementation(project(Dependency.Module.settings))
-
-    debugImplementation(Dependency.takt)
-    releaseImplementation(Dependency.taktNoOp)
 }

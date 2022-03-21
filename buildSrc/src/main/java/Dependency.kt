@@ -19,6 +19,7 @@ object Dependency {
 
         const val gameScreen = ":ui-game"
         const val difficultySelection = ":ui-difficulty-selection"
+        const val settings = ":ui-settings"
 
         const val data = ":data"
     }
