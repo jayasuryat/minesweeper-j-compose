@@ -22,30 +22,24 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.jayasuryat.data.settings.sources.definitions.UserPreferences
-import com.jayasuryat.data.settings.sources.impl.UserPreferencesImpl
-import com.jayasuryat.data.store.DataStore
 import com.jayasuryat.difficultyselection.DifficultySelectionScreen
-import com.jayasuryat.minesweeperjc.data.GameDataSourceImpl
-import com.jayasuryat.minesweeperjc.data.SettingsChangeEventListener
-import com.jayasuryat.minesweeperjc.data.SettingsPreferencesImpl
-import com.jayasuryat.minesweeperjc.data.ToggleStateChangeListener
-import com.jayasuryat.minesweeperjc.util.ViewModelFactory
 import com.jayasuryat.uigame.GameScreen
 import com.jayasuryat.uigame.GameViewModel
 import com.jayasuryat.uigame.logic.GameConfiguration
+import com.jayasuryat.uigame.logic.ToggleState
 import com.jayasuryat.uisettings.SettingsScreen
+import com.jayasuryat.uisettings.logic.SettingsChangeListener
 import com.jayasuryat.uisettings.logic.SettingsViewModel
 import com.jayasuryat.util.LogCompositions
-import com.russhwolf.settings.Settings
+import org.koin.androidx.compose.get
+import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.ParametersHolder
 import java.util.*
 
 @Composable
@@ -130,23 +124,10 @@ private fun MinesweeperApp() {
             route = Screen.Settings.getRoute(),
         ) {
 
-            val preferences: UserPreferences = UserPreferencesImpl(
-                store = DataStore(
-                    settings = Settings(),
-                )
-            )
-            val eventListener = SettingsChangeEventListener.getInstance(preferences)
-
+            @Suppress("RemoveExplicitTypeArguments")
             SettingsScreen(
-                viewModel = viewModel(
-                    factory = ViewModelFactory {
-
-                        SettingsViewModel(
-                            settingsPreferences = SettingsPreferencesImpl(preferences),
-                        )
-                    }
-                ),
-                onSettingsChanged = eventListener,
+                viewModel = getViewModel<SettingsViewModel>(),
+                settingsChangeListener = get<SettingsChangeListener>(),
                 onBackPressed = { navController.popBackStack() },
             )
         }
@@ -197,36 +178,12 @@ private fun MinesweeperApp() {
                 mines = mines,
             )
 
-            val context = LocalContext.current.applicationContext
-
-            val preferences: UserPreferences = UserPreferencesImpl(
-                store = DataStore(
-                    settings = Settings(),
-                )
-            )
-
-            val toggleListener = ToggleStateChangeListener(userPreferences = preferences)
-
+            @Suppress("RemoveExplicitTypeArguments")
             GameScreen(
-                viewModel = viewModel(
-                    factory = ViewModelFactory {
-
-                        val dataSource = GameDataSourceImpl(
-                            userPreferences = preferences
-                        )
-
-                        val eventListener = SettingsChangeEventListener.getInstance(preferences)
-
-                        GameViewModel(
-                            context = context,
-                            gameConfiguration = gameConfiguration,
-                            soundStatusProvider = eventListener,
-                            vibrationStatusProvider = eventListener,
-                            dataSource = dataSource,
-                        )
-                    }
-                ),
-                onToggleStateChanged = toggleListener,
+                viewModel = getViewModel<GameViewModel> {
+                    ParametersHolder(mutableListOf(gameConfiguration))
+                },
+                onToggleStateChanged = get<(ToggleState) -> Unit>(),
                 onRestartClicked = {
                     val route = Screen.Minefield.getNavigableRoute(
                         rows = rows,

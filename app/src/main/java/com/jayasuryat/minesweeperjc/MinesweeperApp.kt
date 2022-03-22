@@ -16,8 +16,16 @@
 package com.jayasuryat.minesweeperjc
 
 import android.app.Application
+import com.jayasuryat.minesweeperjc.di.difficultySelectionModule
+import com.jayasuryat.minesweeperjc.di.gameModule
+import com.jayasuryat.minesweeperjc.di.preferencesModule
+import com.jayasuryat.minesweeperjc.di.settingsModule
 import jp.wasabeef.takt.Seat
 import jp.wasabeef.takt.Takt
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 @Suppress("unused")
 class MinesweeperApp : Application() {
@@ -25,6 +33,7 @@ class MinesweeperApp : Application() {
     override fun onCreate() {
         super.onCreate()
         attachTakt()
+        initKoin()
     }
 
     private fun attachTakt() {
@@ -36,5 +45,17 @@ class MinesweeperApp : Application() {
             .color(android.graphics.Color.WHITE)
             .size(32f)
             .alpha(1f)
+    }
+
+    private fun initKoin() {
+
+        startKoin {
+            androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
+            androidContext(this@MinesweeperApp)
+            modules(preferencesModule)
+            modules(difficultySelectionModule)
+            modules(settingsModule)
+            modules(gameModule)
+        }
     }
 }

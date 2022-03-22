@@ -19,6 +19,7 @@ import com.jayasuryat.data.settings.sources.definitions.UserPreferences
 import com.jayasuryat.uigame.feedback.sound.SoundStatusProvider
 import com.jayasuryat.uigame.feedback.vibration.VibrationStatusProvider
 import com.jayasuryat.uisettings.logic.SettingsChangeEvent
+import com.jayasuryat.uisettings.logic.SettingsChangeListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -26,7 +27,7 @@ import kotlinx.coroutines.launch
 
 class SettingsChangeEventListener(
     private val userPreferences: UserPreferences,
-) : (SettingsChangeEvent) -> Unit,
+) : SettingsChangeListener,
     SoundStatusProvider,
     VibrationStatusProvider {
 
@@ -46,7 +47,7 @@ class SettingsChangeEventListener(
         isVibrationEnabled = userPreferences.getIsVibrationEnabled()
     }
 
-    override fun invoke(event: SettingsChangeEvent) {
+    override fun onSettingsChanged(event: SettingsChangeEvent) {
         ioScope.launch { handleEvent(event = event) }
     }
 

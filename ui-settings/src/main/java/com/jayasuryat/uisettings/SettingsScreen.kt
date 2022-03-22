@@ -27,12 +27,13 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.LocalWindowInsets
 import com.jayasuryat.uisettings.composable.SettingsContent
 import com.jayasuryat.uisettings.logic.SettingsChangeEvent
+import com.jayasuryat.uisettings.logic.SettingsChangeListener
 import com.jayasuryat.uisettings.logic.SettingsViewModel
 
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
-    onSettingsChanged: (event: SettingsChangeEvent) -> Unit,
+    settingsChangeListener: SettingsChangeListener,
     onBackPressed: () -> Unit,
 ) {
 
@@ -51,7 +52,7 @@ fun SettingsScreen(
         event: SettingsChangeEvent,
     ) {
         viewModel.onSettingsChanged(event = event)
-        onSettingsChanged(event)
+        settingsChangeListener.onSettingsChanged(event)
     }
 
     SettingsContent(
