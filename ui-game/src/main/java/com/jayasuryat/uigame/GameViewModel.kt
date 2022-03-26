@@ -41,7 +41,9 @@ class GameViewModel(
     private val dataSource: GameDataSource,
 ) : ViewModel() {
 
-    private val ioScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
+    private val job: Job by lazy { SupervisorJob() }
+    private val ioScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.IO + job) }
+    private val defaultScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.Default + job) }
 
     internal val statefulGrid: StatefulGrid = getStatefulGrid(gameConfiguration = gameConfiguration)
 
@@ -56,7 +58,7 @@ class GameViewModel(
         girdGenerator = gridGenerator,
         minefieldController = minefieldController,
         toggleState = toggleState,
-        coroutineScope = CoroutineScope(Dispatchers.Default),
+        coroutineScope = defaultScope,
         musicManager = soundManager,
         vibrationManager = vibrationManager,
     )
@@ -98,6 +100,6 @@ class GameViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        ioScope.cancel()
+        job.cancel()
     }
 }
