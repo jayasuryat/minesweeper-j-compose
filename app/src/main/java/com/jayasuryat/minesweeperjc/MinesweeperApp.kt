@@ -16,7 +16,9 @@
 package com.jayasuryat.minesweeperjc
 
 import android.app.Application
+import com.jayasuryat.minesweeperjc.di.*
 import com.jayasuryat.minesweeperjc.di.difficultySelectionModule
+import com.jayasuryat.minesweeperjc.di.gameEngineModule
 import com.jayasuryat.minesweeperjc.di.gameModule
 import com.jayasuryat.minesweeperjc.di.preferencesModule
 import com.jayasuryat.minesweeperjc.di.settingsModule
@@ -56,6 +58,7 @@ class MinesweeperApp : Application() {
             modules(difficultySelectionModule)
             modules(settingsModule)
             modules(gameModule)
+            modules(gameEngineModule)
         }
     }
 }

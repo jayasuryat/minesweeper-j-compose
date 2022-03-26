@@ -22,7 +22,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 
-internal class VibrationManager(
+class VibrationManager(
     private val context: Context,
     private val vibrationStatusProvider: VibrationStatusProvider,
 ) {

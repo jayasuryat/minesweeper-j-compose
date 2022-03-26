@@ -75,30 +75,4 @@ class SettingsChangeEventListener(
                 userPreferences.setDefaultToggleMode(mode = event.toggleMode.name)
         }
     }
-
-    companion object {
-
-        @Suppress("ObjectPropertyName")
-        @Volatile
-        private var _instance: SettingsChangeEventListener? = null
-
-        // TODO: Migrate to a proper DI solution
-        fun getInstance(
-            userPreferences: UserPreferences,
-        ): SettingsChangeEventListener {
-
-            _instance?.let { return it }
-
-            synchronized(this@Companion) {
-
-                _instance?.let { return it }
-
-                val instance = SettingsChangeEventListener(
-                    userPreferences = userPreferences
-                )
-                _instance = instance
-                return instance
-            }
-        }
-    }
 }

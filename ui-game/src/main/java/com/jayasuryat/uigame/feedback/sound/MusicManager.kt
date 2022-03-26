@@ -20,7 +20,7 @@ import android.media.MediaPlayer
 import com.jayasuryat.uigame.R
 import com.jayasuryat.util.TrackedLazyCollector
 
-internal class MusicManager(
+class MusicManager(
     private val context: Context,
     private val soundStatusProvider: SoundStatusProvider,
 ) {
