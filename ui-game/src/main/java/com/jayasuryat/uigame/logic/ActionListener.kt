@@ -104,7 +104,7 @@ internal class ActionListener(
                             is RawCell.UnrevealedCell.UnFlaggedCell -> musicManager.cancel()
                         }
 
-                        delay(30L)
+                        delay(DELAY_FOR_EACH_CELL)
                     }
                 )
             }
@@ -113,17 +113,17 @@ internal class ActionListener(
 
                 statefulGrid.updateCellsWith(
                     updatedCells = event.revealedEmptyCells,
-                    onEach = { _, _ -> delay(30L) }
+                    onEach = { _, _ -> delay(DELAY_FOR_EACH_CELL) }
                 )
 
                 statefulGrid.updateCellsWith(
                     updatedCells = event.revealedValueCells,
-                    onEach = { _, _ -> delay(30L) }
+                    onEach = { _, _ -> delay(DELAY_FOR_EACH_CELL) }
                 )
 
                 statefulGrid.updateCellsWith(
                     updatedCells = event.revealedMineCells,
-                    onEach = { _, _ -> delay(30L) }
+                    onEach = { _, _ -> delay(DELAY_FOR_EACH_CELL) }
                 )
             }
 
@@ -232,5 +232,10 @@ internal class ActionListener(
                 is CellInteraction.OnValueCellClicked -> MinefieldAction.OnValueCellClicked(cell = cell)
             }
         }
+    }
+
+    companion object {
+
+        private const val DELAY_FOR_EACH_CELL: Long = 30L
     }
 }
