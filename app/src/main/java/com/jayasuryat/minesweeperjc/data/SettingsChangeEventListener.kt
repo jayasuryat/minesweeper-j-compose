@@ -19,6 +19,7 @@ import com.jayasuryat.data.settings.sources.definitions.UserPreferences
 import com.jayasuryat.uigame.feedback.sound.SoundStatusProvider
 import com.jayasuryat.uigame.feedback.vibration.VibrationStatusProvider
 import com.jayasuryat.uisettings.logic.SettingsChangeEvent
+import com.jayasuryat.uisettings.logic.SettingsChangeListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -26,7 +27,7 @@ import kotlinx.coroutines.launch
 
 class SettingsChangeEventListener(
     private val userPreferences: UserPreferences,
-) : (SettingsChangeEvent) -> Unit,
+) : SettingsChangeListener,
     SoundStatusProvider,
     VibrationStatusProvider {
 
@@ -46,7 +47,7 @@ class SettingsChangeEventListener(
         isVibrationEnabled = userPreferences.getIsVibrationEnabled()
     }
 
-    override fun invoke(event: SettingsChangeEvent) {
+    override fun onSettingsChanged(event: SettingsChangeEvent) {
         ioScope.launch { handleEvent(event = event) }
     }
 
@@ -72,32 +73,6 @@ class SettingsChangeEventListener(
 
             is SettingsChangeEvent.OnDefaultToggleModeChanged ->
                 userPreferences.setDefaultToggleMode(mode = event.toggleMode.name)
-        }
-    }
-
-    companion object {
-
-        @Suppress("ObjectPropertyName")
-        @Volatile
-        private var _instance: SettingsChangeEventListener? = null
-
-        // TODO: Migrate to a proper DI solution
-        fun getInstance(
-            userPreferences: UserPreferences,
-        ): SettingsChangeEventListener {
-
-            _instance?.let { return it }
-
-            synchronized(this@Companion) {
-
-                _instance?.let { return it }
-
-                val instance = SettingsChangeEventListener(
-                    userPreferences = userPreferences
-                )
-                _instance = instance
-                return instance
-            }
         }
     }
 }

@@ -15,39 +15,35 @@
  */
 package com.jayasuryat.uigame
 
-import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.jayasuryat.minesweeperengine.controller.impl.GameController
-import com.jayasuryat.minesweeperengine.gridgenerator.MineGridGenerator
+import com.jayasuryat.minesweeperengine.controller.MinefieldController
+import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperengine.state.asStatefulGrid
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.uigame.data.GameDataSource
 import com.jayasuryat.uigame.feedback.sound.MusicManager
-import com.jayasuryat.uigame.feedback.sound.SoundStatusProvider
 import com.jayasuryat.uigame.feedback.vibration.VibrationManager
-import com.jayasuryat.uigame.feedback.vibration.VibrationStatusProvider
 import com.jayasuryat.uigame.logic.*
 import kotlinx.coroutines.*
 
 class GameViewModel(
-    context: Context,
     gameConfiguration: GameConfiguration,
-    soundStatusProvider: SoundStatusProvider,
-    vibrationStatusProvider: VibrationStatusProvider,
+    gridGenerator: GridGenerator,
+    minefieldController: MinefieldController,
+    val soundManager: MusicManager,
+    val vibrationManager: VibrationManager,
     private val dataSource: GameDataSource,
 ) : ViewModel() {
 
     private val ioScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
 
-    internal val statefulGrid: StatefulGrid = getStatefulGrid(
-        gameConfiguration = gameConfiguration,
-    )
+    internal val statefulGrid: StatefulGrid = getStatefulGrid(gameConfiguration = gameConfiguration)
 
     private val _shouldShowToggle: MutableState<Boolean> = mutableStateOf(false)
     val shouldShowToggle: State<Boolean> = _shouldShowToggle
@@ -55,15 +51,10 @@ class GameViewModel(
     private val _toggleState: MutableState<ToggleState> = mutableStateOf(ToggleState.Reveal)
     internal val toggleState: State<ToggleState> = _toggleState
 
-    internal val soundManager: MusicManager by lazy { MusicManager(context, soundStatusProvider) }
-    internal val vibrationManager: VibrationManager by lazy {
-        VibrationManager(context, vibrationStatusProvider)
-    }
-
     private val _actionListener: ActionListener = ActionListener(
         statefulGrid = statefulGrid,
-        girdGenerator = MineGridGenerator(),
-        minefieldController = GameController.getDefault(),
+        girdGenerator = gridGenerator,
+        minefieldController = minefieldController,
         toggleState = toggleState,
         coroutineScope = CoroutineScope(Dispatchers.Default),
         musicManager = soundManager,

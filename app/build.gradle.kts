@@ -86,6 +86,11 @@ dependencies {
     implementation(Dependency.settings)
     implementation(Dependency.kotlinxSerialization)
 
+    implementation(Dependency.koinAndroid)
+    implementation(Dependency.koinCompose)
+
+    implementation(project(Dependency.Module.mineSweeperEngine))
+
     implementation(project(Dependency.Module.util))
     implementation(project(Dependency.Module.data))
     implementation(project(Dependency.Module.gameScreen))
