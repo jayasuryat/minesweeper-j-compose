@@ -13,23 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.data.sqldelight
+package com.jayasuryat.data.game.sources.definition
 
-import android.content.Context
-import com.jayasuryat.data.MinesweeperDatabase
-import com.squareup.sqldelight.android.AndroidSqliteDriver
-import com.squareup.sqldelight.db.SqlDriver
+import com.jayasuryat.data.model.Grid
 
-public actual class DriverFactory(
-    private val context: Context,
-) {
+public interface GameDataSource {
 
-    public actual fun createDriver(): SqlDriver {
+    public suspend fun saveGame(grid: Grid)
 
-        return AndroidSqliteDriver(
-            schema = MinesweeperDatabase.Schema,
-            context = context,
-            name = DatabaseName,
-        )
-    }
+    public suspend fun getSavedGameForDifficultyLevel(
+        difficultyLevel: Int,
+    ): Grid?
 }
