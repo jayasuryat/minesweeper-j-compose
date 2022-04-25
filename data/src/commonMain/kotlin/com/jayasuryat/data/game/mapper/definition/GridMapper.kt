@@ -15,14 +15,14 @@
  */
 package com.jayasuryat.data.game.mapper.definition
 
-import com.jayasuryat.data.model.Grid
+import com.jayasuryat.data.model.Cell
 
 internal interface GridMapper : GridToStringMapper, StringToGridMapper
 
 internal fun interface GridToStringMapper {
-    fun mapToString(grid: Grid): String
+    fun mapToString(grid: List<List<Cell>>): String
 }
 
 internal fun interface StringToGridMapper {
-    fun mapToGrid(string: String): Grid
+    fun mapToGrid(grid: String): List<List<Cell>>
 }

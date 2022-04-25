@@ -21,7 +21,9 @@ public interface GameDataSource {
 
     public suspend fun saveGame(grid: Grid)
 
-    public suspend fun getSavedGameForDifficultyLevel(
-        difficultyLevel: Int,
+    public suspend fun getSavedGameFor(
+        rows: Int,
+        columns: Int,
+        totalMines: Int,
     ): Grid?
 }

@@ -31,26 +31,35 @@ internal class GameDataSourceImpl(
         grid: Grid,
     ) {
 
-        val mapped = gridMapper.mapToString(grid)
-
         database.gridQueries.insertGrid(
-            difficulty_level = grid.difficultyLevel.toLong(),
-            game_data = mapped,
+            rows = grid.rows.toLong(),
+            columns = grid.columns.toLong(),
+            totalMines = grid.totalMines.toLong(),
+            startTime = grid.startTime,
+            endTime = grid.endTime,
+            grid = gridMapper.mapToString(grid.grid),
         )
     }
 
-    override suspend fun getSavedGameForDifficultyLevel(
-        difficultyLevel: Int,
+    override suspend fun getSavedGameFor(
+        rows: Int,
+        columns: Int,
+        totalMines: Int,
     ): Grid? {
 
-        // TODO: Write a proper query to fetch based on difficulty level
-        val grids = database.gridQueries.getAllGrids()
-            .executeAsList()
+        val grid = database.gridQueries.getGridFor(
+            rows = rows.toLong(),
+            columns = columns.toLong(),
+            totalMines = totalMines.toLong(),
+        ).executeAsList().firstOrNull() ?: return null
 
-        val grid = grids
-            .firstOrNull { it.difficulty_level == difficultyLevel.toLong() }
-            ?: return null
-
-        return stringMapper.mapToGrid(grid.game_data)
+        return Grid(
+            rows = rows,
+            columns = columns,
+            totalMines = totalMines,
+            startTime = grid.startTime,
+            endTime = grid.endTime,
+            grid = stringMapper.mapToGrid(grid.grid),
+        )
     }
 }

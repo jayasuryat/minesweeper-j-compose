@@ -16,7 +16,7 @@
 package com.jayasuryat.data.game.mapper.impl
 
 import com.jayasuryat.data.game.mapper.definition.GridMapper
-import com.jayasuryat.data.model.Grid
+import com.jayasuryat.data.model.Cell
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -26,10 +26,10 @@ internal class GridMapperImpl(
 ) : GridMapper {
 
     override fun mapToString(
-        grid: Grid,
+        grid: List<List<Cell>>,
     ): String = json.encodeToString(grid)
 
     override fun mapToGrid(
-        string: String,
-    ): Grid = json.decodeFromString(string)
+        grid: String,
+    ): List<List<Cell>> = json.decodeFromString(grid)
 }
