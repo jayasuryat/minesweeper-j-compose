@@ -48,7 +48,7 @@ class GameViewModel(
     internal val statefulGrid: StatefulGrid = getStatefulGrid(gameConfiguration = gameConfiguration)
 
     private val _shouldShowToggle: MutableState<Boolean> = mutableStateOf(false)
-    val shouldShowToggle: State<Boolean> = _shouldShowToggle
+    internal val shouldShowToggle: State<Boolean> = _shouldShowToggle
 
     private val _toggleState: MutableState<ToggleState> = mutableStateOf(ToggleState.Reveal)
     internal val toggleState: State<ToggleState> = _toggleState

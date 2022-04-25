@@ -17,7 +17,10 @@ package com.jayasuryat.minesweeperjc
 
 import android.app.Application
 import com.jayasuryat.data.di.dataModule
-import com.jayasuryat.minesweeperjc.di.*
+import com.jayasuryat.minesweeperjc.di.difficultySelectionModule
+import com.jayasuryat.minesweeperjc.di.gameEngineModule
+import com.jayasuryat.minesweeperjc.di.gameModule
+import com.jayasuryat.minesweeperjc.di.settingsModule
 import jp.wasabeef.takt.Seat
 import jp.wasabeef.takt.Takt
 import org.koin.android.ext.koin.androidContext
