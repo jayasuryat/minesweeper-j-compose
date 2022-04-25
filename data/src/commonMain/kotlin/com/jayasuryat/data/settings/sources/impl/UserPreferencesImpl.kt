@@ -35,8 +35,8 @@ internal class UserPreferencesImpl(
         store.putBoolean(PREF_SHOW_TOGGLE, show)
 
     override suspend fun getDefaultToggleMode(): String? = store.getString(PREF_DEFAULT_TOGGLE)
-    override suspend fun setDefaultToggleMode(string: String): Unit =
-        store.putString(PREF_DEFAULT_TOGGLE, string)
+    override suspend fun setDefaultToggleMode(mode: String): Unit =
+        store.putString(PREF_DEFAULT_TOGGLE, mode)
 
     private companion object {
 
