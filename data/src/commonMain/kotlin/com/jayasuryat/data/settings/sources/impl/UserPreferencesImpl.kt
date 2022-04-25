@@ -18,7 +18,7 @@ package com.jayasuryat.data.settings.sources.impl
 import com.jayasuryat.data.settings.sources.definitions.UserPreferences
 import com.jayasuryat.data.store.DataStore
 
-public class UserPreferencesImpl(
+internal class UserPreferencesImpl(
     private val store: DataStore,
 ) : UserPreferences {
 

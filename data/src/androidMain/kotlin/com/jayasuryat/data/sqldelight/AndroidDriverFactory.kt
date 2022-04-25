@@ -20,11 +20,11 @@ import com.jayasuryat.data.MinesweeperDatabase
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 
-public actual class DriverFactory(
+internal actual class DriverFactory(
     private val context: Context,
 ) {
 
-    public actual fun createDriver(): SqlDriver {
+    actual fun createDriver(): SqlDriver {
 
         return AndroidSqliteDriver(
             schema = MinesweeperDatabase.Schema,

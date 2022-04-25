@@ -17,9 +17,9 @@ package com.jayasuryat.data.sqldelight
 
 import com.jayasuryat.data.MinesweeperDatabase
 
-public class DatabaseCreator {
+internal class DatabaseCreator {
 
-    public fun createDatabase(
+    fun createDatabase(
         driverFactory: DriverFactory,
     ): MinesweeperDatabase {
         val driver = driverFactory.createDriver()
