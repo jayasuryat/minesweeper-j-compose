@@ -34,6 +34,7 @@ kotlin {
             dependencies {
                 implementation(Dependency.settings)
                 implementation(Dependency.kotlinxSerialization)
+                implementation(Dependency.koinCore)
                 implementation(Dependency.sqldelightRuntime)
             }
         }
@@ -46,6 +47,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(Dependency.koinCore)
                 implementation(Dependency.sqldelightAndroidDriver)
             }
         }
@@ -59,6 +61,7 @@ kotlin {
         val iosMain by getting {
             dependsOn(commonMain)
             dependencies {
+                implementation(Dependency.koinCore)
                 implementation(Dependency.sqldelightNativeDriver)
             }
         }
