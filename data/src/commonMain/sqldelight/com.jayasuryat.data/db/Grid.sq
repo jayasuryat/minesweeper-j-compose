@@ -1,13 +1,19 @@
 CREATE TABLE Grid (
-  difficulty_level INTEGER NOT NULL,
-  game_data TEXT NOT NULL
+  rows INTEGER NOT NULL,
+  columns INTEGER NOT NULL,
+  totalMines INTEGER NOT NULL,
+  startTime INTEGER NOT NULL,
+  endTime INTEGER,
+  grid TEXT NOT NULL
 );
 
-CREATE INDEX Grid_difficulty_level ON Grid(difficulty_level);
+CREATE INDEX Grid_rows ON Grid(rows);
+CREATE INDEX Grid_columns ON Grid(columns);
+CREATE INDEX Grid_totalMines ON Grid(totalMines);
 
 insertGrid:
-INSERT INTO Grid (difficulty_level, game_data)
-VALUES (?,?);
+INSERT INTO Grid (rows, columns,totalMines,startTime,endTime, grid)
+VALUES (?,?,?,?,?,?);
 
 getAllGrids:
 SELECT * FROM Grid;
