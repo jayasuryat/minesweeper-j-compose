@@ -201,7 +201,8 @@ internal class ActionListener(
             }
 
             is MinefieldEvent.OnGameOver -> {
-                GameState.GameEnded.GameOver.now()
+                require(currentState is GameState.StartedGameState)
+                GameState.GameEnded.GameOver.now(startTime = currentState.startTime)
             }
 
             is MinefieldEvent.OnGameComplete -> {

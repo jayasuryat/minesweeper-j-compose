@@ -24,7 +24,7 @@ internal class GameTopBarParamProvider : PreviewParameterProvider<GameState> {
         get() = sequenceOf(
             GameState.Idle,
             GameState.GameStarted.now(),
-            GameState.GameEnded.GameOver.now(),
+            GameState.GameEnded.GameOver.now(startTime = System.currentTimeMillis()),
             GameState.GameEnded.GameCompleted.now(startTime = System.currentTimeMillis()),
         )
 }
