@@ -36,8 +36,8 @@ class GameViewModel(
     gameConfiguration: GameConfiguration,
     gridGenerator: GridGenerator,
     minefieldController: MinefieldController,
-    val soundManager: MusicManager,
-    val vibrationManager: VibrationManager,
+    internal val soundManager: MusicManager,
+    internal val vibrationManager: VibrationManager,
     private val dataSource: GameDataSource,
 ) : ViewModel() {
 

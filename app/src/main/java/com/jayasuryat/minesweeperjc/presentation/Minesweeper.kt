@@ -178,11 +178,13 @@ private fun MinesweeperApp() {
                 mines = mines,
             )
 
+            val viewModel = getViewModel<GameViewModel> {
+                ParametersHolder(mutableListOf(gameConfiguration))
+            }
+
             @Suppress("RemoveExplicitTypeArguments")
             GameScreen(
-                viewModel = getViewModel<GameViewModel> {
-                    ParametersHolder(mutableListOf(gameConfiguration))
-                },
+                viewModel = viewModel,
                 onToggleStateChanged = get<(ToggleState) -> Unit>(),
                 onRestartClicked = {
                     val route = Screen.Minefield.getNavigableRoute(
