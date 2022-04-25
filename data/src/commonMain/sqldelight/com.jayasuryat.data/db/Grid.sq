@@ -15,5 +15,9 @@ insertGrid:
 INSERT INTO Grid (rows, columns,totalMines,startTime,endTime, grid)
 VALUES (?,?,?,?,?,?);
 
-getAllGrids:
-SELECT * FROM Grid;
+getGridFor:
+SELECT *
+FROM Grid
+WHERE rows = ?
+AND columns = ?
+AND totalMines = ?;
