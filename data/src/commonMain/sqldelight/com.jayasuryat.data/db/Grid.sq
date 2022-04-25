@@ -1,0 +1,13 @@
+CREATE TABLE Grid (
+  difficulty_level INTEGER NOT NULL,
+  game_data TEXT NOT NULL
+);
+
+CREATE INDEX Grid_difficulty_level ON Grid(difficulty_level);
+
+insertGrid:
+INSERT INTO Grid (difficulty_level, game_data)
+VALUES (?,?);
+
+getAllGrids:
+SELECT * FROM Grid;
