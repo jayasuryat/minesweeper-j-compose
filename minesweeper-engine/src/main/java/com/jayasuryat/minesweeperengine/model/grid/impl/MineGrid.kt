@@ -21,8 +21,10 @@ import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 
+// TODO: Explain why the internal visibility modifier was weakened
+
 @Immutable
-internal data class MineGrid(
+public data class MineGrid(
     override val gridSize: GridSize,
     override val totalMines: Int,
     override val cells: List<List<RawCell>>,
