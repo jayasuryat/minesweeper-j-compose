@@ -32,9 +32,7 @@ internal class GameDataSourceImpl(
     ) {
 
         database.gridQueries.insertGrid(
-            rows = grid.rows.toLong(),
-            columns = grid.columns.toLong(),
-            totalMines = grid.totalMines.toLong(),
+            id = grid.id,
             startTime = grid.startTime,
             endTime = grid.endTime,
             grid = gridMapper.mapToString(grid.grid),
@@ -42,21 +40,15 @@ internal class GameDataSourceImpl(
     }
 
     override suspend fun getSavedGameFor(
-        rows: Int,
-        columns: Int,
-        totalMines: Int,
+        id: String,
     ): Grid? {
 
-        val grid = database.gridQueries.getGridFor(
-            rows = rows.toLong(),
-            columns = columns.toLong(),
-            totalMines = totalMines.toLong(),
-        ).executeAsList().firstOrNull() ?: return null
+        val grid = database.gridQueries
+            .getGridForId(id = id)
+            .executeAsOneOrNull() ?: return null
 
         return Grid(
-            rows = rows,
-            columns = columns,
-            totalMines = totalMines,
+            id = id,
             startTime = grid.startTime,
             endTime = grid.endTime,
             grid = stringMapper.mapToGrid(grid.grid),

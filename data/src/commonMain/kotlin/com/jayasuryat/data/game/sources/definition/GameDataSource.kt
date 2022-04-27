@@ -22,8 +22,6 @@ public interface GameDataSource {
     public suspend fun saveGame(grid: Grid)
 
     public suspend fun getSavedGameFor(
-        rows: Int,
-        columns: Int,
-        totalMines: Int,
+        id: String,
     ): Grid?
 }

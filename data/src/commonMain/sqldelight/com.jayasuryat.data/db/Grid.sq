@@ -1,23 +1,17 @@
 CREATE TABLE Grid (
-  rows INTEGER NOT NULL,
-  columns INTEGER NOT NULL,
-  totalMines INTEGER NOT NULL,
+  id TEXT NOT NULL PRIMARY KEY ,
   startTime INTEGER NOT NULL,
   endTime INTEGER,
   grid TEXT NOT NULL
 );
 
-CREATE INDEX Grid_rows ON Grid(rows);
-CREATE INDEX Grid_columns ON Grid(columns);
-CREATE INDEX Grid_totalMines ON Grid(totalMines);
+CREATE INDEX Grid_id ON Grid(id);
 
 insertGrid:
-INSERT INTO Grid (rows, columns,totalMines,startTime,endTime, grid)
-VALUES (?,?,?,?,?,?);
+INSERT OR REPLACE INTO Grid (id, startTime,endTime, grid)
+VALUES (?,?,?,?);
 
-getGridFor:
+getGridForId:
 SELECT *
 FROM Grid
-WHERE rows = ?
-AND columns = ?
-AND totalMines = ?;
+WHERE id = ?;

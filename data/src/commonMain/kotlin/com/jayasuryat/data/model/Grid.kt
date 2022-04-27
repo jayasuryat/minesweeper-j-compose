@@ -19,9 +19,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class Grid(
-    val rows: Int,
-    val columns: Int,
-    val totalMines: Int,
+    val id: String,
     val startTime: Long,
     val endTime: Long?,
     val grid: List<List<Cell>>,
