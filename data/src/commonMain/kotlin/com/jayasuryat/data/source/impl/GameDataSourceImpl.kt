@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.data.game.sources.impl
+package com.jayasuryat.data.source.impl
 
 import com.jayasuryat.data.MinesweeperDatabase
-import com.jayasuryat.data.game.sources.definition.GameDataSource
+import com.jayasuryat.data.source.definition.GameDataSource
 import com.jayasuryat.data.model.Cell
 import com.jayasuryat.data.model.Grid
 import kotlinx.serialization.decodeFromString

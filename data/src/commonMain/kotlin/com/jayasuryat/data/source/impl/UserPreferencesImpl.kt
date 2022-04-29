@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.data.settings.sources.impl
+package com.jayasuryat.data.source.impl
 
-import com.jayasuryat.data.settings.sources.definitions.UserPreferences
+import com.jayasuryat.data.source.definition.UserPreferences
 import com.jayasuryat.data.store.DataStore
 
 internal class UserPreferencesImpl(

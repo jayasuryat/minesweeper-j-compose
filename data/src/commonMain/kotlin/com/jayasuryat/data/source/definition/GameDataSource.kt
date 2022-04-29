@@ -13,19 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.data.settings.sources.definitions
+package com.jayasuryat.data.source.definition
 
-public interface UserPreferences {
+import com.jayasuryat.data.model.Grid
 
-    public suspend fun getIsSoundEnabled(): Boolean
-    public suspend fun setIsSoundEnabled(enabled: Boolean)
+public interface GameDataSource {
 
-    public suspend fun getIsVibrationEnabled(): Boolean
-    public suspend fun setIsVibrationEnabled(enabled: Boolean)
+    public suspend fun saveGame(grid: Grid)
 
-    public suspend fun getShouldShowToggle(): Boolean
-    public suspend fun setShouldShowToggle(show: Boolean)
-
-    public suspend fun getDefaultToggleMode(): String?
-    public suspend fun setDefaultToggleMode(mode: String)
+    public suspend fun getSavedGameFor(
+        id: String,
+    ): Grid?
 }
