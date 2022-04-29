@@ -16,11 +16,8 @@
 package com.jayasuryat.data.di
 
 import com.jayasuryat.data.MinesweeperDatabase
-import com.jayasuryat.data.game.sources.definition.GameDataSource
-import com.jayasuryat.data.game.sources.impl.GameDataSourceImpl
 import com.jayasuryat.data.sqldelight.DatabaseCreator
 import com.jayasuryat.data.sqldelight.DriverFactory
-import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
@@ -38,13 +35,6 @@ internal val databaseModule: Module = module {
 
         dbCreator.createDatabase(
             driverFactory = driverFactory
-        )
-    }
-
-    factory<GameDataSource> {
-        GameDataSourceImpl(
-            database = get<MinesweeperDatabase>(),
-            json = get<Json>(),
         )
     }
 }

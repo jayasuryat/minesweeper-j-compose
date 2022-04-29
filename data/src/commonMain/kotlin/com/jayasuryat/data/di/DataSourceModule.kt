@@ -15,20 +15,28 @@
  */
 package com.jayasuryat.data.di
 
+import com.jayasuryat.data.MinesweeperDatabase
+import com.jayasuryat.data.game.sources.definition.GameDataSource
+import com.jayasuryat.data.game.sources.impl.GameDataSourceImpl
+import com.jayasuryat.data.settings.sources.definitions.UserPreferences
+import com.jayasuryat.data.settings.sources.impl.UserPreferencesImpl
 import com.jayasuryat.data.store.DataStore
-import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
 @Suppress("RemoveExplicitTypeArguments")
-internal val preferencesModule: Module = module {
+internal val dataSourceModule: Module = module {
 
-    single<Settings> { Settings() }
+    factory<UserPreferences> {
+        UserPreferencesImpl(
+            store = get<DataStore>(),
+        )
+    }
 
-    single<DataStore> {
-        DataStore(
-            settings = get<Settings>(),
+    factory<GameDataSource> {
+        GameDataSourceImpl(
+            database = get<MinesweeperDatabase>(),
             json = get<Json>(),
         )
     }

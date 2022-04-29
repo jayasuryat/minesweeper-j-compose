@@ -22,4 +22,5 @@ public val dataModule: List<Module> = listOf(
     jsonModule,
     preferencesModule,
     databaseModule,
+    dataSourceModule,
 )
