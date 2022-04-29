@@ -15,7 +15,7 @@
  */
 package com.jayasuryat.data.di
 
-import com.jayasuryat.data.sqldelight.NativeDriverFactory
+import com.jayasuryat.data.sqldelight.DriverFactory
 import com.squareup.sqldelight.db.SqlDriver
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -23,12 +23,12 @@ import org.koin.dsl.module
 @Suppress("RemoveExplicitTypeArguments")
 internal actual val platformModule: Module = module {
 
-    single<NativeDriverFactory> {
-        NativeDriverFactory()
+    single<DriverFactory> {
+        DriverFactory()
     }
 
     single<SqlDriver> {
-        val driverFactor = get<NativeDriverFactory>()
+        val driverFactor = get<DriverFactory>()
         driverFactor.createDriver()
     }
 }
