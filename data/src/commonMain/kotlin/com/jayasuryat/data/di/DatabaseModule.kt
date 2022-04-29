@@ -16,10 +16,6 @@
 package com.jayasuryat.data.di
 
 import com.jayasuryat.data.MinesweeperDatabase
-import com.jayasuryat.data.game.mapper.definition.GridMapper
-import com.jayasuryat.data.game.mapper.definition.GridToStringMapper
-import com.jayasuryat.data.game.mapper.definition.StringToGridMapper
-import com.jayasuryat.data.game.mapper.impl.GridMapperImpl
 import com.jayasuryat.data.game.sources.definition.GameDataSource
 import com.jayasuryat.data.game.sources.impl.GameDataSourceImpl
 import com.jayasuryat.data.sqldelight.DatabaseCreator
@@ -45,25 +41,10 @@ internal val databaseModule: Module = module {
         )
     }
 
-    factory<GridMapper> {
-        GridMapperImpl(
-            json = get<Json>(),
-        )
-    }
-
-    factory<GridToStringMapper> {
-        get<GridMapper>()
-    }
-
-    factory<StringToGridMapper> {
-        get<GridMapper>()
-    }
-
     factory<GameDataSource> {
         GameDataSourceImpl(
             database = get<MinesweeperDatabase>(),
-            gridMapper = get<GridToStringMapper>(),
-            stringMapper = get<StringToGridMapper>(),
+            json = get<Json>(),
         )
     }
 }

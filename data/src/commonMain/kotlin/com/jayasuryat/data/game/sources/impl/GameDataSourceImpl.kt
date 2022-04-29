@@ -16,15 +16,16 @@
 package com.jayasuryat.data.game.sources.impl
 
 import com.jayasuryat.data.MinesweeperDatabase
-import com.jayasuryat.data.game.mapper.definition.GridToStringMapper
-import com.jayasuryat.data.game.mapper.definition.StringToGridMapper
 import com.jayasuryat.data.game.sources.definition.GameDataSource
+import com.jayasuryat.data.model.Cell
 import com.jayasuryat.data.model.Grid
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 internal class GameDataSourceImpl(
+    private val json: Json,
     private val database: MinesweeperDatabase,
-    private val gridMapper: GridToStringMapper,
-    private val stringMapper: StringToGridMapper,
 ) : GameDataSource {
 
     override suspend fun saveGame(
@@ -35,7 +36,7 @@ internal class GameDataSourceImpl(
             id = grid.id,
             startTime = grid.startTime,
             endTime = grid.endTime,
-            grid = gridMapper.mapToString(grid.grid),
+            grid = grid.grid.mapToString(),
         )
     }
 
@@ -51,7 +52,11 @@ internal class GameDataSourceImpl(
             id = id,
             startTime = grid.startTime,
             endTime = grid.endTime,
-            grid = stringMapper.mapToGrid(grid.grid),
+            grid = grid.grid.mapToListOfCells(),
         )
     }
+
+    private fun List<List<Cell>>.mapToString(): String = json.encodeToString(this)
+
+    private fun String.mapToListOfCells(): List<List<Cell>> = json.decodeFromString(this)
 }
