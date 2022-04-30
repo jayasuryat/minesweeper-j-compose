@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.data
+package com.jayasuryat.uigame.data.source
 
-import com.jayasuryat.uigame.logic.ToggleState
+import com.jayasuryat.minesweeperengine.model.grid.Grid
 
-interface GameDataSource {
+fun interface SavedGameFetcher {
 
-    suspend fun getToggleState(): ToggleState
-
-    suspend fun shouldShowToggle(): Boolean
+    suspend fun getSavedGame(
+        rows: Int,
+        columns: Int,
+        totalMines: Int,
+    ): Grid?
 }
