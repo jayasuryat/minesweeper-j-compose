@@ -23,10 +23,10 @@ import com.jayasuryat.minesweeperjc.data.mapper.impl.GridReadMapperImpl
 import com.jayasuryat.minesweeperjc.data.mapper.impl.GridWriteMapperImpl
 import com.jayasuryat.minesweeperjc.data.source.GameDataPersister
 import com.jayasuryat.minesweeperjc.data.source.GameDataSourceImpl
+import com.jayasuryat.minesweeperjc.data.source.SavedGameFetcher
 import com.jayasuryat.minesweeperjc.data.source.SettingsPreferencesImpl
 import com.jayasuryat.uigame.data.source.GameDataSource
 import com.jayasuryat.uigame.data.source.GameSaver
-import com.jayasuryat.uigame.data.source.SavedGameFetcher
 import com.jayasuryat.uisettings.logic.SettingsPreferences
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +39,6 @@ internal val appDataModule = module {
         GameDataSourceImpl(
             userPreferences = get<UserPreferences>(),
             gameSaver = get<GameSaver>(),
-            gameFetcher = get<SavedGameFetcher>(),
         )
     }
 
@@ -79,6 +78,9 @@ internal val appDataModule = module {
     }
 
     factory<SavedGameFetcher> {
-        get<GameDataPersister>()
+        SavedGameFetcher(
+            dataSource = get<com.jayasuryat.data.source.definition.GameDataSource>(),
+            gameIdProvider = get<GameIdProvider>(),
+        )
     }
 }

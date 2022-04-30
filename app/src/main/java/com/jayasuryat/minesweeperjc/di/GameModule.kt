@@ -19,9 +19,10 @@ import android.content.Context
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
 import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
 import com.jayasuryat.minesweeperjc.data.InitialGridProviderImpl
+import com.jayasuryat.minesweeperjc.data.mapper.definition.GridReadMapper
+import com.jayasuryat.minesweeperjc.data.source.SavedGameFetcher
 import com.jayasuryat.uigame.GameViewModel
 import com.jayasuryat.uigame.data.source.GameDataSource
-import com.jayasuryat.uigame.data.source.SavedGameFetcher
 import com.jayasuryat.uigame.feedback.sound.MusicManager
 import com.jayasuryat.uigame.feedback.sound.SoundStatusProvider
 import com.jayasuryat.uigame.feedback.vibration.VibrationManager
@@ -52,7 +53,8 @@ internal val gameModule = module {
     factory<InitialGridProvider> {
         InitialGridProviderImpl(
             savedGameFetcher = get<SavedGameFetcher>(),
-            emptyGridGenerator = get<EmptyGridGenerator>()
+            gridReadMapper = get<GridReadMapper>(),
+            emptyGridGenerator = get<EmptyGridGenerator>(),
         )
     }
 
