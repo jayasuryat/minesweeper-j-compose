@@ -23,7 +23,9 @@ import com.jayasuryat.minesweeperjc.data.mapper.definition.GridWriteMapper
 import com.jayasuryat.data.model.Grid as DGrid
 import com.jayasuryat.minesweeperengine.model.grid.Grid as GGrid
 
-class GridWriteMapperImpl : GridWriteMapper {
+class GridWriteMapperImpl(
+    private val gameIdProvider: GameIdProvider,
+) : GridWriteMapper {
 
     override fun map(
         startTime: Long,
@@ -57,10 +59,14 @@ class GridWriteMapperImpl : GridWriteMapper {
             }
         }
 
-        return DGrid(
+        val id = gameIdProvider.getGameIdFor(
             rows = input.gridSize.rows,
             columns = input.gridSize.columns,
             totalMines = input.totalMines,
+        )
+
+        return DGrid(
+            id = id,
             startTime = startTime,
             endTime = endTime,
             grid = cells,
