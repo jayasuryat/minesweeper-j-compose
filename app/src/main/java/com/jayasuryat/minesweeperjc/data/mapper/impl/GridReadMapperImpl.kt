@@ -34,7 +34,9 @@ class GridReadMapperImpl : GridReadMapper {
         val grid = input.grid
         val gridSize = grid.validateAndGetGridSize()
 
-        val mineCount = input.totalMines
+        val mineCount = input.grid
+            .flatten()
+            .count { cell -> cell.value == MappingConstants.CELL_MINE_VALUE }
 
         val cells = grid.map { row ->
 

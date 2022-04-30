@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperjc.data
+package com.jayasuryat.minesweeperjc.data.source
 
-import com.jayasuryat.data.settings.sources.definitions.UserPreferences
+import com.jayasuryat.data.source.definition.UserPreferences
 import com.jayasuryat.uisettings.logic.SettingsPreferences
 import com.jayasuryat.uisettings.logic.ToggleMode
 
