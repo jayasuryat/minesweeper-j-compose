@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.BottomCenter
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import com.google.accompanist.insets.LocalWindowInsets
 import com.jayasuryat.minesweeperui.grid.GridLayoutInformation
 import com.jayasuryat.uigame.composable.MinefieldScreen
@@ -46,7 +48,17 @@ fun GameScreen(
     LogCompositions(name = "GameScreen")
 
     LaunchedEffect(key1 = null) {
-        viewModel.loadToggleState()
+        // TODO: Wire in game fetching logic
+    }
+
+    DisposableEffect(key1 = true) {
+        onDispose {
+            // TODO: Wire in game saving logic
+        }
+    }
+
+    OnLifecycleEvent(triggerOnEvent = Lifecycle.Event.ON_STOP) {
+        // TODO: Wire in game saving logic
     }
 
     val actionsListener = remember { viewModel.actionLister }
