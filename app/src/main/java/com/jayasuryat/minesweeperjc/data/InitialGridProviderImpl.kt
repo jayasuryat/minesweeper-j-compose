@@ -15,6 +15,7 @@
  */
 package com.jayasuryat.minesweeperjc.data
 
+import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperjc.data.mapper.definition.GridReadMapper
@@ -27,6 +28,7 @@ internal class InitialGridProviderImpl(
     private val savedGameFetcher: SavedGameFetcher,
     private val gridReadMapper: GridReadMapper,
     private val emptyGridGenerator: EmptyGridGenerator,
+    private val backingGridGenerator: GridGenerator,
 ) : InitialGridProvider {
 
     override suspend fun getInitialGridFor(
@@ -59,6 +61,7 @@ internal class InitialGridProviderImpl(
 
         return InitialGrid.NewGrid(
             grid = emptyGrid,
+            backingGridGenerator = backingGridGenerator,
         )
     }
 

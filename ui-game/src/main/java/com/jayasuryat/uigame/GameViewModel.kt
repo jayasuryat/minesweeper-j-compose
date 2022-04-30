@@ -20,7 +20,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
-import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.state.getCurrentGrid
 import com.jayasuryat.uigame.data.model.ToggleState
 import com.jayasuryat.uigame.data.source.GameDataSource
@@ -38,7 +37,6 @@ class GameViewModel(
     internal val soundManager: MusicManager,
     internal val vibrationManager: VibrationManager,
     private val gameConfiguration: GameConfiguration,
-    private val gridGenerator: GridGenerator,
     private val initialGridProvider: InitialGridProvider,
     private val minefieldController: MinefieldController,
     private val dataSource: GameDataSource,
@@ -73,7 +71,6 @@ class GameViewModel(
 
             val actionListener = ActionListener(
                 initialGrid = initialGrid,
-                girdGenerator = gridGenerator,
                 minefieldController = minefieldController,
                 toggleState = toggleState,
                 coroutineScope = defaultScope,

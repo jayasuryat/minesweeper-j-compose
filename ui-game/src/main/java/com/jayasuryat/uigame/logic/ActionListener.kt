@@ -44,8 +44,7 @@ import kotlinx.coroutines.launch
 
 @Stable
 internal class ActionListener(
-    initialGrid: InitialGrid,
-    private val girdGenerator: GridGenerator, // TODO: Tie grid generation to initial grid.
+    private val initialGrid: InitialGrid,
     private val minefieldController: MinefieldController,
     private val toggleState: State<ToggleState>,
     private val coroutineScope: CoroutineScope,
@@ -73,9 +72,12 @@ internal class ActionListener(
 
             if (action !is MinefieldAction.OnCellRevealed) return
 
+            require(initialGrid is InitialGrid.NewGrid) { "Game is in idle state while the grid is in progress" }
+
             handleFirstClick(
                 action = action,
                 parentGrid = statefulGrid,
+                gridGenerator = initialGrid.backingGridGenerator,
             )
         } else {
 
@@ -146,9 +148,10 @@ internal class ActionListener(
     private suspend fun handleFirstClick(
         action: MinefieldAction.OnCellRevealed,
         parentGrid: StatefulGrid,
+        gridGenerator: GridGenerator,
     ): MinefieldEvent {
 
-        val grid = girdGenerator.generateGrid(
+        val grid = gridGenerator.generateGrid(
             gridSize = parentGrid.gridSize,
             starCell = action.cell.position,
             mineCount = parentGrid.totalMines,

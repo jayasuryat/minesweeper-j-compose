@@ -15,6 +15,7 @@
  */
 package com.jayasuryat.uigame.logic.model
 
+import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 
 sealed interface InitialGrid {
@@ -28,5 +29,6 @@ sealed interface InitialGrid {
 
     data class NewGrid(
         override val grid: Grid,
+        val backingGridGenerator: GridGenerator,
     ) : InitialGrid
 }

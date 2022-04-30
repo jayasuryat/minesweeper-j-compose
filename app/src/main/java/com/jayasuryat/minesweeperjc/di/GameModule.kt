@@ -55,6 +55,7 @@ internal val gameModule = module {
             savedGameFetcher = get<SavedGameFetcher>(),
             gridReadMapper = get<GridReadMapper>(),
             emptyGridGenerator = get<EmptyGridGenerator>(),
+            backingGridGenerator = get<GridGenerator>(),
         )
     }
 
@@ -62,7 +63,6 @@ internal val gameModule = module {
         GameViewModel(
             initialGridProvider = get<InitialGridProvider>(),
             gameConfiguration = get<GameConfiguration>(),
-            gridGenerator = get<GridGenerator>(),
             minefieldController = get<MinefieldController>(),
             soundManager = get<MusicManager>(),
             vibrationManager = get<VibrationManager>(),
