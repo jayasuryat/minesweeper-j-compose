@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.logic
+package com.jayasuryat.uigame.logic.model
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 internal data class GameProgress(
     val totalMinesCount: Int,
     val flaggedMinesCount: Int,
