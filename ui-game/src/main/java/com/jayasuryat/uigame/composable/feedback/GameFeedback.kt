@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import com.jayasuryat.uigame.feedback.sound.MusicManager
 import com.jayasuryat.uigame.feedback.vibration.VibrationManager
-import com.jayasuryat.uigame.logic.GameState
+import com.jayasuryat.uigame.logic.model.GameState
 import com.jayasuryat.util.LogCompositions
 
 @Composable

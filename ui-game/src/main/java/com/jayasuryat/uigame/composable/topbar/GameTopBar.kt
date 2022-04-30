@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.LocalWindowInsets
 import com.jayasuryat.uigame.composable.topbar.started.GameStartedTopBar
-import com.jayasuryat.uigame.logic.GameProgress
-import com.jayasuryat.uigame.logic.GameState
+import com.jayasuryat.uigame.logic.model.GameProgress
+import com.jayasuryat.uigame.logic.model.GameState
 import com.jayasuryat.util.LogCompositions
 
 @OptIn(ExperimentalAnimationApi::class)

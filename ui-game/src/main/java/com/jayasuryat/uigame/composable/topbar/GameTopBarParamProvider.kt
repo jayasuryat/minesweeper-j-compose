@@ -16,7 +16,7 @@
 package com.jayasuryat.uigame.composable.topbar
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.jayasuryat.uigame.logic.GameState
+import com.jayasuryat.uigame.logic.model.GameState
 
 internal class GameTopBarParamProvider : PreviewParameterProvider<GameState> {
 
