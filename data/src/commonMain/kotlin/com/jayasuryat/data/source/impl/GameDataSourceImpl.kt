@@ -24,8 +24,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 internal class GameDataSourceImpl(
-    private val json: Json,
     private val database: MinesweeperDatabase,
+    private val json: Json,
 ) : GameDataSource {
 
     override suspend fun saveGame(
@@ -51,6 +51,13 @@ internal class GameDataSourceImpl(
             id = id,
             duration = grid.duration,
             grid = grid.grid.mapToListOfCells(),
+        )
+    }
+
+    override suspend fun deleteGameFor(id: String) {
+
+        database.gridQueries.deleteGridForId(
+            id = id
         )
     }
 

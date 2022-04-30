@@ -14,3 +14,7 @@ getGridForId:
 SELECT *
 FROM Grid
 WHERE id = ?;
+
+deleteGridForId:
+DELETE FROM Grid
+WHERE id = ?;

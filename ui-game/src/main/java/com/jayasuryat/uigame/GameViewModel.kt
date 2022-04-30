@@ -23,6 +23,7 @@ import com.jayasuryat.minesweeperengine.controller.MinefieldController
 import com.jayasuryat.minesweeperengine.state.getCurrentGrid
 import com.jayasuryat.uigame.data.model.ToggleState
 import com.jayasuryat.uigame.data.source.GameDataSource
+import com.jayasuryat.uigame.data.source.GameSaver
 import com.jayasuryat.uigame.feedback.sound.MusicManager
 import com.jayasuryat.uigame.feedback.vibration.VibrationManager
 import com.jayasuryat.uigame.logic.ActionListener
@@ -108,15 +109,23 @@ class GameViewModel(
         }
 
         val gameState = status.gameState.value
+
         val startTime = if (gameState is GameState.StartedGameState) gameState.startTime else return
         val endTime = if (gameState is GameState.EndedGameState) gameState.endTime else null
 
+        val mappedState = when (gameState) {
+            is GameState.Idle -> return
+            is GameState.GameStarted -> GameSaver.GameState.Started
+            is GameState.GameEnded -> GameSaver.GameState.Ended
+        }
+
         val grid = status.statefulGrid.getCurrentGrid()
+        val elapsedMills = (endTime ?: System.currentTimeMillis()) - startTime
 
         dataSource.saveGame(
             grid = grid,
-            startTime = startTime,
-            endTime = endTime
+            elapsedDuration = elapsedMills / 1000,
+            gameState = mappedState,
         )
     }
 

@@ -21,8 +21,7 @@ import com.jayasuryat.minesweeperengine.model.grid.Grid as GGrid
 fun interface GridWriteMapper {
 
     fun map(
-        startTime: Long,
-        endTime: Long?,
         input: GGrid,
+        duration: Long,
     ): DGrid
 }

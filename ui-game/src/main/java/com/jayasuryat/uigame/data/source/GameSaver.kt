@@ -20,8 +20,10 @@ import com.jayasuryat.minesweeperengine.model.grid.Grid
 fun interface GameSaver {
 
     fun saveGame(
-        startTime: Long,
-        endTime: Long?,
         grid: Grid,
+        gameState: GameState,
+        elapsedDuration: Long,
     )
+
+    enum class GameState { Started, Ended }
 }

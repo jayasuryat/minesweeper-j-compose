@@ -17,7 +17,6 @@ package com.jayasuryat.minesweeperjc.data.source
 
 import com.jayasuryat.data.source.definition.GameDataSource
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.minesweeperjc.data.mapper.definition.GridReadMapper
 import com.jayasuryat.minesweeperjc.data.mapper.definition.GridWriteMapper
 import com.jayasuryat.minesweeperjc.data.mapper.impl.GameIdProvider
 import com.jayasuryat.uigame.data.source.GameSaver
@@ -28,29 +27,58 @@ import kotlinx.coroutines.launch
 
 class GameDataPersister(
     private val dataSource: GameDataSource,
-    private val gameIdProvider: GameIdProvider,
-    private val readMapper: GridReadMapper,
     private val writeMapper: GridWriteMapper,
+    private val gameIdProvider: GameIdProvider,
     dispatcher: CoroutineDispatcher,
 ) : GameSaver {
 
     private val scope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + dispatcher) }
 
     override fun saveGame(
-        startTime: Long,
-        endTime: Long?,
         grid: Grid,
+        gameState: GameSaver.GameState,
+        elapsedDuration: Long,
     ) {
 
         scope.launch {
 
-            val mapped = writeMapper.map(
-                startTime = startTime,
-                endTime = endTime,
-                input = grid,
-            )
+            when (gameState) {
 
-            dataSource.saveGame(mapped)
+                GameSaver.GameState.Started -> saveGame(
+                    grid = grid,
+                    elapsedDuration = elapsedDuration
+                )
+
+                GameSaver.GameState.Ended -> deleteGameForGrid(
+                    grid = grid,
+                )
+            }
         }
+    }
+
+    private suspend fun saveGame(
+        grid: Grid,
+        elapsedDuration: Long,
+    ) {
+
+        val mapped = writeMapper.map(
+            input = grid,
+            duration = elapsedDuration
+        )
+
+        dataSource.saveGame(mapped)
+    }
+
+    private suspend fun deleteGameForGrid(
+        grid: Grid,
+    ) {
+
+        val id = gameIdProvider.getGameIdFor(
+            rows = grid.gridSize.rows,
+            columns = grid.gridSize.columns,
+            totalMines = grid.totalMines,
+        )
+
+        dataSource.deleteGameFor(id = id)
     }
 }

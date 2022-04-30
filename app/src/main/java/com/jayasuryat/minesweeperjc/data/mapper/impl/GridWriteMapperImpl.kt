@@ -28,10 +28,9 @@ class GridWriteMapperImpl(
 ) : GridWriteMapper {
 
     override fun map(
-        startTime: Long,
-        endTime: Long?,
         input: GGrid,
-    ): DGrid {
+        duration: Long,
+    ): com.jayasuryat.data.model.Grid {
 
         val cells = input.cells.map { row ->
 
@@ -67,7 +66,7 @@ class GridWriteMapperImpl(
 
         return DGrid(
             id = id,
-            duration = ((endTime ?: System.currentTimeMillis()) - startTime) / 1000,
+            duration = duration,
             grid = cells,
         )
     }

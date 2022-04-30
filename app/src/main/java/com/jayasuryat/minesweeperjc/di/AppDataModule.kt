@@ -66,9 +66,8 @@ internal val appDataModule = module {
     factory<GameDataPersister> {
         GameDataPersister(
             dataSource = get<com.jayasuryat.data.source.definition.GameDataSource>(),
-            gameIdProvider = get<GameIdProvider>(),
-            readMapper = get<GridReadMapper>(),
             writeMapper = get<GridWriteMapper>(),
+            gameIdProvider = get<GameIdProvider>(),
             dispatcher = Dispatchers.IO,
         )
     }

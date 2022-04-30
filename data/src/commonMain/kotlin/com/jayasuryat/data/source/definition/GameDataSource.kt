@@ -24,4 +24,8 @@ public interface GameDataSource {
     public suspend fun getSavedGameFor(
         id: String,
     ): Grid?
+
+    public suspend fun deleteGameFor(
+        id: String,
+    )
 }
