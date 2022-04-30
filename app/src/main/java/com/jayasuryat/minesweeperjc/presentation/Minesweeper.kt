@@ -31,8 +31,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jayasuryat.difficultyselection.DifficultySelectionScreen
 import com.jayasuryat.uigame.GameScreen
 import com.jayasuryat.uigame.GameViewModel
-import com.jayasuryat.uigame.logic.GameConfiguration
-import com.jayasuryat.uigame.logic.ToggleState
+import com.jayasuryat.uigame.logic.model.GameConfiguration
 import com.jayasuryat.uisettings.SettingsScreen
 import com.jayasuryat.uisettings.logic.SettingsChangeListener
 import com.jayasuryat.uisettings.logic.SettingsViewModel
@@ -185,7 +184,6 @@ private fun MinesweeperApp() {
             @Suppress("RemoveExplicitTypeArguments")
             GameScreen(
                 viewModel = viewModel,
-                onToggleStateChanged = get<(ToggleState) -> Unit>(),
                 onRestartClicked = {
                     val route = Screen.Minefield.getNavigableRoute(
                         rows = rows,

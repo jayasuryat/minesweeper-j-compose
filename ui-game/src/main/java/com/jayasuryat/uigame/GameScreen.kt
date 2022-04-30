@@ -15,14 +15,12 @@
  */
 package com.jayasuryat.uigame
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
@@ -35,62 +33,115 @@ import com.jayasuryat.uigame.composable.MinefieldScreen
 import com.jayasuryat.uigame.composable.feedback.GameFeedback
 import com.jayasuryat.uigame.composable.toggle.Toggle
 import com.jayasuryat.uigame.composable.topbar.GameTopBar
-import com.jayasuryat.uigame.logic.ToggleState
+import com.jayasuryat.uigame.data.model.ToggleState
+import com.jayasuryat.uigame.feedback.sound.MusicManager
+import com.jayasuryat.uigame.feedback.vibration.VibrationManager
+import com.jayasuryat.uigame.logic.model.GameScreenStatus
 import com.jayasuryat.util.LogCompositions
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun GameScreen(
     viewModel: GameViewModel,
-    onToggleStateChanged: (toggleState: ToggleState) -> Unit,
     onRestartClicked: () -> Unit,
 ) {
 
     LogCompositions(name = "GameScreen")
 
     LaunchedEffect(key1 = null) {
-        // TODO: Wire in game fetching logic
+        viewModel.loadGame()
     }
 
     DisposableEffect(key1 = true) {
         onDispose {
-            // TODO: Wire in game saving logic
+            viewModel.saveCurrentGameState()
         }
     }
 
     OnLifecycleEvent(triggerOnEvent = Lifecycle.Event.ON_STOP) {
-        // TODO: Wire in game saving logic
+        viewModel.saveCurrentGameState()
     }
 
-    val actionsListener = remember { viewModel.actionLister }
-    val layoutInfo = remember { GridLayoutInformation.from(statefulGrid = viewModel.statefulGrid) }
+    val screenState = viewModel.screenStatus
 
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {
 
-        LogCompositions(name = "GameScreen\$Box")
+        AnimatedContent(
+            targetState = screenState.value,
+            modifier = Modifier.fillMaxSize(),
+        ) { state ->
+
+            when (state) {
+
+                is GameScreenStatus.Loading -> Spacer(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = MaterialTheme.colors.background),
+                )
+
+                is GameScreenStatus.Loaded -> GameScreenLoaded(
+                    modifier = Modifier.fillMaxSize(),
+                    screenState = state,
+                    soundManager = viewModel.soundManager,
+                    vibrationManager = viewModel.vibrationManager,
+                    showToggle = viewModel.shouldShowToggle,
+                    toggleState = viewModel.toggleState,
+                    onToggleStateUpdated = viewModel::onToggleStateUpdated,
+                    onRestartClicked = onRestartClicked,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun GameScreenLoaded(
+    modifier: Modifier = Modifier,
+    screenState: GameScreenStatus.Loaded,
+    soundManager: MusicManager,
+    vibrationManager: VibrationManager,
+    showToggle: State<Boolean>,
+    toggleState: State<ToggleState>,
+    onToggleStateUpdated: (state: ToggleState) -> Unit,
+    onRestartClicked: () -> Unit,
+) {
+
+    val gameState = screenState.gameState
+    val gameProgress = screenState.gameProgress
+
+    val statefulGrid = remember { screenState.statefulGrid }
+    val interactionListener = remember { screenState.interactionListener }
+    val layoutInfo = remember { GridLayoutInformation.from(statefulGrid = statefulGrid) }
+
+    LogCompositions(name = "GameScreenLoaded")
+
+    Box(
+        modifier = modifier,
+    ) {
 
         GameFeedback(
-            gameState = viewModel.gameState,
-            soundManger = viewModel.soundManager,
-            vibrationManager = viewModel.vibrationManager,
+            gameState = gameState,
+            soundManger = soundManager,
+            vibrationManager = vibrationManager,
         )
 
         MinefieldScreen(
             layoutInfo = layoutInfo,
-            actionListener = actionsListener,
+            actionListener = interactionListener,
         )
 
         GameTopBar(
-            gameState = viewModel.gameState,
-            gameProgress = viewModel.gameProgress,
+            gameState = gameState,
+            gameProgress = gameProgress,
             modifier = Modifier
                 .wrapContentSize()
                 .align(alignment = TopCenter),
             onRestartClicked = onRestartClicked,
         )
 
-        if (viewModel.shouldShowToggle.value) {
+        if (showToggle.value) {
 
             val bottomPadding = with(LocalDensity.current) {
                 LocalWindowInsets.current.navigationBars.bottom.toDp()
@@ -100,11 +151,8 @@ fun GameScreen(
                 modifier = Modifier
                     .align(alignment = BottomCenter)
                     .padding(bottom = bottomPadding),
-                toggleState = viewModel.toggleState,
-                onToggleStateChanged = { toggleState ->
-                    onToggleStateChanged(toggleState)
-                    viewModel.onToggleStateUpdated(toggleState)
-                },
+                toggleState = toggleState,
+                onToggleStateChanged = onToggleStateUpdated,
             )
         }
     }

@@ -16,28 +16,31 @@
 package com.jayasuryat.uigame
 
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
 import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
-import com.jayasuryat.minesweeperengine.model.block.GridSize
-import com.jayasuryat.minesweeperengine.state.StatefulGrid
-import com.jayasuryat.minesweeperengine.state.asStatefulGrid
-import com.jayasuryat.minesweeperui.action.CellInteractionListener
-import com.jayasuryat.uigame.data.GameDataSource
+import com.jayasuryat.minesweeperengine.state.getCurrentGrid
+import com.jayasuryat.uigame.data.model.ToggleState
+import com.jayasuryat.uigame.data.source.GameDataSource
 import com.jayasuryat.uigame.feedback.sound.MusicManager
 import com.jayasuryat.uigame.feedback.vibration.VibrationManager
-import com.jayasuryat.uigame.logic.*
+import com.jayasuryat.uigame.logic.ActionListener
+import com.jayasuryat.uigame.logic.InitialGridProvider
+import com.jayasuryat.uigame.logic.model.GameConfiguration
+import com.jayasuryat.uigame.logic.model.GameScreenStatus
+import com.jayasuryat.uigame.logic.model.GameScreenStatus.Loading
+import com.jayasuryat.uigame.logic.model.GameState
 import kotlinx.coroutines.*
 
 class GameViewModel(
-    gameConfiguration: GameConfiguration,
-    gridGenerator: GridGenerator,
-    minefieldController: MinefieldController,
     internal val soundManager: MusicManager,
     internal val vibrationManager: VibrationManager,
+    private val gameConfiguration: GameConfiguration,
+    private val gridGenerator: GridGenerator,
+    private val initialGridProvider: InitialGridProvider,
+    private val minefieldController: MinefieldController,
     private val dataSource: GameDataSource,
 ) : ViewModel() {
 
@@ -45,57 +48,79 @@ class GameViewModel(
     private val ioScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.IO + job) }
     private val defaultScope: CoroutineScope by lazy { CoroutineScope(Dispatchers.Default + job) }
 
-    internal val statefulGrid: StatefulGrid = getStatefulGrid(gameConfiguration = gameConfiguration)
-
     private val _shouldShowToggle: MutableState<Boolean> = mutableStateOf(false)
     internal val shouldShowToggle: State<Boolean> = _shouldShowToggle
 
     private val _toggleState: MutableState<ToggleState> = mutableStateOf(ToggleState.Reveal)
     internal val toggleState: State<ToggleState> = _toggleState
 
-    private val _actionListener: ActionListener = ActionListener(
-        statefulGrid = statefulGrid,
-        girdGenerator = gridGenerator,
-        minefieldController = minefieldController,
-        toggleState = toggleState,
-        coroutineScope = defaultScope,
-        musicManager = soundManager,
-        vibrationManager = vibrationManager,
-    )
+    private val _screenStatus: MutableState<GameScreenStatus> = mutableStateOf(Loading)
+    internal val screenStatus: State<GameScreenStatus> = _screenStatus
 
-    internal val actionLister: CellInteractionListener = _actionListener
-    internal val gameState: State<GameState> = _actionListener.gameState
-    internal val gameProgress: State<GameProgress> = _actionListener.gameProgress
+    internal suspend fun loadGame() {
 
-    internal fun loadToggleState() {
-        ioScope.launch {
-            _toggleState.value = dataSource.getToggleState()
-            _shouldShowToggle.value = dataSource.shouldShowToggle()
+        withContext(Dispatchers.Main) { _screenStatus.value = Loading }
+
+        withContext(Dispatchers.Default) {
+
+            val initialGrid = withContext(Dispatchers.IO) {
+                initialGridProvider.getInitialGridFor(
+                    rows = gameConfiguration.rows,
+                    columns = gameConfiguration.columns,
+                    totalMines = gameConfiguration.mines
+                )
+            }
+
+            val actionListener = ActionListener(
+                initialGrid = initialGrid,
+                girdGenerator = gridGenerator,
+                minefieldController = minefieldController,
+                toggleState = toggleState,
+                coroutineScope = defaultScope,
+                musicManager = soundManager,
+                vibrationManager = vibrationManager,
+            )
+
+            val screenStatus = GameScreenStatus.Loaded(
+                statefulGrid = actionListener.statefulGrid,
+                interactionListener = actionListener,
+                gameState = actionListener.gameState,
+                gameProgress = actionListener.gameProgress
+            )
+
+            withContext(Dispatchers.Main) {
+                _screenStatus.value = screenStatus
+                _toggleState.value = dataSource.getToggleState()
+                _shouldShowToggle.value = dataSource.shouldShowToggle()
+            }
         }
     }
 
     internal fun onToggleStateUpdated(newState: ToggleState) {
         _toggleState.value = newState
+        ioScope.launch {
+            dataSource.onToggleStateChanged(newState)
+        }
     }
 
-    @Stable
-    private fun getStatefulGrid(
-        gameConfiguration: GameConfiguration,
-    ): StatefulGrid {
+    internal fun saveCurrentGameState() {
 
-        val gridGenerator = EmptyGridGenerator()
+        val status = when (val status = _screenStatus.value) {
+            is Loading -> return
+            is GameScreenStatus.Loaded -> status
+        }
 
-        val gridSize = GridSize(
-            rows = gameConfiguration.rows,
-            columns = gameConfiguration.columns,
+        val gameState = status.gameState.value
+        val startTime = if (gameState is GameState.StartedGameState) gameState.startTime else return
+        val endTime = if (gameState is GameState.EndedGameState) gameState.endTime else null
+
+        val grid = status.statefulGrid.getCurrentGrid()
+
+        dataSource.saveGame(
+            grid = grid,
+            startTime = startTime,
+            endTime = endTime
         )
-
-        val grid = gridGenerator.generateEmptyGrid(
-            gridSize = gridSize,
-            mineCount = gameConfiguration.mines,
-        )
-
-        return grid.asStatefulGrid()
     }
 
     override fun onCleared() {

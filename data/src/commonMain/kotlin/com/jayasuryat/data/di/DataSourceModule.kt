@@ -17,8 +17,8 @@ package com.jayasuryat.data.di
 
 import com.jayasuryat.data.MinesweeperDatabase
 import com.jayasuryat.data.source.definition.GameDataSource
-import com.jayasuryat.data.source.impl.GameDataSourceImpl
 import com.jayasuryat.data.source.definition.UserPreferences
+import com.jayasuryat.data.source.impl.GameDataSourceImpl
 import com.jayasuryat.data.source.impl.UserPreferencesImpl
 import com.jayasuryat.data.store.DataStore
 import kotlinx.serialization.json.Json
