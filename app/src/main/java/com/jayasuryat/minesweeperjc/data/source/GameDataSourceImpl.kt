@@ -19,16 +19,13 @@ import com.jayasuryat.data.source.definition.UserPreferences
 import com.jayasuryat.uigame.data.model.ToggleState
 import com.jayasuryat.uigame.data.source.GameDataSource
 import com.jayasuryat.uigame.data.source.GameSaver
-import com.jayasuryat.uigame.data.source.SavedGameFetcher
 import com.jayasuryat.uisettings.logic.ToggleMode
 
 class GameDataSourceImpl(
     private val userPreferences: UserPreferences,
     private val gameSaver: GameSaver,
-    private val gameFetcher: SavedGameFetcher,
 ) : GameDataSource,
-    GameSaver by gameSaver,
-    SavedGameFetcher by gameFetcher {
+    GameSaver by gameSaver {
 
     override suspend fun getToggleState(): ToggleState {
         val mode = userPreferences.getDefaultToggleMode()

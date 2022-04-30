@@ -21,7 +21,6 @@ import com.jayasuryat.minesweeperjc.data.mapper.definition.GridReadMapper
 import com.jayasuryat.minesweeperjc.data.mapper.definition.GridWriteMapper
 import com.jayasuryat.minesweeperjc.data.mapper.impl.GameIdProvider
 import com.jayasuryat.uigame.data.source.GameSaver
-import com.jayasuryat.uigame.data.source.SavedGameFetcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -33,8 +32,7 @@ class GameDataPersister(
     private val readMapper: GridReadMapper,
     private val writeMapper: GridWriteMapper,
     dispatcher: CoroutineDispatcher,
-) : GameSaver,
-    SavedGameFetcher {
+) : GameSaver {
 
     private val scope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + dispatcher) }
 
@@ -54,21 +52,5 @@ class GameDataPersister(
 
             dataSource.saveGame(mapped)
         }
-    }
-
-    override suspend fun getSavedGame(
-        rows: Int,
-        columns: Int,
-        totalMines: Int,
-    ): Grid? {
-
-        val id = gameIdProvider.getGameIdFor(
-            rows = rows,
-            columns = columns,
-            totalMines = totalMines,
-        )
-
-        val savedGame = dataSource.getSavedGameFor(id = id) ?: return null
-        return readMapper.map(savedGame)
     }
 }

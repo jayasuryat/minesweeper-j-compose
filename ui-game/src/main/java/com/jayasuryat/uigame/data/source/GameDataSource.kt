@@ -18,8 +18,7 @@ package com.jayasuryat.uigame.data.source
 import com.jayasuryat.uigame.data.model.ToggleState
 
 interface GameDataSource :
-    GameSaver,
-    SavedGameFetcher {
+    GameSaver {
 
     suspend fun getToggleState(): ToggleState
 
