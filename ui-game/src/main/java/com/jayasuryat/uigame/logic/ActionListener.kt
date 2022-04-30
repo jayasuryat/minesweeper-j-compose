@@ -27,11 +27,16 @@ import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperengine.state.StatefulGrid
+import com.jayasuryat.minesweeperengine.state.asStatefulGrid
 import com.jayasuryat.minesweeperengine.state.getCurrentGrid
 import com.jayasuryat.minesweeperui.action.CellInteraction
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
+import com.jayasuryat.uigame.data.model.ToggleState
 import com.jayasuryat.uigame.feedback.sound.MusicManager
 import com.jayasuryat.uigame.feedback.vibration.VibrationManager
+import com.jayasuryat.uigame.logic.model.GameProgress
+import com.jayasuryat.uigame.logic.model.GameState
+import com.jayasuryat.uigame.logic.model.InitialGrid
 import com.jayasuryat.util.exhaustive
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -39,8 +44,8 @@ import kotlinx.coroutines.launch
 
 @Stable
 internal class ActionListener(
-    private val statefulGrid: StatefulGrid,
-    private val girdGenerator: GridGenerator,
+    initialGrid: InitialGrid,
+    private val girdGenerator: GridGenerator, // TODO: Tie grid generation to initial grid.
     private val minefieldController: MinefieldController,
     private val toggleState: State<ToggleState>,
     private val coroutineScope: CoroutineScope,
@@ -48,7 +53,9 @@ internal class ActionListener(
     private val vibrationManager: VibrationManager,
 ) : CellInteractionListener {
 
-    private val _gameState: MutableState<GameState> = mutableStateOf(GameState.Idle)
+    internal val statefulGrid: StatefulGrid = initialGrid.grid.asStatefulGrid()
+
+    private val _gameState: MutableState<GameState> = mutableStateOf(initialGrid.getGameState())
     val gameState: State<GameState> = _gameState
 
     private val _progress: MutableState<GameProgress> = mutableStateOf(statefulGrid.getProgress())
@@ -172,6 +179,15 @@ internal class ActionListener(
     }
 
     private fun isInIdleState(): Boolean = _gameState.value == GameState.Idle
+
+    private fun InitialGrid.getGameState(): GameState {
+        return when (this) {
+            is InitialGrid.NewGrid -> GameState.Idle
+            is InitialGrid.InProgressGrid -> GameState.GameStarted(
+                startTime = this.startTime
+            )
+        }
+    }
 
     private fun StatefulGrid.getProgress(): GameProgress =
         this.getCurrentGrid().getProgress()
