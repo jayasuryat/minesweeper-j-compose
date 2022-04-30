@@ -13,16 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperjc.data
+package com.jayasuryat.minesweeperjc.data.source
 
-import com.jayasuryat.data.settings.sources.definitions.UserPreferences
-import com.jayasuryat.uigame.data.GameDataSource
-import com.jayasuryat.uigame.logic.ToggleState
+import com.jayasuryat.data.source.definition.UserPreferences
+import com.jayasuryat.uigame.data.model.ToggleState
+import com.jayasuryat.uigame.data.source.GameDataSource
+import com.jayasuryat.uigame.data.source.GameSaver
+import com.jayasuryat.uigame.data.source.SavedGameFetcher
 import com.jayasuryat.uisettings.logic.ToggleMode
 
 class GameDataSourceImpl(
     private val userPreferences: UserPreferences,
-) : GameDataSource {
+    private val gameSaver: GameSaver,
+    private val gameFetcher: SavedGameFetcher,
+) : GameDataSource,
+    GameSaver by gameSaver,
+    SavedGameFetcher by gameFetcher {
 
     override suspend fun getToggleState(): ToggleState {
         val mode = userPreferences.getDefaultToggleMode()
@@ -32,4 +38,18 @@ class GameDataSourceImpl(
 
     override suspend fun shouldShowToggle(): Boolean =
         userPreferences.getShouldShowToggle()
+
+    override suspend fun onToggleStateChanged(toggleState: ToggleState) {
+        userPreferences.setDefaultToggleMode(mode = toggleState.toToggleMode().name)
+    }
+
+    private fun ToggleMode.toToggleState(): ToggleState = when (this) {
+        ToggleMode.Reveal -> ToggleState.Reveal
+        ToggleMode.Flag -> ToggleState.Flag
+    }
+
+    private fun ToggleState.toToggleMode(): ToggleMode = when (this) {
+        is ToggleState.Reveal -> ToggleMode.Reveal
+        is ToggleState.Flag -> ToggleMode.Flag
+    }
 }
