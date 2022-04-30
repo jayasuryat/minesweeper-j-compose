@@ -15,7 +15,7 @@
  */
 package com.jayasuryat.uigame.logic
 
-import com.jayasuryat.minesweeperengine.model.grid.Grid
+import com.jayasuryat.uigame.logic.model.InitialGrid
 
 fun interface InitialGridProvider {
 
@@ -23,5 +23,5 @@ fun interface InitialGridProvider {
         rows: Int,
         columns: Int,
         totalMines: Int,
-    ): Grid
+    ): InitialGrid
 }

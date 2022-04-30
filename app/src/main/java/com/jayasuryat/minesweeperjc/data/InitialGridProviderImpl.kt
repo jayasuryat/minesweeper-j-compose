@@ -17,12 +17,15 @@ package com.jayasuryat.minesweeperjc.data
 
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.uigame.data.source.SavedGameFetcher
+import com.jayasuryat.minesweeperjc.data.mapper.definition.GridReadMapper
+import com.jayasuryat.minesweeperjc.data.source.SavedGameFetcher
 import com.jayasuryat.uigame.logic.EmptyGridGenerator
 import com.jayasuryat.uigame.logic.InitialGridProvider
+import com.jayasuryat.uigame.logic.model.InitialGrid
 
-class InitialGridProviderImpl(
+internal class InitialGridProviderImpl(
     private val savedGameFetcher: SavedGameFetcher,
+    private val gridReadMapper: GridReadMapper,
     private val emptyGridGenerator: EmptyGridGenerator,
 ) : InitialGridProvider {
 
@@ -30,16 +33,32 @@ class InitialGridProviderImpl(
         rows: Int,
         columns: Int,
         totalMines: Int,
-    ): Grid {
+    ): InitialGrid {
 
-        return savedGameFetcher.getSavedGame(
+        val inProgressGrid = savedGameFetcher.getSavedGameFor(
             rows = rows,
             columns = columns,
             totalMines = totalMines,
-        ) ?: getEmptyGridFor(
+        )
+
+        if (inProgressGrid != null) {
+
+            val mapped = gridReadMapper.map(inProgressGrid)
+
+            return InitialGrid.InProgressGrid(
+                startTime = inProgressGrid.startTime,
+                grid = mapped,
+            )
+        }
+
+        val emptyGrid = getEmptyGridFor(
             rows = rows,
             columns = columns,
             totalMines = totalMines,
+        )
+
+        return InitialGrid.NewGrid(
+            grid = emptyGrid,
         )
     }
 
