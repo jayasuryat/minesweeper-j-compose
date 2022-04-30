@@ -77,6 +77,7 @@ class GameViewModel(
                 coroutineScope = defaultScope,
                 musicManager = soundManager,
                 vibrationManager = vibrationManager,
+                onGameInitiated = { saveCurrentGameState() },
             )
 
             val screenStatus = GameScreenStatus.Loaded(
