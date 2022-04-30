@@ -186,9 +186,8 @@ internal class ActionListener(
     private fun InitialGrid.getGameState(): GameState {
         return when (this) {
             is InitialGrid.NewGrid -> GameState.Idle
-            is InitialGrid.InProgressGrid -> GameState.GameStarted(
-                startTime = this.startTime
-            )
+            is InitialGrid.InProgressGrid -> GameState.GameStarted
+                .nowWithNegativeOffsetOf(seconds = this.elapsedDuration)
         }
     }
 

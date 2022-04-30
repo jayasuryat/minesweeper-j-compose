@@ -34,8 +34,7 @@ internal class GameDataSourceImpl(
 
         database.gridQueries.insertGrid(
             id = grid.id,
-            startTime = grid.startTime,
-            endTime = grid.endTime,
+            duration = grid.duration,
             grid = grid.grid.mapToString(),
         )
     }
@@ -50,8 +49,7 @@ internal class GameDataSourceImpl(
 
         return Grid(
             id = id,
-            startTime = grid.startTime,
-            endTime = grid.endTime,
+            duration = grid.duration,
             grid = grid.grid.mapToListOfCells(),
         )
     }

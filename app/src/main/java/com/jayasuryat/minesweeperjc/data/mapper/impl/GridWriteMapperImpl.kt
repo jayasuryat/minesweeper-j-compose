@@ -67,8 +67,7 @@ class GridWriteMapperImpl(
 
         return DGrid(
             id = id,
-            startTime = startTime,
-            endTime = endTime,
+            duration = ((endTime ?: System.currentTimeMillis()) - startTime) / 1000,
             grid = cells,
         )
     }

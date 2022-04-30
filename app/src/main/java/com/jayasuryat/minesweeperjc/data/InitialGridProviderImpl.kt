@@ -48,7 +48,7 @@ internal class InitialGridProviderImpl(
             val mapped = gridReadMapper.map(inProgressGrid)
 
             return InitialGrid.InProgressGrid(
-                startTime = inProgressGrid.startTime,
+                elapsedDuration = inProgressGrid.duration,
                 grid = mapped,
             )
         }

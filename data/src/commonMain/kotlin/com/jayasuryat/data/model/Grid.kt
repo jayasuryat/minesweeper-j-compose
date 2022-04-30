@@ -20,7 +20,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class Grid(
     val id: String,
-    val startTime: Long,
-    val endTime: Long?,
+    val duration: Long,
     val grid: List<List<Cell>>,
 )

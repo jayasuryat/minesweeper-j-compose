@@ -39,6 +39,10 @@ internal sealed interface GameState {
             fun now(): GameStarted {
                 return GameStarted(startTime = System.currentTimeMillis())
             }
+
+            fun nowWithNegativeOffsetOf(seconds: Long): GameStarted {
+                return GameStarted(startTime = System.currentTimeMillis() - (seconds * 1000))
+            }
         }
     }
 

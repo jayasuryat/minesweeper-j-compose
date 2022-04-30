@@ -1,15 +1,14 @@
 CREATE TABLE Grid (
   id TEXT NOT NULL PRIMARY KEY ,
-  startTime INTEGER NOT NULL,
-  endTime INTEGER,
+  duration INTEGER NOT NULL,
   grid TEXT NOT NULL
 );
 
 CREATE INDEX Grid_id ON Grid(id);
 
 insertGrid:
-INSERT OR REPLACE INTO Grid (id, startTime,endTime, grid)
-VALUES (?,?,?,?);
+INSERT OR REPLACE INTO Grid (id, duration, grid)
+VALUES (?,?,?);
 
 getGridForId:
 SELECT *

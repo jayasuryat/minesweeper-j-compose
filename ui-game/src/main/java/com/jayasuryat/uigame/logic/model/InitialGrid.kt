@@ -23,7 +23,7 @@ sealed interface InitialGrid {
     val grid: Grid
 
     data class InProgressGrid(
-        val startTime: Long,
+        val elapsedDuration: Long,
         override val grid: Grid,
     ) : InitialGrid
 
