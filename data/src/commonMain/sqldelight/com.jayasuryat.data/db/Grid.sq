@@ -18,3 +18,8 @@ WHERE id = ?;
 deleteGridForId:
 DELETE FROM Grid
 WHERE id = ?;
+
+checkIfIdsExisit:
+SELECT id
+FROM Grid
+WHERE id IN ?;

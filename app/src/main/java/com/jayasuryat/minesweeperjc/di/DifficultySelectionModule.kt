@@ -15,6 +15,17 @@
  */
 package com.jayasuryat.minesweeperjc.di
 
+import com.jayasuryat.difficultyselection.logic.DifficultySelectionViewModel
+import com.jayasuryat.difficultyselection.logic.InProgressGamesProvider
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-internal val difficultySelectionModule = module {}
+@Suppress("RemoveExplicitTypeArguments")
+internal val difficultySelectionModule = module {
+
+    viewModel<DifficultySelectionViewModel> {
+        DifficultySelectionViewModel(
+            inProgressGamesProvider = get<InProgressGamesProvider>()
+        )
+    }
+}

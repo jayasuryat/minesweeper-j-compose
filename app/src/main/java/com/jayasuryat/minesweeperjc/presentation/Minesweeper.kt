@@ -29,6 +29,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jayasuryat.difficultyselection.DifficultySelectionScreen
+import com.jayasuryat.difficultyselection.logic.DifficultySelectionViewModel
 import com.jayasuryat.uigame.GameScreen
 import com.jayasuryat.uigame.GameViewModel
 import com.jayasuryat.uigame.logic.model.GameConfiguration
@@ -90,8 +91,11 @@ private fun MinesweeperApp() {
             route = Screen.DifficultySelection.getRoute(),
         ) {
 
+            @Suppress("RemoveExplicitTypeArguments")
             DifficultySelectionScreen(
-                onDifficultySelected = { difficulty ->
+                viewModel = getViewModel<DifficultySelectionViewModel>(),
+                onDifficultySelected = { difficultyItem ->
+                    val difficulty = difficultyItem.difficulty
                     val route = Screen.Minefield.getNavigableRoute(
                         rows = difficulty.rows,
                         columns = difficulty.columns,

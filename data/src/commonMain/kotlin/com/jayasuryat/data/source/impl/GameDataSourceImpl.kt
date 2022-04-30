@@ -54,11 +54,22 @@ internal class GameDataSourceImpl(
         )
     }
 
-    override suspend fun deleteGameFor(id: String) {
+    override suspend fun deleteGameFor(
+        id: String,
+    ) {
 
         database.gridQueries.deleteGridForId(
             id = id
         )
+    }
+
+    override suspend fun filterInProgressGameIds(
+        ids: List<String>,
+    ): List<String> {
+
+        return database.gridQueries.checkIfIdsExisit(
+            id = ids,
+        ).executeAsList()
     }
 
     private fun List<List<Cell>>.mapToString(): String = json.encodeToString(this)

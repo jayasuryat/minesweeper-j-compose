@@ -13,23 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.data.source.definition
+package com.jayasuryat.difficultyselection.logic
 
-import com.jayasuryat.data.model.Grid
+import androidx.compose.runtime.Immutable
 
-public interface GameDataSource {
-
-    public suspend fun saveGame(grid: Grid)
-
-    public suspend fun getSavedGameFor(
-        id: String,
-    ): Grid?
-
-    public suspend fun deleteGameFor(
-        id: String,
-    )
-
-    public suspend fun filterInProgressGameIds(
-        ids: List<String>,
-    ): List<String>
-}
+@Immutable
+data class DifficultyItem(
+    val title: String,
+    val gridMessage: String,
+    val difficulty: GameDifficulty,
+    val isGameInProgress: Boolean,
+)

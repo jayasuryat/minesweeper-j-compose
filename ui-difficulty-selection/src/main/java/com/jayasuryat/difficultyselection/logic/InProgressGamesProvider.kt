@@ -15,14 +15,9 @@
  */
 package com.jayasuryat.difficultyselection.logic
 
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+interface InProgressGamesProvider {
 
-internal class DifficultyParamProvider : PreviewParameterProvider<GameDifficulty> {
-
-    override val values: Sequence<GameDifficulty>
-        get() = sequenceOf(
-            GameDifficulty.Easy,
-            GameDifficulty.Medium,
-            GameDifficulty.Hard,
-        )
+    suspend fun filterGamesInProgress(
+        difficulties: List<GameDifficulty>,
+    ): List<GameDifficulty>
 }

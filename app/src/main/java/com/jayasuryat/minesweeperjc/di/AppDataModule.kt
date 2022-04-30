@@ -16,15 +16,13 @@
 package com.jayasuryat.minesweeperjc.di
 
 import com.jayasuryat.data.source.definition.UserPreferences
+import com.jayasuryat.difficultyselection.logic.InProgressGamesProvider
 import com.jayasuryat.minesweeperjc.data.mapper.definition.GridReadMapper
 import com.jayasuryat.minesweeperjc.data.mapper.definition.GridWriteMapper
 import com.jayasuryat.minesweeperjc.data.mapper.impl.GameIdProvider
 import com.jayasuryat.minesweeperjc.data.mapper.impl.GridReadMapperImpl
 import com.jayasuryat.minesweeperjc.data.mapper.impl.GridWriteMapperImpl
-import com.jayasuryat.minesweeperjc.data.source.GameDataPersister
-import com.jayasuryat.minesweeperjc.data.source.GameDataSourceImpl
-import com.jayasuryat.minesweeperjc.data.source.SavedGameFetcher
-import com.jayasuryat.minesweeperjc.data.source.SettingsPreferencesImpl
+import com.jayasuryat.minesweeperjc.data.source.*
 import com.jayasuryat.uigame.data.source.GameDataSource
 import com.jayasuryat.uigame.data.source.GameSaver
 import com.jayasuryat.uisettings.logic.SettingsPreferences
@@ -79,6 +77,13 @@ internal val appDataModule = module {
     factory<SavedGameFetcher> {
         SavedGameFetcher(
             dataSource = get<com.jayasuryat.data.source.definition.GameDataSource>(),
+            gameIdProvider = get<GameIdProvider>(),
+        )
+    }
+
+    factory<InProgressGamesProvider> {
+        InProgressGamesProviderImpl(
+            gameDataSource = get<com.jayasuryat.data.source.definition.GameDataSource>(),
             gameIdProvider = get<GameIdProvider>(),
         )
     }
