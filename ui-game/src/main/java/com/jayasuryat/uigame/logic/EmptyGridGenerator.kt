@@ -15,14 +15,14 @@
  */
 package com.jayasuryat.uigame.logic
 
-import androidx.compose.runtime.Stable
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
+import com.jayasuryat.minesweeperengine.model.grid.impl.MineGrid
 
-internal class EmptyGridGenerator {
+class EmptyGridGenerator {
 
     fun generateEmptyGrid(
         gridSize: GridSize,
