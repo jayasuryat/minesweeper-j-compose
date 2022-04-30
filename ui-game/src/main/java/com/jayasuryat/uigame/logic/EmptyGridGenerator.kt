@@ -40,7 +40,7 @@ internal class EmptyGridGenerator {
         val rows = gridSize.rows
         val columns = gridSize.columns
 
-        return EmptyGrid(
+        return MineGrid(
             gridSize = gridSize,
             totalMines = mineCount,
             cells = (0 until rows).map { row ->
@@ -51,21 +51,5 @@ internal class EmptyGridGenerator {
                 }
             },
         )
-    }
-
-    @Stable
-    private data class EmptyGrid(
-        override val gridSize: GridSize,
-        override val totalMines: Int,
-        override val cells: List<List<RawCell>>,
-    ) : Grid {
-
-        override operator fun get(position: Position): RawCell {
-            return cells[position.row][position.column]
-        }
-
-        override fun getOrNull(position: Position): RawCell? {
-            return kotlin.runCatching { get(position) }.getOrNull()
-        }
     }
 }
