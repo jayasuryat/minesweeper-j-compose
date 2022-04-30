@@ -25,9 +25,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.LocalWindowInsets
 
 @Composable
 internal fun StartButton(
@@ -35,13 +33,8 @@ internal fun StartButton(
     onStartClicked: () -> Unit,
 ) {
 
-    val padding = with(LocalDensity.current) {
-        LocalWindowInsets.current.navigationBars.bottom.toDp()
-    } + 16.dp
-
     Text(
         modifier = modifier
-            .padding(bottom = padding)
             .wrapContentSize()
             .clip(RoundedCornerShape(100f))
             .border(

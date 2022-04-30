@@ -34,7 +34,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
-import com.jayasuryat.difficultyselection.logic.GameDifficulty
+import com.jayasuryat.difficultyselection.logic.DifficultyItem
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 internal fun LevelPager(
     modifier: Modifier = Modifier,
     pagerState: PagerState = rememberPagerState(),
-    difficultyLevels: List<GameDifficulty>,
+    difficultyLevels: List<DifficultyItem>,
 ) {
 
     Row(

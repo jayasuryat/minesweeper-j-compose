@@ -22,7 +22,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,13 +30,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.jayasuryat.difficultyselection.logic.DifficultyParamProvider
-import com.jayasuryat.difficultyselection.logic.GameDifficulty
+import com.jayasuryat.difficultyselection.R
+import com.jayasuryat.difficultyselection.logic.DifficultyItem
 
 @Composable
 internal fun DifficultyView(
     modifier: Modifier = Modifier,
-    difficulty: GameDifficulty,
+    difficulty: DifficultyItem,
 ) {
 
     Column(
@@ -55,7 +54,7 @@ internal fun DifficultyView(
             style = MaterialTheme.typography.h4,
             color = MaterialTheme.colors.onBackground,
             textAlign = TextAlign.Center,
-            text = difficulty.getTitle(),
+            text = difficulty.title,
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -67,7 +66,7 @@ internal fun DifficultyView(
                 .wrapContentSize(),
             color = MaterialTheme.colors.onBackground,
             textAlign = TextAlign.Center,
-            text = difficulty.getRowColDef(),
+            text = difficulty.gridMessage,
         )
 
         Row {
@@ -79,7 +78,7 @@ internal fun DifficultyView(
                     .align(alignment = Alignment.CenterVertically),
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colors.onBackground,
-                text = difficulty.mines.toString(),
+                text = difficulty.difficulty.mines.toString(),
             )
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -98,26 +97,10 @@ internal fun DifficultyView(
     }
 }
 
-@Stable
-private fun GameDifficulty.getTitle(): String {
-
-    return when (this) {
-        is GameDifficulty.Easy -> "Easy"
-        is GameDifficulty.Medium -> "Medium"
-        is GameDifficulty.Hard -> "Hard"
-        is GameDifficulty.Extreme -> "Extreme"
-    }
-}
-
-@Stable
-private fun GameDifficulty.getRowColDef(): String {
-    return "$rows x $columns"
-}
-
 @Preview
 @Composable
 private fun Preview(
-    @PreviewParameter(DifficultyParamProvider::class) difficulty: GameDifficulty,
+    @PreviewParameter(DifficultyItemParamProvider::class) difficulty: DifficultyItem,
 ) {
 
     DifficultyView(difficulty = difficulty)
