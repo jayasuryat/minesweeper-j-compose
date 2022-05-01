@@ -15,14 +15,14 @@
  */
 package com.jayasuryat.minesweeperjc.di
 
-import com.jayasuryat.data.settings.sources.definitions.UserPreferences
+import com.jayasuryat.data.source.definition.UserPreferences
 import com.jayasuryat.minesweeperjc.data.SettingsChangeEventListener
-import com.jayasuryat.minesweeperjc.data.SettingsPreferencesImpl
 import com.jayasuryat.uigame.feedback.sound.SoundStatusProvider
 import com.jayasuryat.uigame.feedback.vibration.VibrationStatusProvider
 import com.jayasuryat.uisettings.logic.SettingsChangeListener
 import com.jayasuryat.uisettings.logic.SettingsPreferences
 import com.jayasuryat.uisettings.logic.SettingsViewModel
+import kotlinx.coroutines.Dispatchers
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -31,7 +31,8 @@ internal val settingsModule = module {
 
     single<SettingsChangeEventListener> {
         SettingsChangeEventListener(
-            userPreferences = get<UserPreferences>()
+            userPreferences = get<UserPreferences>(),
+            dispatcher = Dispatchers.IO
         )
     }
 
@@ -45,12 +46,6 @@ internal val settingsModule = module {
 
     factory<VibrationStatusProvider> {
         get<SettingsChangeEventListener>()
-    }
-
-    factory<SettingsPreferences> {
-        SettingsPreferencesImpl(
-            userPreferences = get<UserPreferences>()
-        )
     }
 
     viewModel {

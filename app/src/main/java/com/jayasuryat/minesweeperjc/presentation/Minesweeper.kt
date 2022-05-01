@@ -29,10 +29,13 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jayasuryat.difficultyselection.DifficultySelectionScreen
+import com.jayasuryat.difficultyselection.logic.DifficultySelectionViewModel
+import com.jayasuryat.minesweeperjc.di.IGP_NEW_GAME
+import com.jayasuryat.minesweeperjc.di.IGP_RESUMABLE
 import com.jayasuryat.uigame.GameScreen
 import com.jayasuryat.uigame.GameViewModel
-import com.jayasuryat.uigame.logic.GameConfiguration
-import com.jayasuryat.uigame.logic.ToggleState
+import com.jayasuryat.uigame.logic.InitialGridProvider
+import com.jayasuryat.uigame.logic.model.GameConfiguration
 import com.jayasuryat.uisettings.SettingsScreen
 import com.jayasuryat.uisettings.logic.SettingsChangeListener
 import com.jayasuryat.uisettings.logic.SettingsViewModel
@@ -40,6 +43,7 @@ import com.jayasuryat.util.LogCompositions
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.ParametersHolder
+import org.koin.core.qualifier.named
 import java.util.*
 
 @Composable
@@ -91,12 +95,24 @@ private fun MinesweeperApp() {
             route = Screen.DifficultySelection.getRoute(),
         ) {
 
+            @Suppress("RemoveExplicitTypeArguments")
             DifficultySelectionScreen(
-                onDifficultySelected = { difficulty ->
+                viewModel = getViewModel<DifficultySelectionViewModel>(),
+                onStartClicked = { difficulty ->
                     val route = Screen.Minefield.getNavigableRoute(
                         rows = difficulty.rows,
                         columns = difficulty.columns,
                         mines = difficulty.mines,
+                        shouldResume = false,
+                    )
+                    navController.navigate(route = route)
+                },
+                onResumeClicked = { difficulty ->
+                    val route = Screen.Minefield.getNavigableRoute(
+                        rows = difficulty.rows,
+                        columns = difficulty.columns,
+                        mines = difficulty.mines,
+                        shouldResume = true,
                     )
                     navController.navigate(route = route)
                 },
@@ -166,6 +182,8 @@ private fun MinesweeperApp() {
             val rows = it.arguments?.getInt(Screen.Minefield.ROWS)
             val columns = it.arguments?.getInt(Screen.Minefield.COLUMNS)
             val mines = it.arguments?.getInt(Screen.Minefield.MINES)
+            val shouldResume =
+                it.arguments?.getString(Screen.Minefield.RESUME)?.toBoolean() ?: false
 
             require(rows != null && columns != null && mines != null) {
                 "Insufficient data to navigate to Minefield"
@@ -178,17 +196,22 @@ private fun MinesweeperApp() {
                 mines = mines,
             )
 
+            val qualifier = if (shouldResume) IGP_RESUMABLE else IGP_NEW_GAME
+            val initialGridProvider = get<InitialGridProvider>(named(qualifier))
+
+            val viewModel = getViewModel<GameViewModel> {
+                ParametersHolder(mutableListOf(gameConfiguration, initialGridProvider))
+            }
+
             @Suppress("RemoveExplicitTypeArguments")
             GameScreen(
-                viewModel = getViewModel<GameViewModel> {
-                    ParametersHolder(mutableListOf(gameConfiguration))
-                },
-                onToggleStateChanged = get<(ToggleState) -> Unit>(),
+                viewModel = viewModel,
                 onRestartClicked = {
                     val route = Screen.Minefield.getNavigableRoute(
                         rows = rows,
                         columns = columns,
                         mines = mines,
+                        shouldResume = false,
                     )
                     navController.navigate(route = route) {
                         popUpTo(Screen.Minefield.getRoute()) { inclusive = true }

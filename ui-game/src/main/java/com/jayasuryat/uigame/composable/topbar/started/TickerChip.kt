@@ -33,7 +33,7 @@ internal fun TickerChip(
     startTime: Long,
 ) {
 
-    val elapsedDuration = remember { mutableStateOf(0L) }
+    val elapsedDuration = remember { mutableStateOf(System.currentTimeMillis() - startTime) }
 
     LaunchedEffect(key1 = startTime) {
         while (this.isActive) {

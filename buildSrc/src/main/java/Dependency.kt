@@ -66,4 +66,9 @@ object Dependency {
     const val koinCore = "io.insert-koin:koin-core:$koinVersion"
     const val koinAndroid = "io.insert-koin:koin-android:$koinVersion"
     const val koinCompose = "io.insert-koin:koin-androidx-compose:$koinVersion"
+
+    private const val sqldelightVersion = "1.5.3"
+    const val sqldelightRuntime = "com.squareup.sqldelight:runtime:$sqldelightVersion"
+    const val sqldelightAndroidDriver = "com.squareup.sqldelight:android-driver:$sqldelightVersion"
+    const val sqldelightNativeDriver = "com.squareup.sqldelight:native-driver:$sqldelightVersion"
 }

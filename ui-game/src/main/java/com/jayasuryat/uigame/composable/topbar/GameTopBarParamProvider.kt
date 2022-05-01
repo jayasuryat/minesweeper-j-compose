@@ -16,7 +16,7 @@
 package com.jayasuryat.uigame.composable.topbar
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.jayasuryat.uigame.logic.GameState
+import com.jayasuryat.uigame.logic.model.GameState
 
 internal class GameTopBarParamProvider : PreviewParameterProvider<GameState> {
 
@@ -24,7 +24,7 @@ internal class GameTopBarParamProvider : PreviewParameterProvider<GameState> {
         get() = sequenceOf(
             GameState.Idle,
             GameState.GameStarted.now(),
-            GameState.GameEnded.GameOver.now(),
+            GameState.GameEnded.GameOver.now(startTime = System.currentTimeMillis()),
             GameState.GameEnded.GameCompleted.now(startTime = System.currentTimeMillis()),
         )
 }

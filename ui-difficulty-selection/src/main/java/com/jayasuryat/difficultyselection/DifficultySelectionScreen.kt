@@ -15,6 +15,8 @@
  */
 package com.jayasuryat.difficultyselection
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,38 +24,63 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import com.jayasuryat.difficultyselection.composable.LevelPager
+import com.jayasuryat.difficultyselection.composable.StartButton
+import com.jayasuryat.difficultyselection.logic.DifficultySelectionViewModel
 import com.jayasuryat.difficultyselection.logic.GameDifficulty
+import kotlinx.coroutines.flow.collect
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(
+    ExperimentalPagerApi::class,
+    ExperimentalAnimationApi::class,
+)
 @Composable
 fun DifficultySelectionScreen(
-    difficulties: List<GameDifficulty> = listOf(
+    viewModel: DifficultySelectionViewModel,
+    difficultiesToDisplay: List<GameDifficulty> = listOf(
         GameDifficulty.Easy,
         GameDifficulty.Medium,
         GameDifficulty.Hard,
         GameDifficulty.Extreme,
     ),
-    onDifficultySelected: (difficulty: GameDifficulty) -> Unit,
+    onStartClicked: (difficulty: GameDifficulty) -> Unit,
+    onResumeClicked: (difficulty: GameDifficulty) -> Unit,
     onSettingsClicked: () -> Unit,
 ) {
+
+    val difficulties = viewModel.difficultyItems
+    val pagerState = rememberPagerState()
+    val canResume = remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.loadDifficultyItems(difficultiesToDisplay)
+    }
+
+    LaunchedEffect(pagerState, difficulties.value) {
+
+        snapshotFlow { pagerState.currentPage }
+            .collect { page ->
+                val currentItem = viewModel.difficultyItems.value.getOrNull(page)
+                canResume.value = currentItem?.isGameInProgress ?: false
+            }
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colors.background),
     ) {
-
-        val pagerState = rememberPagerState()
 
         Box(
             modifier = Modifier
@@ -72,7 +99,7 @@ fun DifficultySelectionScreen(
 
         LevelPager(
             pagerState = pagerState,
-            difficultyLevels = difficulties,
+            difficultyLevels = difficulties.value,
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(fraction = 0.33f),
@@ -85,13 +112,50 @@ fun DifficultySelectionScreen(
         StartButton(
             modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
             onStartClicked = {
-                val difficulty = difficulties[pagerState.currentPage]
-                onDifficultySelected(difficulty)
+                val difficulty = difficulties.value[pagerState.currentPage]
+                onStartClicked(difficulty.difficulty)
             },
         )
 
+        AnimatedVisibility(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            visible = canResume.value,
+        ) {
+
+            Column {
+
+                Spacer(
+                    modifier = Modifier.height(16.dp),
+                )
+
+                Text(
+                    modifier = Modifier
+                        .align(alignment = Alignment.CenterHorizontally)
+                        .wrapContentSize()
+                        .clip(RoundedCornerShape(100f))
+                        .border(
+                            width = 2.dp,
+                            color = MaterialTheme.colors.onBackground,
+                            shape = RoundedCornerShape(100f),
+                        )
+                        .clickable {
+                            val difficulty = difficulties.value[pagerState.currentPage]
+                            onResumeClicked(difficulty.difficulty)
+                        }
+                        .padding(
+                            vertical = 12.dp,
+                            horizontal = 40.dp,
+                        ),
+                    color = MaterialTheme.colors.onBackground,
+                    text = "Continue",
+                )
+            }
+        }
+
         Spacer(
-            modifier = Modifier.height(64.dp),
+            modifier = Modifier.weight(1f),
         )
 
         Text(
@@ -112,9 +176,19 @@ fun DifficultySelectionScreen(
             color = MaterialTheme.colors.onBackground,
             text = "Settings",
         )
+
+        val padding = with(LocalDensity.current) {
+            LocalWindowInsets.current.navigationBars.bottom.toDp()
+        } + 32.dp
+
+        Spacer(
+            modifier = Modifier.height(padding),
+        )
     }
 }
 
+// TODO: Update or remove this preview
+/*
 @Composable
 @Preview
 private fun Preview() {
@@ -124,3 +198,4 @@ private fun Preview() {
         onSettingsClicked = {},
     )
 }
+*/

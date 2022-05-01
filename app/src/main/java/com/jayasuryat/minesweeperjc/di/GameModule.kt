@@ -16,38 +16,30 @@
 package com.jayasuryat.minesweeperjc.di
 
 import android.content.Context
-import com.jayasuryat.data.settings.sources.definitions.UserPreferences
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
-import com.jayasuryat.minesweeperengine.controller.impl.GameController
 import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
-import com.jayasuryat.minesweeperengine.gridgenerator.MineGridGenerator
-import com.jayasuryat.minesweeperjc.data.GameDataSourceImpl
-import com.jayasuryat.minesweeperjc.data.ToggleStateChangeListener
+import com.jayasuryat.minesweeperjc.data.initialgrid.EmptyInitialGridProviderImpl
+import com.jayasuryat.minesweeperjc.data.initialgrid.InitialGridProviderImpl
+import com.jayasuryat.minesweeperjc.data.mapper.definition.GridReadMapper
+import com.jayasuryat.minesweeperjc.data.source.SavedGameFetcher
 import com.jayasuryat.uigame.GameViewModel
-import com.jayasuryat.uigame.data.GameDataSource
+import com.jayasuryat.uigame.data.source.GameDataSource
 import com.jayasuryat.uigame.feedback.sound.MusicManager
 import com.jayasuryat.uigame.feedback.sound.SoundStatusProvider
 import com.jayasuryat.uigame.feedback.vibration.VibrationManager
 import com.jayasuryat.uigame.feedback.vibration.VibrationStatusProvider
-import com.jayasuryat.uigame.logic.GameConfiguration
-import com.jayasuryat.uigame.logic.ToggleState
+import com.jayasuryat.uigame.logic.EmptyGridGenerator
+import com.jayasuryat.uigame.logic.InitialGridProvider
+import com.jayasuryat.uigame.logic.model.GameConfiguration
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
+
+internal const val IGP_RESUMABLE: String = "igp_resumable"
+internal const val IGP_NEW_GAME: String = "igp_newGame"
 
 @Suppress("RemoveExplicitTypeArguments")
 internal val gameModule = module {
-
-    factory<(ToggleState) -> Unit> {
-        ToggleStateChangeListener(
-            userPreferences = get<UserPreferences>()
-        )
-    }
-
-    factory<GameDataSource> {
-        GameDataSourceImpl(
-            userPreferences = get<UserPreferences>()
-        )
-    }
 
     single<MusicManager> {
         MusicManager(
@@ -63,26 +55,29 @@ internal val gameModule = module {
         )
     }
 
-    viewModel<GameViewModel> {
+    factory<InitialGridProvider>(named(IGP_NEW_GAME)) {
+        EmptyInitialGridProviderImpl(
+            emptyGridGenerator = get<EmptyGridGenerator>(),
+            backingGridGenerator = get<GridGenerator>(),
+        )
+    }
+
+    factory<InitialGridProvider>(named(IGP_RESUMABLE)) {
+        InitialGridProviderImpl(
+            savedGameFetcher = get<SavedGameFetcher>(),
+            gridReadMapper = get<GridReadMapper>(),
+            newGameGridProvider = get<InitialGridProvider>(named(IGP_NEW_GAME)),
+        )
+    }
+
+    viewModel<GameViewModel> { params ->
         GameViewModel(
-            gameConfiguration = get<GameConfiguration>(),
-            gridGenerator = get<GridGenerator>(),
+            initialGridProvider = params.get<InitialGridProvider>(),
+            gameConfiguration = params.get<GameConfiguration>(),
             minefieldController = get<MinefieldController>(),
             soundManager = get<MusicManager>(),
             vibrationManager = get<VibrationManager>(),
             dataSource = get<GameDataSource>(),
         )
-    }
-}
-
-@Suppress("RemoveExplicitTypeArguments")
-internal val gameEngineModule = module {
-
-    single<GridGenerator> {
-        MineGridGenerator()
-    }
-
-    single<MinefieldController> {
-        GameController.getDefault()
     }
 }

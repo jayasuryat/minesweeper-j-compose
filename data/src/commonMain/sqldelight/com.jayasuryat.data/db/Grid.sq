@@ -1,0 +1,25 @@
+CREATE TABLE Grid (
+  id TEXT NOT NULL PRIMARY KEY ,
+  duration INTEGER NOT NULL,
+  grid TEXT NOT NULL
+);
+
+CREATE INDEX Grid_id ON Grid(id);
+
+insertGrid:
+INSERT OR REPLACE INTO Grid (id, duration, grid)
+VALUES (?,?,?);
+
+getGridForId:
+SELECT *
+FROM Grid
+WHERE id = ?;
+
+deleteGridForId:
+DELETE FROM Grid
+WHERE id = ?;
+
+checkIfIdsExisit:
+SELECT id
+FROM Grid
+WHERE id IN ?;

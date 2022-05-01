@@ -1,9 +1,9 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
-
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
+    id("com.squareup.sqldelight")
+    id("kotlinx-serialization")
 }
 
 version = "1.0"
@@ -11,9 +11,13 @@ version = "1.0"
 kotlin {
 
     android()
-    iosX64()
-    iosArm64()
-    //iosSimulatorArm64() sure all ios dependencies support this target
+
+    val sdkName = System.getenv("SDK_NAME")
+    if (sdkName != null && sdkName.startsWith("iphoneos")) {
+        iosArm64("ios")
+    } else {
+        iosX64("ios")
+    }
 
     cocoapods {
         summary = "Some description for the Shared Module"
@@ -30,6 +34,8 @@ kotlin {
             dependencies {
                 implementation(Dependency.settings)
                 implementation(Dependency.kotlinxSerialization)
+                implementation(Dependency.koinCore)
+                implementation(Dependency.sqldelightRuntime)
             }
         }
         val commonTest by getting {
@@ -39,7 +45,12 @@ kotlin {
             }
         }
 
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(Dependency.koinCore)
+                implementation(Dependency.sqldelightAndroidDriver)
+            }
+        }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
@@ -47,27 +58,16 @@ kotlin {
             }
         }
 
-        val iosX64Main by getting
-        val iosX64Test by getting
-
-        val iosArm64Main by getting
-        val iosArm64Test by getting
-
-        val iosMain by creating {
+        val iosMain by getting {
             dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            //iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                implementation(Dependency.koinCore)
+                implementation(Dependency.sqldelightNativeDriver)
+            }
         }
-        val iosTest by creating {
+        val iosTest by getting {
             dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            //iosSimulatorArm64Test.dependsOn(this)
         }
-
-        //val iosSimulatorArm64Main by getting
-        //val iosSimulatorArm64Test by getting
     }
 
     explicitApi()
@@ -79,5 +79,11 @@ android {
     defaultConfig {
         minSdk = BuildConfig.minSdk
         targetSdk = BuildConfig.targetSdk
+    }
+}
+
+sqldelight {
+    database("MinesweeperDatabase") {
+        packageName = "com.jayasuryat.data"
     }
 }

@@ -26,7 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.jayasuryat.uigame.logic.GameProgress
+import com.jayasuryat.uigame.logic.model.GameProgress
 import com.jayasuryat.util.LogCompositions
 
 @Composable

@@ -16,12 +16,8 @@
 package com.jayasuryat.minesweeperjc
 
 import android.app.Application
+import com.jayasuryat.data.di.dataModule
 import com.jayasuryat.minesweeperjc.di.*
-import com.jayasuryat.minesweeperjc.di.difficultySelectionModule
-import com.jayasuryat.minesweeperjc.di.gameEngineModule
-import com.jayasuryat.minesweeperjc.di.gameModule
-import com.jayasuryat.minesweeperjc.di.preferencesModule
-import com.jayasuryat.minesweeperjc.di.settingsModule
 import jp.wasabeef.takt.Seat
 import jp.wasabeef.takt.Takt
 import org.koin.android.ext.koin.androidContext
@@ -54,7 +50,8 @@ class MinesweeperApp : Application() {
         startKoin {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@MinesweeperApp)
-            modules(preferencesModule)
+            modules(appDataModule)
+            modules(dataModule)
             modules(difficultySelectionModule)
             modules(settingsModule)
             modules(gameModule)

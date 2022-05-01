@@ -15,24 +15,25 @@
  */
 package com.jayasuryat.minesweeperjc.data
 
-import com.jayasuryat.data.settings.sources.definitions.UserPreferences
+import com.jayasuryat.data.source.definition.UserPreferences
 import com.jayasuryat.uigame.feedback.sound.SoundStatusProvider
 import com.jayasuryat.uigame.feedback.vibration.VibrationStatusProvider
 import com.jayasuryat.uisettings.logic.SettingsChangeEvent
 import com.jayasuryat.uisettings.logic.SettingsChangeListener
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 class SettingsChangeEventListener(
     private val userPreferences: UserPreferences,
+    dispatcher: CoroutineDispatcher,
 ) : SettingsChangeListener,
     SoundStatusProvider,
     VibrationStatusProvider {
 
     private val ioScope: CoroutineScope by lazy {
-        CoroutineScope(Dispatchers.IO + SupervisorJob())
+        CoroutineScope(SupervisorJob() + dispatcher)
     }
 
     private var isSoundEnabled: Boolean = false
