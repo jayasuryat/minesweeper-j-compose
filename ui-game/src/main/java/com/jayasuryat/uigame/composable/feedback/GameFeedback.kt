@@ -16,6 +16,7 @@
 package com.jayasuryat.uigame.composable.feedback
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import com.jayasuryat.uigame.feedback.sound.MusicManager
 import com.jayasuryat.uigame.feedback.vibration.VibrationManager
@@ -31,22 +32,23 @@ internal fun GameFeedback(
 
     LogCompositions(name = "GameFeedback")
 
-    // TODO: Wrap this in an appropriate side effect
+    LaunchedEffect(key1 = gameState.value) {
 
-    when (gameState.value) {
+        when (gameState.value) {
 
-        is GameState.Idle -> Unit
+            is GameState.Idle -> Unit
 
-        is GameState.GameStarted -> Unit
+            is GameState.GameStarted -> Unit
 
-        is GameState.GameEnded.GameCompleted -> {
-            soundManger.success()
-            vibrationManager.shortVibrationNow()
-        }
+            is GameState.GameEnded.GameCompleted -> {
+                soundManger.success()
+                vibrationManager.shortVibrationNow()
+            }
 
-        is GameState.GameEnded.GameOver -> {
-            soundManger.failure()
-            vibrationManager.mediumVibrationNow()
+            is GameState.GameEnded.GameOver -> {
+                soundManger.failure()
+                vibrationManager.mediumVibrationNow()
+            }
         }
     }
 }
