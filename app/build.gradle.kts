@@ -72,7 +72,6 @@ dependencies {
 
     debugImplementation(Dependency.Compose.tooling)
     implementation(Dependency.coreKtx)
-    implementation(Dependency.appCompat)
     implementation(Dependency.material)
     implementation(Dependency.Compose.ui)
     implementation(Dependency.Compose.material)
