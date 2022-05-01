@@ -78,15 +78,17 @@ private fun MinesweeperApp() {
 
         // region : Difficulty Selection
         composable(
-            enterTransition = { initial, _ ->
-                val offset = if (initial.destination.route == Screen.Settings.getRoute()) 1 else -1
+            enterTransition = {
+                val offset =
+                    if (initialState.destination.route == Screen.Settings.getRoute()) 1 else -1
                 slideInVertically(
                     initialOffsetY = { it * offset },
                     animationSpec = tween(PAGE_NAV_DURATION),
                 )
             },
-            exitTransition = { _, target ->
-                val offset = if (target.destination.route == Screen.Settings.getRoute()) 1 else -1
+            exitTransition = {
+                val offset =
+                    if (targetState.destination.route == Screen.Settings.getRoute()) 1 else -1
                 slideOutVertically(
                     targetOffsetY = { it * offset },
                     animationSpec = tween(PAGE_NAV_DURATION),
@@ -125,13 +127,13 @@ private fun MinesweeperApp() {
 
         // region : Settings Selection
         composable(
-            enterTransition = { _, _ ->
+            enterTransition = {
                 slideInVertically(
                     initialOffsetY = { -it },
                     animationSpec = tween(PAGE_NAV_DURATION),
                 )
             },
-            exitTransition = { _, _ ->
+            exitTransition = {
                 slideOutVertically(
                     targetOffsetY = { -it },
                     animationSpec = tween(PAGE_NAV_DURATION),
@@ -151,8 +153,8 @@ private fun MinesweeperApp() {
 
         // region : Minefield
         composable(
-            enterTransition = { initial, _ ->
-                val isGameRoute = initial.destination.route == Screen.Minefield.getRoute()
+            enterTransition = {
+                val isGameRoute = initialState.destination.route == Screen.Minefield.getRoute()
                 if (isGameRoute) slideInHorizontally(
                     initialOffsetX = { it },
                     animationSpec = tween(PAGE_NAV_DURATION),
@@ -161,8 +163,8 @@ private fun MinesweeperApp() {
                     animationSpec = tween(PAGE_NAV_DURATION),
                 )
             },
-            exitTransition = { _, target ->
-                val isGameRoute = target.destination.route == Screen.Minefield.getRoute()
+            exitTransition = {
+                val isGameRoute = targetState.destination.route == Screen.Minefield.getRoute()
                 if (isGameRoute) slideOutHorizontally(
                     targetOffsetX = { -it },
                     animationSpec = tween(PAGE_NAV_DURATION),
