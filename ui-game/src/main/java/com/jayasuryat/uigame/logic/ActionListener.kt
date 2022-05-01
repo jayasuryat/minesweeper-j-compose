@@ -50,7 +50,7 @@ internal class ActionListener(
     private val coroutineScope: CoroutineScope,
     private val musicManager: MusicManager,
     private val vibrationManager: VibrationManager,
-    private val onGameInitiated: () -> Unit,
+    private val onStateChanged: (newState: GameState) -> Unit,
 ) : CellInteractionListener {
 
     internal val statefulGrid: StatefulGrid = initialGrid.grid.asStatefulGrid()
@@ -176,8 +176,7 @@ internal class ActionListener(
         val previousState = _gameState.value
         val newState = resolveGameState(event = event) ?: return
         _gameState.value = newState
-
-        if (previousState == GameState.Idle && newState is GameState.GameStarted) onGameInitiated()
+        if (previousState != newState) onStateChanged(newState)
     }
 
     private fun updateGameProgress(statefulGrid: StatefulGrid) {
