@@ -37,7 +37,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.jayasuryat.difficultyselection.composable.LevelPager
 import com.jayasuryat.difficultyselection.composable.StartButton
-import com.jayasuryat.difficultyselection.logic.DifficultyItem
 import com.jayasuryat.difficultyselection.logic.DifficultySelectionViewModel
 import com.jayasuryat.difficultyselection.logic.GameDifficulty
 import kotlinx.coroutines.flow.collect
@@ -55,7 +54,8 @@ fun DifficultySelectionScreen(
         GameDifficulty.Hard,
         GameDifficulty.Extreme,
     ),
-    onDifficultySelected: (difficulty: DifficultyItem) -> Unit,
+    onStartClicked: (difficulty: GameDifficulty) -> Unit,
+    onResumeClicked: (difficulty: GameDifficulty) -> Unit,
     onSettingsClicked: () -> Unit,
 ) {
 
@@ -113,7 +113,7 @@ fun DifficultySelectionScreen(
             modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
             onStartClicked = {
                 val difficulty = difficulties.value[pagerState.currentPage]
-                onDifficultySelected(difficulty)
+                onStartClicked(difficulty.difficulty)
             },
         )
 
@@ -140,7 +140,10 @@ fun DifficultySelectionScreen(
                             color = MaterialTheme.colors.onBackground,
                             shape = RoundedCornerShape(100f),
                         )
-                        .clickable { onSettingsClicked() }
+                        .clickable {
+                            val difficulty = difficulties.value[pagerState.currentPage]
+                            onResumeClicked(difficulty.difficulty)
+                        }
                         .padding(
                             vertical = 12.dp,
                             horizontal = 40.dp,

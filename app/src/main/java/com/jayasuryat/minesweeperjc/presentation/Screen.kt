@@ -32,13 +32,15 @@ sealed interface Screen {
         internal const val ROWS: String = "rows"
         internal const val COLUMNS: String = "columns"
         internal const val MINES: String = "mines"
+        internal const val RESUME: String = "resume"
 
-        override fun getRoute(): String = "minefield/{$ROWS}/{$COLUMNS}/{$MINES}"
+        override fun getRoute(): String = "minefield/{$ROWS}/{$COLUMNS}/{$MINES}/{$RESUME}"
 
         fun getNavigableRoute(
             rows: Int,
             columns: Int,
             mines: Int,
-        ): String = "minefield/$rows/$columns/$mines"
+            shouldResume: Boolean,
+        ): String = "minefield/$rows/$columns/$mines/$shouldResume"
     }
 }

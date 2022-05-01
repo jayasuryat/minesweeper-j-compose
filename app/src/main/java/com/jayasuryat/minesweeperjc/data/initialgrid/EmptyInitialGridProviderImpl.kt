@@ -13,20 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperjc.data
+package com.jayasuryat.minesweeperjc.data.initialgrid
 
 import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.minesweeperjc.data.mapper.definition.GridReadMapper
-import com.jayasuryat.minesweeperjc.data.source.SavedGameFetcher
 import com.jayasuryat.uigame.logic.EmptyGridGenerator
 import com.jayasuryat.uigame.logic.InitialGridProvider
 import com.jayasuryat.uigame.logic.model.InitialGrid
 
-internal class InitialGridProviderImpl(
-    private val savedGameFetcher: SavedGameFetcher,
-    private val gridReadMapper: GridReadMapper,
+internal class EmptyInitialGridProviderImpl(
     private val emptyGridGenerator: EmptyGridGenerator,
     private val backingGridGenerator: GridGenerator,
 ) : InitialGridProvider {
@@ -36,22 +32,6 @@ internal class InitialGridProviderImpl(
         columns: Int,
         totalMines: Int,
     ): InitialGrid {
-
-        val inProgressGrid = savedGameFetcher.getSavedGameFor(
-            rows = rows,
-            columns = columns,
-            totalMines = totalMines,
-        )
-
-        if (inProgressGrid != null) {
-
-            val mapped = gridReadMapper.map(inProgressGrid)
-
-            return InitialGrid.InProgressGrid(
-                elapsedDuration = inProgressGrid.duration,
-                grid = mapped,
-            )
-        }
 
         val emptyGrid = getEmptyGridFor(
             rows = rows,

@@ -18,7 +18,8 @@ package com.jayasuryat.minesweeperjc.di
 import android.content.Context
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
 import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
-import com.jayasuryat.minesweeperjc.data.InitialGridProviderImpl
+import com.jayasuryat.minesweeperjc.data.initialgrid.EmptyInitialGridProviderImpl
+import com.jayasuryat.minesweeperjc.data.initialgrid.InitialGridProviderImpl
 import com.jayasuryat.minesweeperjc.data.mapper.definition.GridReadMapper
 import com.jayasuryat.minesweeperjc.data.source.SavedGameFetcher
 import com.jayasuryat.uigame.GameViewModel
@@ -31,7 +32,11 @@ import com.jayasuryat.uigame.logic.EmptyGridGenerator
 import com.jayasuryat.uigame.logic.InitialGridProvider
 import com.jayasuryat.uigame.logic.model.GameConfiguration
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
+
+internal const val IGP_RESUMABLE: String = "igp_resumable"
+internal const val IGP_NEW_GAME: String = "igp_newGame"
 
 @Suppress("RemoveExplicitTypeArguments")
 internal val gameModule = module {
@@ -50,19 +55,25 @@ internal val gameModule = module {
         )
     }
 
-    factory<InitialGridProvider> {
-        InitialGridProviderImpl(
-            savedGameFetcher = get<SavedGameFetcher>(),
-            gridReadMapper = get<GridReadMapper>(),
+    factory<InitialGridProvider>(named(IGP_NEW_GAME)) {
+        EmptyInitialGridProviderImpl(
             emptyGridGenerator = get<EmptyGridGenerator>(),
             backingGridGenerator = get<GridGenerator>(),
         )
     }
 
-    viewModel<GameViewModel> {
+    factory<InitialGridProvider>(named(IGP_RESUMABLE)) {
+        InitialGridProviderImpl(
+            savedGameFetcher = get<SavedGameFetcher>(),
+            gridReadMapper = get<GridReadMapper>(),
+            newGameGridProvider = get<InitialGridProvider>(named(IGP_NEW_GAME)),
+        )
+    }
+
+    viewModel<GameViewModel> { params ->
         GameViewModel(
-            initialGridProvider = get<InitialGridProvider>(),
-            gameConfiguration = get<GameConfiguration>(),
+            initialGridProvider = params.get<InitialGridProvider>(),
+            gameConfiguration = params.get<GameConfiguration>(),
             minefieldController = get<MinefieldController>(),
             soundManager = get<MusicManager>(),
             vibrationManager = get<VibrationManager>(),
