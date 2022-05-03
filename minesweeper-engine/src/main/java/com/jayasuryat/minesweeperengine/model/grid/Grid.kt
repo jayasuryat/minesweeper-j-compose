@@ -15,12 +15,12 @@
  */
 package com.jayasuryat.minesweeperengine.model.grid
 
-import androidx.compose.runtime.StableMarker
+import androidx.compose.runtime.Stable
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 
-@StableMarker
+@Stable
 public interface Grid {
 
     public val gridSize: GridSize
