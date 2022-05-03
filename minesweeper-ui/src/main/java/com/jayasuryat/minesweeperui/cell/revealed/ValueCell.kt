@@ -34,12 +34,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
-import com.jayasuryat.minesweeperengine.model.block.Position
-import com.jayasuryat.minesweeperengine.model.cell.MineCell
-import com.jayasuryat.minesweeperui.action.CellInteraction
-import com.jayasuryat.minesweeperui.action.CellInteractionListener
-import com.jayasuryat.minesweeperui.action.NoOpInteractionListener
 import com.jayasuryat.minesweeperui.cell.VALUE_CELL_TEXT_COVER_PERCENT
+import com.jayasuryat.minesweeperui.model.DisplayCell
 import com.jayasuryat.minesweeperui.theme.msColors
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.sp
@@ -47,8 +43,8 @@ import com.jayasuryat.util.sp
 @Composable
 internal fun ValueCell(
     modifier: Modifier = Modifier,
-    cell: MineCell.ValuedCell.Cell,
-    actionListener: CellInteractionListener,
+    displayCell: DisplayCell.Cell.ValueCell,
+    onClick: () -> Unit,
 ) {
 
     LogCompositions(name = "ValueCell")
@@ -57,23 +53,22 @@ internal fun ValueCell(
         modifier = modifier
             .aspectRatio(1f)
             .clip(CircleShape)
-            .background(color = MaterialTheme.colors.primary
-                .copy(alpha = 1 - getAlphaForValue(cell.value))
+            .background(
+                color = MaterialTheme.colors.primary
+                    .copy(alpha = 1 - getAlphaForValue(displayCell.value))
             )
             .clickable(
                 indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ) {
-                val action = CellInteraction.OnValueCellClicked(cell = cell)
-                actionListener.action(action)
-            },
+                interactionSource = remember { MutableInteractionSource() },
+                onClick = onClick
+            ),
         contentAlignment = Alignment.Center
     ) {
 
         val fontSize = getFontSize(width = maxWidth, height = maxHeight)
 
         Text(
-            text = cell.value.toString(),
+            text = displayCell.value.toString(),
             fontSize = fontSize,
             fontWeight = FontWeight.W800,
             textAlign = TextAlign.Center,
@@ -113,9 +108,14 @@ private fun getFontSize(
 @Preview(heightDp = 60, widthDp = 60)
 @Composable
 private fun Preview() {
+
+    val cell = DisplayCell.Cell.ValueCell(
+        value = 1,
+    )
+
     ValueCell(
-        cell = MineCell.ValuedCell.Cell(value = 1, position = Position.zero()),
+        displayCell = cell,
         modifier = Modifier.fillMaxSize(),
-        actionListener = NoOpInteractionListener,
+        onClick = {},
     )
 }

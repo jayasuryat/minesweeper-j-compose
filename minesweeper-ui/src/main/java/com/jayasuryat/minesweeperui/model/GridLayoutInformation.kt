@@ -13,8 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.cell
+package com.jayasuryat.minesweeperui.model
 
-internal const val CELL_GAP_PERCENT: Float = 0.05f
-internal const val CELL_ICON_PADDING_PERCENT: Float = 0.30f
-internal const val VALUE_CELL_TEXT_COVER_PERCENT: Float = 0.5f
+import androidx.compose.runtime.Stable
+import com.jayasuryat.minesweeperengine.model.block.GridSize
+
+@Stable
+public data class GridLayoutInformation(
+    val gridSize: GridSize,
+    val displayCells: List<DisplayCell>,
+) {
+
+    public companion object
+}

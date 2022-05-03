@@ -35,12 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
-import com.jayasuryat.minesweeperengine.model.block.Position
-import com.jayasuryat.minesweeperengine.model.cell.MineCell
-import com.jayasuryat.minesweeperengine.model.cell.RawCell
-import com.jayasuryat.minesweeperui.action.CellInteraction
-import com.jayasuryat.minesweeperui.action.CellInteractionListener
-import com.jayasuryat.minesweeperui.action.NoOpInteractionListener
+import com.jayasuryat.minesweeperui.cell.CELL_ICON_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.theme.msColors
 import com.jayasuryat.util.LogCompositions
 
@@ -48,8 +43,8 @@ import com.jayasuryat.util.LogCompositions
 @Composable
 internal fun FlaggedCell(
     modifier: Modifier = Modifier,
-    cell: RawCell.UnrevealedCell.FlaggedCell,
-    actionListener: CellInteractionListener,
+    onClick: () -> Unit,
+    onLongPressed: () -> Unit,
 ) {
 
     LogCompositions(name = "FlaggedCell")
@@ -67,21 +62,19 @@ internal fun FlaggedCell(
                 onClick = {
                     // TODO: 20/01/22 Handle haptics properly
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    val action = CellInteraction.OnCellClicked(cell)
-                    actionListener.action(action)
+                    onClick()
                 },
                 onLongClick = {
                     // TODO: 20/01/22 Handle haptics properly
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    val action = CellInteraction.OnCellLongPressed(cell)
-                    actionListener.action(action)
+                    onLongPressed()
                 },
             ),
         contentAlignment = Alignment.Center,
     ) {
 
         Icon(
-            modifier = Modifier.fillMaxSize(0.70f),
+            modifier = Modifier.fillMaxSize(1 - CELL_ICON_PADDING_PERCENT),
             imageVector = Icons.Filled.Favorite,
             tint = MaterialTheme.msColors.flagIconTint,
             contentDescription = null,
@@ -94,13 +87,9 @@ internal fun FlaggedCell(
 @Composable
 private fun Preview() {
 
-    val cell = RawCell.UnrevealedCell.FlaggedCell(
-        cell = MineCell.ValuedCell.EmptyCell(position = Position.zero())
-    )
-
     FlaggedCell(
         modifier = Modifier.fillMaxSize(),
-        cell = cell,
-        actionListener = NoOpInteractionListener,
+        onClick = {},
+        onLongPressed = {},
     )
 }

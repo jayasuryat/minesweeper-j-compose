@@ -31,20 +31,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
-import com.jayasuryat.minesweeperengine.model.block.Position
-import com.jayasuryat.minesweeperengine.model.cell.MineCell
-import com.jayasuryat.minesweeperengine.model.cell.RawCell
-import com.jayasuryat.minesweeperui.action.CellInteraction
-import com.jayasuryat.minesweeperui.action.CellInteractionListener
-import com.jayasuryat.minesweeperui.action.NoOpInteractionListener
 import com.jayasuryat.util.LogCompositions
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun UnFlaggedCell(
     modifier: Modifier = Modifier,
-    cell: RawCell.UnrevealedCell.UnFlaggedCell,
-    actionListener: CellInteractionListener,
+    onClick: () -> Unit,
+    onLongPressed: () -> Unit,
 ) {
 
     LogCompositions(name = "UnFlaggedCell")
@@ -59,14 +53,10 @@ internal fun UnFlaggedCell(
             .combinedClickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
-                onClick = {
-                    val action = CellInteraction.OnCellClicked(cell)
-                    actionListener.action(action)
-                },
+                onClick = onClick,
                 onLongClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    val action = CellInteraction.OnCellLongPressed(cell)
-                    actionListener.action(action)
+                    onLongPressed()
                 },
             ),
     )
@@ -77,13 +67,9 @@ internal fun UnFlaggedCell(
 @Composable
 private fun Preview() {
 
-    val cell = RawCell.UnrevealedCell.UnFlaggedCell(
-        cell = MineCell.ValuedCell.EmptyCell(position = Position.zero())
-    )
-
     UnFlaggedCell(
         modifier = Modifier.fillMaxSize(),
-        cell = cell,
-        actionListener = NoOpInteractionListener,
+        onClick = {},
+        onLongPressed = {},
     )
 }

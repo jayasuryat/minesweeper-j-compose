@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.jayasuryat.minesweeperui.R
+import com.jayasuryat.minesweeperui.cell.CELL_ICON_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.theme.msColors
 import com.jayasuryat.util.LogCompositions
 
@@ -48,7 +49,7 @@ internal fun MineCell(
     ) {
 
         Icon(
-            modifier = Modifier.fillMaxSize(0.70f),
+            modifier = Modifier.fillMaxSize(1 - CELL_ICON_PADDING_PERCENT),
             painter = painterResource(id = R.drawable.icon_mine),
             tint = MaterialTheme.msColors.mineIconTint,
             contentDescription = null,

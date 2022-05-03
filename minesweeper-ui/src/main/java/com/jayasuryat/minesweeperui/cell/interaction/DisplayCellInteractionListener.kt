@@ -13,8 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.cell
+package com.jayasuryat.minesweeperui.cell.interaction
 
-internal const val CELL_GAP_PERCENT: Float = 0.05f
-internal const val CELL_ICON_PADDING_PERCENT: Float = 0.30f
-internal const val VALUE_CELL_TEXT_COVER_PERCENT: Float = 0.5f
+import androidx.compose.runtime.Stable
+
+@Stable
+internal interface DisplayCellInteractionListener {
+
+    fun onUnFlaggedCellClicked()
+    fun onUnFlaggedCellLongPressed()
+
+    fun onFlaggedCellClicked()
+    fun onFlaggedCellLongPressed()
+
+    fun onValueCellClicked()
+}

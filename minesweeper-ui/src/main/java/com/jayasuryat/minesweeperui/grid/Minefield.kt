@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.component.ZoomPanState
 import com.jayasuryat.minesweeperui.component.ZoomableContent
+import com.jayasuryat.minesweeperui.model.GridLayoutInformation
 import com.jayasuryat.util.LogCompositions
 
 @Composable

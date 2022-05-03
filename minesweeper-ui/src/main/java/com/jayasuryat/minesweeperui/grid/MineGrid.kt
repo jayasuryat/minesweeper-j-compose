@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
@@ -28,9 +27,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
-import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.cell.RawCell
+import com.jayasuryat.minesweeperui.model.GridLayoutInformation
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp
 import com.jayasuryat.util.floatValue
@@ -79,10 +78,9 @@ private fun Grid(
     val centerOffset = (parentHeight / 2).floatValue() - (cellSize * gridInfo.gridSize.rows / 2)
     val paddingOffset = horizontalPadding.floatValue()
 
-    gridInfo.cells.forEach { cellData ->
+    gridInfo.displayCells.forEach { cellData ->
 
-        val (cell: State<RawCell>, position: Position) = cellData
-        val offset = position.asOffset(cellSize = cellSize)
+        val offset = cellData.position.asOffset(cellSize = cellSize)
 
         RawCell(
             modifier = Modifier
@@ -91,8 +89,8 @@ private fun Grid(
                     translationX = offset.x + paddingOffset
                     translationY = offset.y + centerOffset
                 },
-            cellState = cell,
-            actionListener = actionListener,
+            displayCell = cellData,
+            interactionListener = actionListener,
         )
     }
 }
