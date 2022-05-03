@@ -23,7 +23,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -32,7 +31,6 @@ import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.cell.RawCell
-import com.jayasuryat.minesweeperui.component.InverseClippedBox
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp
 import com.jayasuryat.util.floatValue
@@ -55,19 +53,6 @@ internal fun MineGrid(
         val cellSize = getCellSize(
             gridSize = gridSize,
             width = width - (horizontalPadding * 2),
-        )
-
-        InverseClippedBox(
-            parentSize = Size(
-                width = maxWidth.floatValue(),
-                height = maxHeight.floatValue()
-            ),
-            contentSize = Size(
-                width = cellSize * gridSize.columns,
-                height = cellSize * gridSize.rows,
-            ),
-            padding = Size(width = 32f, height = 32f),
-            innerInset = Size(width = 1f, height = 1f)
         )
 
         Grid(

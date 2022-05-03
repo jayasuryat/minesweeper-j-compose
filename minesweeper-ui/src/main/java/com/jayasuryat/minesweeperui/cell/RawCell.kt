@@ -75,10 +75,15 @@ internal fun RawCell(
 
         LogCompositions(name = "RawCell\$AnimatedContent")
 
-        RawCellContent(
-            cell = cellState.value,
-            actionListener = actionListener,
-        )
+        Box(
+            modifier = Modifier.fillMaxSize(0.85f),
+        ) {
+
+            RawCellContent(
+                cell = cellState.value,
+                actionListener = actionListener,
+            )
+        }
     }
 }
 
@@ -95,11 +100,13 @@ private fun RawCellContent(
         is UnrevealedCell -> when (cell) {
 
             is UnrevealedCell.FlaggedCell -> FlaggedCell(
+                modifier = Modifier.fillMaxSize(),
                 cell = cell,
                 actionListener = actionListener,
             )
 
             is UnrevealedCell.UnFlaggedCell -> UnFlaggedCell(
+                modifier = Modifier.fillMaxSize(),
                 cell = cell,
                 actionListener = actionListener,
             )
@@ -109,9 +116,13 @@ private fun RawCellContent(
 
             when (val revealedCell = cell.cell) {
 
-                is MineCell.Mine -> MineCell(modifier = Modifier.fillMaxSize())
+                is MineCell.Mine -> MineCell(
+                    modifier = Modifier.fillMaxSize(),
+                )
 
-                is MineCell.ValuedCell.EmptyCell -> EmptyCell(modifier = Modifier.fillMaxSize())
+                is MineCell.ValuedCell.EmptyCell -> EmptyCell(
+                    modifier = Modifier.fillMaxSize(),
+                )
 
                 is MineCell.ValuedCell.Cell -> ValueCell(
                     modifier = Modifier.fillMaxSize(),

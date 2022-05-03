@@ -43,10 +43,6 @@ internal fun MinefieldScreen(
 
         LogCompositions(name = "MinefieldScreen\$Box")
 
-        AnimatingGradient(
-            modifier = Modifier.fillMaxSize()
-        )
-
         MinesweeperTheme(
             colors = getMinefieldColors(),
         ) {
