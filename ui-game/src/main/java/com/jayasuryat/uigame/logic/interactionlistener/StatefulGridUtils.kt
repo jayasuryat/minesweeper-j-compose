@@ -13,25 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.logic.model
+package com.jayasuryat.uigame.logic.interactionlistener
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.State
-import com.jayasuryat.minesweeperui.action.CellInteractionListener
+import com.jayasuryat.minesweeperengine.model.grid.Grid
 import com.jayasuryat.minesweeperui.model.GridLayoutInformation
 
-@Stable
-internal sealed interface GameScreenStatus {
+internal fun Grid.asStatefulGrid(): StatefulGrid {
+    return StatefulGrid.from(this)
+}
 
-    @Immutable
-    object Loading : GameScreenStatus
+internal fun GridLayoutInformation.Companion.from(
+    statefulGrid: StatefulGrid,
+): GridLayoutInformation {
 
-    @Stable
-    data class Loaded(
-        val layoutInformation: GridLayoutInformation,
-        val interactionListener: CellInteractionListener,
-        val gameState: State<GameState>,
-        val gameProgress: State<GameProgress>,
-    ) : GameScreenStatus
+    return GridLayoutInformation(
+        gridSize = statefulGrid.gridSize,
+        displayCells = statefulGrid.displayCells.flatten(),
+    )
 }

@@ -20,7 +20,10 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
@@ -28,7 +31,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import com.google.accompanist.insets.LocalWindowInsets
-import com.jayasuryat.minesweeperui.grid.GridLayoutInformation
 import com.jayasuryat.uigame.composable.MinefieldScreen
 import com.jayasuryat.uigame.composable.feedback.GameFeedback
 import com.jayasuryat.uigame.composable.toggle.Toggle
@@ -47,10 +49,6 @@ fun GameScreen(
 ) {
 
     LogCompositions(name = "GameScreen")
-
-    LaunchedEffect(key1 = null) {
-        viewModel.loadGame()
-    }
 
     DisposableEffect(key1 = true) {
         onDispose {
@@ -111,9 +109,8 @@ private fun GameScreenLoaded(
     val gameState = screenState.gameState
     val gameProgress = screenState.gameProgress
 
-    val statefulGrid = remember { screenState.statefulGrid }
     val interactionListener = remember { screenState.interactionListener }
-    val layoutInfo = remember { GridLayoutInformation.from(statefulGrid = statefulGrid) }
+    val layoutInfo = remember { screenState.layoutInformation }
 
     LogCompositions(name = "GameScreenLoaded")
 
