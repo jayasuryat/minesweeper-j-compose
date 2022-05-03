@@ -17,6 +17,7 @@ package com.jayasuryat.minesweeperui.cell.concealed
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -25,12 +26,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.jayasuryat.minesweeperui.cell.CELL_RING_PERCENT
 import com.jayasuryat.util.LogCompositions
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -45,11 +51,24 @@ internal fun UnFlaggedCell(
 
     val haptic = LocalHapticFeedback.current
 
+    val borderWidth = remember { mutableStateOf(1.dp) }
+    val localDensity = LocalDensity.current
+
     Box(
         modifier = modifier
             .aspectRatio(1f)
             .clip(CircleShape)
             .background(color = MaterialTheme.colors.primary)
+            .border(
+                width = borderWidth.value,
+                color = MaterialTheme.colors.onBackground,
+                shape = CircleShape,
+            )
+            .onGloballyPositioned {
+                val size = minOf(it.size.height, it.size.width) * CELL_RING_PERCENT
+                val width = with(localDensity) { size.toDp() }
+                borderWidth.value = width
+            }
             .combinedClickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
