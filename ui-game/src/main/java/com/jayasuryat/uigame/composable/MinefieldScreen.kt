@@ -62,7 +62,6 @@ internal fun MinefieldScreen(
 private fun getMinefieldColors(): MinesweeperColors {
 
     return MinesweeperColors(
-        minefield = MaterialTheme.colors.background,
         text = MaterialTheme.colors.onBackground,
         mine = MaterialTheme.colors.error,
         flagIconTint = MaterialTheme.colors.background,
