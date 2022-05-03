@@ -39,11 +39,9 @@ import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperui.action.CellInteraction
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.action.NoOpInteractionListener
-import com.jayasuryat.minesweeperui.cell.CELL_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.cell.VALUE_CELL_TEXT_COVER_PERCENT
 import com.jayasuryat.minesweeperui.theme.msColors
 import com.jayasuryat.util.LogCompositions
-import com.jayasuryat.util.floatValue
 import com.jayasuryat.util.sp
 
 @Composable
@@ -59,7 +57,9 @@ internal fun ValueCell(
         modifier = modifier
             .aspectRatio(1f)
             .clip(CircleShape)
-            .background(color = MaterialTheme.colors.primary)
+            .background(color = MaterialTheme.colors.primary
+                .copy(alpha = 1 - getAlphaForValue(cell.value))
+            )
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
@@ -107,17 +107,6 @@ private fun getFontSize(
     val minSize = minOf(width, height)
     val availableSize = minSize * VALUE_CELL_TEXT_COVER_PERCENT
     return availableSize.sp()
-}
-
-@Composable
-@Stable
-@ReadOnlyComposable
-private fun getPadding(
-    width: Dp,
-    height: Dp,
-): Float {
-    val minSize = minOf(width, height)
-    return (minSize * CELL_PADDING_PERCENT).floatValue()
 }
 
 @Preview(heightDp = 600, widthDp = 600)

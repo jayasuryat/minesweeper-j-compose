@@ -20,7 +20,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
@@ -80,12 +79,6 @@ private fun Preview() {
 
     val cell = RawCell.UnrevealedCell.UnFlaggedCell(
         cell = MineCell.ValuedCell.EmptyCell(position = Position.zero())
-    )
-
-    Spacer(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colors.secondary)
     )
 
     UnFlaggedCell(

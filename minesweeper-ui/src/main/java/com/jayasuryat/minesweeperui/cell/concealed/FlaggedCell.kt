@@ -20,7 +20,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
@@ -43,6 +42,7 @@ import com.jayasuryat.minesweeperui.action.CellInteraction
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.action.NoOpInteractionListener
 import com.jayasuryat.minesweeperui.theme.msColors
+import com.jayasuryat.util.LogCompositions
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -51,6 +51,8 @@ internal fun FlaggedCell(
     cell: RawCell.UnrevealedCell.FlaggedCell,
     actionListener: CellInteractionListener,
 ) {
+
+    LogCompositions(name = "FlaggedCell")
 
     val haptic = LocalHapticFeedback.current
 
@@ -94,12 +96,6 @@ private fun Preview() {
 
     val cell = RawCell.UnrevealedCell.FlaggedCell(
         cell = MineCell.ValuedCell.EmptyCell(position = Position.zero())
-    )
-
-    Spacer(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colors.secondary)
     )
 
     FlaggedCell(

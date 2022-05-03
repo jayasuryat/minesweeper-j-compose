@@ -73,65 +73,67 @@ internal fun RawCell(
         contentAlignment = Alignment.Center,
     ) {
 
-        LogCompositions(name = "RawCell\$AnimatedContent")
+        LogCompositions(name = "RawCell\$Box")
 
-        Box(
+        RawCellContent(
             modifier = Modifier.fillMaxSize(0.85f),
-        ) {
-
-            RawCellContent(
-                cell = cellState.value,
-                actionListener = actionListener,
-            )
-        }
+            cell = cellState.value,
+            actionListener = actionListener,
+        )
     }
 }
 
 @Composable
 private fun RawCellContent(
+    modifier: Modifier = Modifier,
     cell: RawCellData,
     actionListener: CellInteractionListener,
 ) {
 
     LogCompositions(name = "RawCellContent")
 
-    when (cell) {
+    Box(
+        modifier = modifier,
+    ) {
 
-        is UnrevealedCell -> when (cell) {
+        when (cell) {
 
-            is UnrevealedCell.FlaggedCell -> FlaggedCell(
-                modifier = Modifier.fillMaxSize(),
-                cell = cell,
-                actionListener = actionListener,
-            )
+            is UnrevealedCell -> when (cell) {
 
-            is UnrevealedCell.UnFlaggedCell -> UnFlaggedCell(
-                modifier = Modifier.fillMaxSize(),
-                cell = cell,
-                actionListener = actionListener,
-            )
-        }.exhaustive
-
-        is RevealedCell -> {
-
-            when (val revealedCell = cell.cell) {
-
-                is MineCell.Mine -> MineCell(
+                is UnrevealedCell.FlaggedCell -> FlaggedCell(
                     modifier = Modifier.fillMaxSize(),
+                    cell = cell,
+                    actionListener = actionListener,
                 )
 
-                is MineCell.ValuedCell.EmptyCell -> EmptyCell(
+                is UnrevealedCell.UnFlaggedCell -> UnFlaggedCell(
                     modifier = Modifier.fillMaxSize(),
-                )
-
-                is MineCell.ValuedCell.Cell -> ValueCell(
-                    modifier = Modifier.fillMaxSize(),
-                    cell = revealedCell,
+                    cell = cell,
                     actionListener = actionListener,
                 )
             }.exhaustive
-        }
-    }.exhaustive
+
+            is RevealedCell -> {
+
+                when (val revealedCell = cell.cell) {
+
+                    is MineCell.Mine -> MineCell(
+                        modifier = Modifier.fillMaxSize(),
+                    )
+
+                    is MineCell.ValuedCell.EmptyCell -> EmptyCell(
+                        modifier = Modifier.fillMaxSize(),
+                    )
+
+                    is MineCell.ValuedCell.Cell -> ValueCell(
+                        modifier = Modifier.fillMaxSize(),
+                        cell = revealedCell,
+                        actionListener = actionListener,
+                    )
+                }.exhaustive
+            }
+        }.exhaustive
+    }
 }
 
 /*
