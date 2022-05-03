@@ -20,14 +20,15 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
-import com.jayasuryat.minesweeperengine.state.getCurrentGrid
+import com.jayasuryat.minesweeperui.model.GridLayoutInformation
 import com.jayasuryat.uigame.data.model.ToggleState
 import com.jayasuryat.uigame.data.source.GameDataSource
 import com.jayasuryat.uigame.data.source.GameSaver
 import com.jayasuryat.uigame.feedback.sound.MusicManager
 import com.jayasuryat.uigame.feedback.vibration.VibrationManager
-import com.jayasuryat.uigame.logic.ActionListener
 import com.jayasuryat.uigame.logic.InitialGridProvider
+import com.jayasuryat.uigame.logic.interactionlistener.ActionListener
+import com.jayasuryat.uigame.logic.interactionlistener.from
 import com.jayasuryat.uigame.logic.model.GameConfiguration
 import com.jayasuryat.uigame.logic.model.GameScreenStatus
 import com.jayasuryat.uigame.logic.model.GameScreenStatus.Loading
@@ -56,7 +57,13 @@ class GameViewModel(
     private val _screenStatus: MutableState<GameScreenStatus> = mutableStateOf(Loading)
     internal val screenStatus: State<GameScreenStatus> = _screenStatus
 
-    internal suspend fun loadGame() {
+    private var actionListener: ActionListener? = null
+
+    init {
+        defaultScope.launch { loadGame() }
+    }
+
+    private suspend fun loadGame() {
 
         withContext(Dispatchers.Main) { _screenStatus.value = Loading }
 
@@ -80,12 +87,16 @@ class GameViewModel(
                 onStateChanged = { saveCurrentGameState() },
             )
 
+            val gridLayoutInformation = GridLayoutInformation.from(actionListener.statefulGrid)
+
             val screenStatus = GameScreenStatus.Loaded(
-                statefulGrid = actionListener.statefulGrid,
+                layoutInformation = gridLayoutInformation,
                 interactionListener = actionListener,
                 gameState = actionListener.gameState,
                 gameProgress = actionListener.gameProgress
             )
+
+            this@GameViewModel.actionListener = actionListener
 
             withContext(Dispatchers.Main) {
                 _screenStatus.value = screenStatus
@@ -104,15 +115,12 @@ class GameViewModel(
 
     internal fun saveCurrentGameState() {
 
-        val status = when (val status = _screenStatus.value) {
+        val grid = actionListener?.statefulGrid?.getCurrentGrid() ?: return
+
+        val gameState = when (val status = _screenStatus.value) {
             is Loading -> return
             is GameScreenStatus.Loaded -> status
-        }
-
-        val gameState = status.gameState.value
-
-        val startTime = if (gameState is GameState.StartedGameState) gameState.startTime else return
-        val endTime = if (gameState is GameState.EndedGameState) gameState.endTime else null
+        }.gameState.value
 
         val mappedState = when (gameState) {
             is GameState.Idle -> return
@@ -120,7 +128,9 @@ class GameViewModel(
             is GameState.GameEnded -> GameSaver.GameState.Ended
         }
 
-        val grid = status.statefulGrid.getCurrentGrid()
+        val startTime = if (gameState is GameState.StartedGameState) gameState.startTime else return
+        val endTime = if (gameState is GameState.EndedGameState) gameState.endTime else null
+
         val elapsedMills = (endTime ?: System.currentTimeMillis()) - startTime
 
         dataSource.saveGame(

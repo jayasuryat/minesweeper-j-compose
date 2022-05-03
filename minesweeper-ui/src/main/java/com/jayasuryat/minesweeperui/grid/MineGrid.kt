@@ -20,19 +20,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
-import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.cell.RawCell
-import com.jayasuryat.minesweeperui.component.InverseClippedBox
+import com.jayasuryat.minesweeperui.model.GridLayoutInformation
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp
 import com.jayasuryat.util.floatValue
@@ -55,19 +52,6 @@ internal fun MineGrid(
         val cellSize = getCellSize(
             gridSize = gridSize,
             width = width - (horizontalPadding * 2),
-        )
-
-        InverseClippedBox(
-            parentSize = Size(
-                width = maxWidth.floatValue(),
-                height = maxHeight.floatValue()
-            ),
-            contentSize = Size(
-                width = cellSize * gridSize.columns,
-                height = cellSize * gridSize.rows,
-            ),
-            padding = Size(width = 32f, height = 32f),
-            innerInset = Size(width = 1f, height = 1f)
         )
 
         Grid(
@@ -94,23 +78,19 @@ private fun Grid(
     val centerOffset = (parentHeight / 2).floatValue() - (cellSize * gridInfo.gridSize.rows / 2)
     val paddingOffset = horizontalPadding.floatValue()
 
-    val overlap = 2f
-    val overlappingCellSize = cellSize + overlap
+    gridInfo.displayCells.forEach { cellData ->
 
-    gridInfo.cells.forEach { cellData ->
-
-        val (cell: State<RawCell>, position: Position) = cellData
-        val offset = position.asOffset(cellSize = cellSize)
+        val offset = cellData.position.asOffset(cellSize = cellSize)
 
         RawCell(
             modifier = Modifier
-                .size(overlappingCellSize.dp())
+                .size(cellSize.dp())
                 .graphicsLayer {
                     translationX = offset.x + paddingOffset
                     translationY = offset.y + centerOffset
                 },
-            cellState = cell,
-            actionListener = actionListener,
+            displayCell = cellData,
+            interactionListener = actionListener,
         )
     }
 }

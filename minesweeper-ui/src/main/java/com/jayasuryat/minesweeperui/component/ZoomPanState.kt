@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperui.grid
+package com.jayasuryat.minesweeperui.component
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable

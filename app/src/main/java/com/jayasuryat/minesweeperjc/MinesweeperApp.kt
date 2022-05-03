@@ -37,7 +37,7 @@ class MinesweeperApp : Application() {
     private fun attachTakt() {
 
         Takt.stock(this)
-            .showOverlaySetting(false)
+            .showOverlaySetting(BuildConfig.DEBUG)
             .seat(Seat.BOTTOM_RIGHT)
             .interval(250)
             .color(android.graphics.Color.WHITE)

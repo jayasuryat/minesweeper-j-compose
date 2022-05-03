@@ -13,25 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.logic.model
+package com.jayasuryat.minesweeperui.model
 
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.State
-import com.jayasuryat.minesweeperui.action.CellInteractionListener
-import com.jayasuryat.minesweeperui.model.GridLayoutInformation
+import com.jayasuryat.minesweeperengine.model.block.GridSize
 
 @Stable
-internal sealed interface GameScreenStatus {
+public data class GridLayoutInformation(
+    val gridSize: GridSize,
+    val displayCells: List<DisplayCell>,
+) {
 
-    @Immutable
-    object Loading : GameScreenStatus
-
-    @Stable
-    data class Loaded(
-        val layoutInformation: GridLayoutInformation,
-        val interactionListener: CellInteractionListener,
-        val gameState: State<GameState>,
-        val gameProgress: State<GameProgress>,
-    ) : GameScreenStatus
+    public companion object
 }

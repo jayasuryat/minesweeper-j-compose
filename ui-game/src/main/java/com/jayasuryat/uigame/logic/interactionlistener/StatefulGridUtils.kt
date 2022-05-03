@@ -13,25 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.minesweeperengine.state
+package com.jayasuryat.uigame.logic.interactionlistener
 
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.minesweeperengine.model.grid.impl.MineGrid
-import com.jayasuryat.minesweeperengine.state.impl.MutableStatefulGrid
+import com.jayasuryat.minesweeperui.model.GridLayoutInformation
 
-public fun Grid.asStatefulGrid(): StatefulGrid {
-    return MutableStatefulGrid.from(this)
+internal fun Grid.asStatefulGrid(): StatefulGrid {
+    return StatefulGrid.from(this)
 }
 
-public fun StatefulGrid.getCurrentGrid(): Grid {
+internal fun GridLayoutInformation.Companion.from(
+    statefulGrid: StatefulGrid,
+): GridLayoutInformation {
 
-    return MineGrid(
-        gridSize = this.gridSize,
-        totalMines = this.totalMines,
-        cells = this.cells.map { row ->
-            row.map { cell ->
-                cell.value
-            }
-        }
+    return GridLayoutInformation(
+        gridSize = statefulGrid.gridSize,
+        displayCells = statefulGrid.displayCells.flatten(),
     )
 }

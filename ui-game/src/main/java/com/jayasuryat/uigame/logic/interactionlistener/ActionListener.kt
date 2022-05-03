@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.logic
+package com.jayasuryat.uigame.logic.interactionlistener
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
@@ -26,9 +26,6 @@ import com.jayasuryat.minesweeperengine.gridgenerator.GridGenerator
 import com.jayasuryat.minesweeperengine.model.cell.MineCell
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.minesweeperengine.state.StatefulGrid
-import com.jayasuryat.minesweeperengine.state.asStatefulGrid
-import com.jayasuryat.minesweeperengine.state.getCurrentGrid
 import com.jayasuryat.minesweeperui.action.CellInteraction
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.uigame.data.model.ToggleState
@@ -53,7 +50,7 @@ internal class ActionListener(
     private val onStateChanged: (newState: GameState) -> Unit,
 ) : CellInteractionListener {
 
-    internal val statefulGrid: StatefulGrid = initialGrid.grid.asStatefulGrid()
+    internal val statefulGrid: StatefulGrid = StatefulGrid.from(initialGrid.grid)
 
     private val _gameState: MutableState<GameState> = mutableStateOf(initialGrid.getGameState())
     val gameState: State<GameState> = _gameState
@@ -62,8 +59,10 @@ internal class ActionListener(
     val gameProgress: State<GameProgress> = _progress
 
     override fun action(action: CellInteraction) {
+
         coroutineScope.launch {
-            handleAction(action = action.mapToAction())
+
+            action.mapToAction()?.let { handleAction(it) }
         }
     }
 
@@ -239,22 +238,55 @@ internal class ActionListener(
         return state
     }
 
-    private fun CellInteraction.mapToAction(): MinefieldAction {
+    private fun CellInteraction.mapToAction(): MinefieldAction? {
 
         return when (toggleState.value) {
 
             ToggleState.Flag -> when (this) {
-                is CellInteraction.OnCellClicked -> MinefieldAction.OnFlagToggled(cell = cell)
-                is CellInteraction.OnCellLongPressed -> MinefieldAction.OnCellRevealed(cell = cell)
-                is CellInteraction.OnValueCellClicked -> MinefieldAction.OnValueCellClicked(cell = cell)
-            }
+
+                is CellInteraction.OnUnFlaggedCelClicked -> {
+                    val cell = statefulGrid[position] as RawCell.UnrevealedCell
+                    MinefieldAction.OnFlagToggled(cell = cell)
+                }
+
+                is CellInteraction.OnUnFlaggedCelLongPressed,
+                is CellInteraction.OnFlaggedCelLongPressed,
+                -> {
+                    val cell = statefulGrid[position] as RawCell.UnrevealedCell
+                    MinefieldAction.OnCellRevealed(cell = cell)
+                }
+
+                is CellInteraction.OnValueCellClicked -> {
+                    val rawCell = statefulGrid[position] as RawCell.RevealedCell
+                    val cell = rawCell.cell as MineCell.ValuedCell.Cell
+                    MinefieldAction.OnValueCellClicked(cell = cell)
+                }
+
+                is CellInteraction.OnFlaggedCelClicked -> null
+            }.exhaustive
 
             ToggleState.Reveal -> when (this) {
-                is CellInteraction.OnCellClicked -> MinefieldAction.OnCellRevealed(cell = cell)
-                is CellInteraction.OnCellLongPressed -> MinefieldAction.OnFlagToggled(cell = cell)
-                is CellInteraction.OnValueCellClicked -> MinefieldAction.OnValueCellClicked(cell = cell)
-            }
-        }
+
+                is CellInteraction.OnUnFlaggedCelClicked -> {
+                    val cell = statefulGrid[position] as RawCell.UnrevealedCell
+                    MinefieldAction.OnCellRevealed(cell = cell)
+                }
+                is CellInteraction.OnUnFlaggedCelLongPressed,
+                is CellInteraction.OnFlaggedCelLongPressed,
+                -> {
+                    val cell = statefulGrid[position] as RawCell.UnrevealedCell
+                    MinefieldAction.OnFlagToggled(cell = cell)
+                }
+
+                is CellInteraction.OnValueCellClicked -> {
+                    val rawCell = statefulGrid[position] as RawCell.RevealedCell
+                    val cell = rawCell.cell as MineCell.ValuedCell.Cell
+                    MinefieldAction.OnValueCellClicked(cell = cell)
+                }
+
+                is CellInteraction.OnFlaggedCelClicked -> null
+            }.exhaustive
+        }.exhaustive
     }
 
     companion object {

@@ -23,7 +23,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 
 @Composable
 public fun MinesweeperTheme(
-    colors: MinesweeperColors = DefaultColors,
+    colors: MinesweeperColors,
     content: @Composable () -> Unit,
 ) {
 

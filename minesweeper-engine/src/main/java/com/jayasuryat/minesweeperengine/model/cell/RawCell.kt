@@ -29,7 +29,7 @@ public sealed interface RawCell {
         public fun asRevealed(): RevealedCell
 
         @Immutable
-        public class UnFlaggedCell(
+        public data class UnFlaggedCell(
             private val cell: MineCell,
         ) : UnrevealedCell {
 
@@ -41,7 +41,7 @@ public sealed interface RawCell {
         }
 
         @Immutable
-        public class FlaggedCell(
+        public data class FlaggedCell(
             private val cell: MineCell,
         ) : UnrevealedCell {
 
@@ -54,7 +54,7 @@ public sealed interface RawCell {
     }
 
     @Immutable
-    public class RevealedCell(
+    public data class RevealedCell(
         public val cell: MineCell,
     ) : RawCell {
 
