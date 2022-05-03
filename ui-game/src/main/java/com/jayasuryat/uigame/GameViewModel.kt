@@ -65,8 +65,6 @@ class GameViewModel(
 
     private suspend fun loadGame() {
 
-        withContext(Dispatchers.Main) { _screenStatus.value = Loading }
-
         withContext(Dispatchers.Default) {
 
             val initialGrid = withContext(Dispatchers.IO) {

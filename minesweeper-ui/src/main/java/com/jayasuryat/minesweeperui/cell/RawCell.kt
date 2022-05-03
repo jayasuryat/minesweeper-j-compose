@@ -15,14 +15,14 @@
  */
 package com.jayasuryat.minesweeperui.cell
 
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.cell.concealed.FlaggedCell
 import com.jayasuryat.minesweeperui.cell.concealed.UnFlaggedCell
@@ -55,37 +55,28 @@ internal fun RawCell(
     // Commented out AnimatedContent as it is eating up perf. Some animations are getting triggered
     // redundantly due how some models are modeled. i.e., RawCell.UnrevealedCell
 
-    /*
+    val contentTransform = remember { getContentTransformAnim() }
+
     AnimatedContent(
-        modifier = modifier
-            .clipToBounds(),
-        targetState = cellState.value,
-        transitionSpec = { getContentTransformAnim() },
+        modifier = modifier,
+        targetState = displayCell.cellState.value,
+        transitionSpec = { contentTransform },
         contentAlignment = Alignment.Center,
     ) { cell ->
 
-        LogCompositions(name = "RawCell\$AnimatedContent")
-
-        RawCellContent(
-            cell = cell,
-            actionListener = actionListener,
-        )
-    }
-    */
-
-    Box(
-        modifier = modifier
-            .clipToBounds(),
-        contentAlignment = Alignment.Center,
-    ) {
-
         LogCompositions(name = "RawCell\$Box")
 
-        RawCellContent(
-            modifier = Modifier.fillMaxSize(1 - CELL_GAP_PERCENT),
-            displayCell = displayCell.cellState.value,
-            listener = listenerMapper,
-        )
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center,
+        ) {
+
+            RawCellContent(
+                modifier = Modifier.fillMaxSize(1 - CELL_GAP_PERCENT),
+                displayCell = cell,
+                listener = listenerMapper,
+            )
+        }
     }
 }
 
@@ -134,24 +125,22 @@ private fun RawCellContent(
     }
 }
 
-/*
 @ExperimentalAnimationApi
 private fun getContentTransformAnim(): ContentTransform {
 
-    val enterAnim = fadeIn(
+    val enterAnim = scaleIn(
         animationSpec = tween(
-            durationMillis = 300,
-            delayMillis = 20
+            durationMillis = 160,
+            delayMillis = 80
         )
     )
 
-    val exitAnim = fadeOut(
+    val exitAnim = scaleOut(
         animationSpec = tween(
-            durationMillis = 300,
-            delayMillis = 330,
+            durationMillis = 160,
+            delayMillis = 0,
         )
     )
 
     return ContentTransform(enterAnim, exitAnim)
 }
-*/

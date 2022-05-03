@@ -60,7 +60,7 @@ fun GameScreen(
         viewModel.saveCurrentGameState()
     }
 
-    val screenState = viewModel.screenStatus
+    val screenState = remember { viewModel.screenStatus }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -82,10 +82,10 @@ fun GameScreen(
                 is GameScreenStatus.Loaded -> GameScreenLoaded(
                     modifier = Modifier.fillMaxSize(),
                     screenState = state,
-                    soundManager = viewModel.soundManager,
-                    vibrationManager = viewModel.vibrationManager,
-                    showToggle = viewModel.shouldShowToggle,
-                    toggleState = viewModel.toggleState,
+                    soundManager = remember { viewModel.soundManager },
+                    vibrationManager = remember { viewModel.vibrationManager },
+                    showToggle = remember { viewModel.shouldShowToggle },
+                    toggleState = remember { viewModel.toggleState },
                     onToggleStateUpdated = viewModel::onToggleStateUpdated,
                     onRestartClicked = onRestartClicked,
                 )

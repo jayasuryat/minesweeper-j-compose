@@ -291,6 +291,6 @@ internal class ActionListener(
 
     companion object {
 
-        private const val DELAY_FOR_EACH_CELL: Long = 30L
+        private const val DELAY_FOR_EACH_CELL: Long = 50L
     }
 }
