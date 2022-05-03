@@ -22,33 +22,33 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    background = Vampire,
-    onBackground = Beau,
+    background = Grey,
+    onBackground = White,
 
-    primary = Cobalt,
-    onPrimary = Beau,
+    primary = BluePastel,
+    onPrimary = Grey,
 
-    secondary = Havelock,
-    secondaryVariant = Havelock,
-    onSecondary = Beau,
+    secondary = GreenPastel,
+    secondaryVariant = GreenPastel,
+    onSecondary = Grey,
 
-    error = Ruby,
-    onError = Beau,
+    error = SalmonPastel,
+    onError = Grey,
 )
 
 private val LightColorPalette = lightColors(
-    background = Navajo,
-    onBackground = Beech,
+    background = White,
+    onBackground = Grey,
 
-    primary = Damask,
-    onPrimary = Beech,
+    primary = Blue,
+    onPrimary = Grey,
 
-    secondary = Tuscany,
-    secondaryVariant = Tuscany,
-    onSecondary = Beech,
+    secondary = Green,
+    secondaryVariant = Green,
+    onSecondary = Grey,
 
-    error = Ruby,
-    onError = Navajo,
+    error = Salmon,
+    onError = Grey,
 )
 
 @Composable

@@ -17,14 +17,12 @@ package com.jayasuryat.minesweeperjc.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Vampire = Color(0xFF06090E)
-val Cobalt = Color(0xFF1A559E)
-val Havelock = Color(0xFF568EDC)
-val Beau = Color(0xFFB8D4F4)
+val White = Color(0xFFFFFFFF)
 
-val Beech = Color(0xFF793D01)
-val Tuscany = Color(0xFFB94E27)
-val Damask = Color(0xFFD86D46)
-val Navajo = Color(0xFFFFE2AD)
-
-val Ruby = Color(0xFFAE2012)
+val Grey = Color(0XFF202124)
+val Blue = Color(0XFF538EF7)
+val BluePastel = Color(0XFF8BB4F7)
+val Green = Color(0XFF64B866)
+val GreenPastel = Color(0XFF81C995)
+val Salmon = Color(0XFFEC5E4F)
+val SalmonPastel = Color(0XFFF28B82)
