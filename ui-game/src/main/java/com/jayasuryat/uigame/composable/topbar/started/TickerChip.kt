@@ -15,14 +15,28 @@
  */
 package com.jayasuryat.uigame.composable.topbar.started
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import com.jayasuryat.uigame.composable.topbar.TextChip
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jayasuryat.uigame.composable.topbar.formatTime
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -42,13 +56,85 @@ internal fun TickerChip(
         }
     }
 
-    TextChip(
+    Row(
+        modifier = modifier
+            .clip(RoundedCornerShape(100))
+            .background(color = MaterialTheme.colors.background)
+            .border(
+                width = 2.dp,
+                color = MaterialTheme.colors.onBackground,
+                shape = RoundedCornerShape(100),
+            )
+            .padding(
+                horizontal = 16.dp,
+                vertical = 8.dp,
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+
+        val text = formatTime(elapsedDuration.value)
+
+        AnimatingCharacter(
+            modifier = Modifier.wrapContentSize(),
+            character = text[0]
+        )
+
+        AnimatingCharacter(
+            modifier = Modifier.wrapContentSize(),
+            character = text[1]
+        )
+
+        Text(
+            text = ":",
+            style = MaterialTheme.typography.body1.copy(
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colors.onBackground,
+            )
+        )
+
+        AnimatingCharacter(
+            modifier = Modifier.wrapContentSize(),
+            character = text[3]
+        )
+
+        AnimatingCharacter(
+            modifier = Modifier.wrapContentSize(),
+            character = text[4]
+        )
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+private fun AnimatingCharacter(
+    modifier: Modifier = Modifier,
+    character: Char,
+) {
+
+    AnimatedContent(
         modifier = modifier,
-        text = formatTime(elapsedDuration.value),
-        contentColor = MaterialTheme.colors.background,
-        textColor = MaterialTheme.colors.onBackground,
-        strokeColor = MaterialTheme.colors.onBackground,
-    )
+        transitionSpec = {
+            slideIn(
+                initialOffset = { fullSize -> IntOffset(x = 0, y = -fullSize.height) },
+                animationSpec = tween(durationMillis = 300),
+            ) with slideOut(
+                targetOffset = { fullSize -> IntOffset(x = 0, y = fullSize.height) },
+                animationSpec = tween(durationMillis = 300)
+            )
+        },
+        targetState = character,
+    ) { targetState ->
+
+        Text(
+            text = targetState.toString(),
+            style = MaterialTheme.typography.body1.copy(
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colors.onBackground,
+            )
+        )
+    }
 }
 
 @Preview

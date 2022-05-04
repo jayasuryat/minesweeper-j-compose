@@ -16,7 +16,6 @@
 package com.jayasuryat.uigame.composable.topbar
 
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,11 +26,8 @@ internal fun GameIdleTopBar(
 ) {
 
     TextChip(
-        text = "Tap a cell to start",
         modifier = modifier,
-        contentColor = MaterialTheme.colors.background,
-        textColor = MaterialTheme.colors.onBackground,
-        strokeColor = MaterialTheme.colors.onBackground,
+        text = "Tap a cell to start",
     )
 }
 

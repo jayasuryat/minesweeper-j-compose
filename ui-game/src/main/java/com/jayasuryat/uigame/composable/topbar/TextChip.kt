@@ -20,27 +20,27 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 internal fun TextChip(
     modifier: Modifier = Modifier,
     text: String,
-    textColor: Color = Color.White,
-    contentColor: Color,
-    backgroundColor: Color = contentColor.copy(alpha = 0.5f),
-    strokeColor: Color = contentColor.copy(alpha = 1f),
+    textColor: Color = MaterialTheme.colors.onBackground,
+    backgroundColor: Color = MaterialTheme.colors.background,
+    strokeColor: Color = MaterialTheme.colors.onBackground,
 ) {
 
     Text(
-        text = text,
-        color = textColor,
         modifier = modifier
             .clip(RoundedCornerShape(100))
             .background(color = backgroundColor)
@@ -49,7 +49,16 @@ internal fun TextChip(
                 color = strokeColor,
                 shape = RoundedCornerShape(100),
             )
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(
+                horizontal = 16.dp,
+                vertical = 8.dp,
+            ),
+        text = text,
+        style = MaterialTheme.typography.body1.copy(
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = textColor
+        ),
     )
 }
 
@@ -60,7 +69,8 @@ private fun Preview() {
     TextChip(
         modifier = Modifier.wrapContentSize(),
         text = "I am Groot",
-        contentColor = Color.Black,
+        textColor = Color.White,
+        backgroundColor = Color.Black,
         strokeColor = Color.White,
     )
 }

@@ -63,7 +63,8 @@ internal fun FlagIcon(
             .background(color = MaterialTheme.colors.background)
             .border(
                 width = 2.dp,
-                color = MaterialTheme.colors.onBackground,
+                color = if (isSelected) MaterialTheme.colors.secondary
+                else MaterialTheme.colors.onBackground,
                 shape = CircleShape
             )
             .clickable(
@@ -73,6 +74,7 @@ internal fun FlagIcon(
             ),
         contentAlignment = Alignment.Center,
     ) {
+
         Icon(
             modifier = Modifier
                 .fillMaxSize()
