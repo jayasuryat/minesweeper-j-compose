@@ -15,15 +15,21 @@
  */
 package com.jayasuryat.uisettings.composable
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jayasuryat.uisettings.R
 import com.jayasuryat.uisettings.composable.param.BooleanParamProvider
 import com.jayasuryat.uisettings.logic.ToggleMode
@@ -36,14 +42,25 @@ internal fun DefaultToggleMode(
     onModeChanged: (ToggleMode) -> Unit,
 ) {
 
+    val targetAlpha = remember { mutableStateOf(if (isEnabled) 1f else 0.3f) }
+    val alpha = animateFloatAsState(targetValue = targetAlpha.value)
+
+    LaunchedEffect(key1 = isEnabled) {
+        targetAlpha.value = if (isEnabled) 1f else 0.3f
+    }
+
     Column(
         modifier = modifier
-            .alpha(alpha = if (isEnabled) 1f else 0.3f),
+            .alpha(alpha = alpha.value),
     ) {
 
         Text(
             text = "Default click behavior",
-            style = MaterialTheme.typography.h6,
+            style = MaterialTheme.typography.body1.copy(
+                fontSize = 18.sp,
+                color = MaterialTheme.colors.onBackground,
+                fontWeight = FontWeight.Light,
+            ),
         )
 
         Spacer(modifier = Modifier.height(16.dp))

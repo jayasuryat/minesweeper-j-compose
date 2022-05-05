@@ -67,7 +67,10 @@ internal fun SettingsContent(
                 vertical = 32.dp,
             ),
             text = "Settings",
-            style = MaterialTheme.typography.h3.copy(fontWeight = FontWeight.ExtraLight)
+            style = MaterialTheme.typography.h3.copy(
+                color = MaterialTheme.colors.onBackground,
+                fontWeight = FontWeight.ExtraLight,
+            )
         )
 
         Spacer(modifier = Modifier.height(32.dp))

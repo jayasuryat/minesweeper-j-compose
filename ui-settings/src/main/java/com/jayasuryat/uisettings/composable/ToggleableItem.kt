@@ -30,9 +30,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jayasuryat.uisettings.R
 import com.jayasuryat.uisettings.composable.param.BooleanParamProvider
 
@@ -52,12 +54,9 @@ internal fun ToggleableItem(
             .clickable(enabled = enabled) { onModeChanged() }
             .border(
                 if (isSelected) 2.dp else 1.dp,
-                color = MaterialTheme.colors.onBackground.copy(alpha = 0.1f),
+                color = if (isSelected) MaterialTheme.colors.secondary
+                else MaterialTheme.colors.onBackground.copy(alpha = 0.1f),
                 shape = RoundedCornerShape(100f),
-            )
-            .background(
-                color = MaterialTheme.colors.onBackground
-                    .copy(alpha = if (isSelected) 0.2f else 0f),
             )
             .padding(all = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -70,15 +69,22 @@ internal fun ToggleableItem(
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .background(color = MaterialTheme.colors.onBackground.copy(alpha = 0.1f))
+                .background(
+                    color = if (isSelected) MaterialTheme.colors.secondary.copy(alpha = 0.3f)
+                    else MaterialTheme.colors.onBackground.copy(alpha = 0.1f),
+                )
                 .padding(12.dp),
         )
 
         Spacer(modifier = Modifier.width(16.dp))
 
         Text(
-            style = MaterialTheme.typography.h6,
             text = title,
+            style = MaterialTheme.typography.body1.copy(
+                fontSize = 18.sp,
+                color = MaterialTheme.colors.onBackground,
+                fontWeight = FontWeight.Medium,
+            ),
         )
     }
 }

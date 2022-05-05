@@ -31,9 +31,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jayasuryat.uisettings.R
 import com.jayasuryat.uisettings.composable.param.BooleanParamProvider
 
@@ -51,7 +53,7 @@ internal fun SettingsToggleableItem(
             .clip(shape = RoundedCornerShape(100f))
             .clickable { onClicked() }
             .border(
-                1.dp,
+                width = 1.dp,
                 color = MaterialTheme.colors.onBackground.copy(alpha = 0.1f),
                 shape = RoundedCornerShape(100f),
             )
@@ -60,22 +62,26 @@ internal fun SettingsToggleableItem(
     ) {
 
         Icon(
-            painter = painterResource(id = icon),
-            tint = MaterialTheme.colors.onBackground,
-            contentDescription = null,
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .background(color = MaterialTheme.colors.onBackground.copy(alpha = 0.1f))
+                .background(color = MaterialTheme.colors.primary)
                 .padding(12.dp),
+            painter = painterResource(id = icon),
+            tint = MaterialTheme.colors.background,
+            contentDescription = null,
         )
 
         Spacer(modifier = Modifier.width(16.dp))
 
         Text(
             text = title,
-            style = MaterialTheme.typography.h6,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            style = MaterialTheme.typography.body1.copy(
+                fontSize = 18.sp,
+                color = MaterialTheme.colors.onBackground,
+                fontWeight = FontWeight.Medium,
+            ),
         )
 
         Spacer(modifier = Modifier.width(16.dp))
