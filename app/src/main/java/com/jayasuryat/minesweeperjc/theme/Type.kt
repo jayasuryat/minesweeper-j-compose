@@ -31,6 +31,17 @@ private val NunitoFontFamily = FontFamily(
     Font(R.font.nunito_extra_bold, FontWeight.W800),
 )
 
+private val CustomFontFamily = FontFamily(
+    Font(R.font.fredoka_one_regular, FontWeight.W100),
+    Font(R.font.fredoka_one_regular, FontWeight.W200),
+    Font(R.font.fredoka_one_regular, FontWeight.W300),
+    Font(R.font.fredoka_one_regular, FontWeight.W400),
+    Font(R.font.fredoka_one_regular, FontWeight.W500),
+    Font(R.font.fredoka_one_regular, FontWeight.W600),
+    Font(R.font.fredoka_one_regular, FontWeight.W700),
+    Font(R.font.sniglet_extra_bold, FontWeight.W800),
+)
+
 val Typography = Typography(
-    defaultFontFamily = NunitoFontFamily,
+    defaultFontFamily = CustomFontFamily,
 )

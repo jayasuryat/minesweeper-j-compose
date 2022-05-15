@@ -76,18 +76,17 @@ internal fun ValueCell(
     ) {
 
         val fontSize = getFontSize(width = maxWidth, height = maxHeight)
-        val paddingBottom = maxHeight / 20
+        //val paddingBottom = maxHeight / 20
 
         Text(
+            modifier = Modifier
+                .wrapContentSize()
+                .fillMaxWidth(),
             text = displayCell.value.toString(),
             fontSize = fontSize,
             fontWeight = FontWeight.W800,
             textAlign = TextAlign.Center,
             color = MaterialTheme.msColors.text,
-            modifier = Modifier
-                .wrapContentSize()
-                .fillMaxWidth()
-                .padding(bottom = paddingBottom),
         )
     }
 }
