@@ -53,19 +53,19 @@ public fun Minefield(
         defaultState = zoomPanState,
     ) { zoomState: ZoomPanState ->
 
+        LogCompositions(name = "ZoomableContent/content/content")
+
         savableState.value = zoomState
 
         MineGrid(
             modifier = Modifier
                 .fillMaxSize()
-                .then(
-                    Modifier.graphicsLayer {
-                        scaleX = zoomState.scale
-                        scaleY = zoomState.scale
-                        translationX = zoomState.translationX
-                        translationY = zoomState.translationY
-                    }
-                ),
+                .graphicsLayer {
+                    scaleX = zoomState.scale
+                    scaleY = zoomState.scale
+                    translationX = zoomState.translationX
+                    translationY = zoomState.translationY
+                },
             gridInfo = gridInfo,
             actionListener = actionListener,
         )

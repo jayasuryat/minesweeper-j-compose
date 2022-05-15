@@ -42,9 +42,13 @@ internal fun MineGrid(
     actionListener: CellInteractionListener,
 ) {
 
+    LogCompositions(name = "MineGrid")
+
     BoxWithConstraints(
         modifier = modifier,
     ) {
+
+        LogCompositions(name = "MineGrid/BoxWithConstraints")
 
         val width = maxWidth
         val gridSize = gridInfo.gridSize

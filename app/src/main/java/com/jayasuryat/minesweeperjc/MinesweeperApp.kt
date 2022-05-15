@@ -30,7 +30,7 @@ class MinesweeperApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        //attachTakt()
+        // attachTakt()
         initKoin()
     }
 

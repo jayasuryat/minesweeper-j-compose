@@ -76,7 +76,7 @@ internal fun ValueCell(
     ) {
 
         val fontSize = getFontSize(width = maxWidth, height = maxHeight)
-        //val paddingBottom = maxHeight / 20
+        // val paddingBottom = maxHeight / 20
 
         Text(
             modifier = Modifier
