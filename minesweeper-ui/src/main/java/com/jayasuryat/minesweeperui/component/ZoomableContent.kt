@@ -17,12 +17,10 @@ package com.jayasuryat.minesweeperui.component
 
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import com.jayasuryat.util.LogCompositions
 import kotlin.math.absoluteValue
 
 @Composable
@@ -31,6 +29,8 @@ internal fun ZoomableContent(
     defaultState: ZoomPanState,
     content: @Composable (zoomPanState: ZoomPanState) -> Unit,
 ) {
+
+    LogCompositions(name = "ZoomableContent")
 
     val scale = remember { mutableStateOf(defaultState.scale) }
     val translateX = remember { mutableStateOf(defaultState.translationX) }
@@ -67,11 +67,35 @@ internal fun ZoomableContent(
             }
     ) {
 
+        LogCompositions(name = "ZoomableContent/content")
+
+        ZoomedContent(
+            scale = scale,
+            translationX = translateX,
+            translationY = translateY,
+            content = content,
+        )
+    }
+}
+
+@Composable
+private fun ZoomedContent(
+    modifier: Modifier = Modifier,
+    scale: State<Float>,
+    translationX: State<Float>,
+    translationY: State<Float>,
+    content: @Composable (zoomPanState: ZoomPanState) -> Unit,
+) {
+
+    Box(
+        modifier = modifier,
+    ) {
+
         content(
             ZoomPanState(
                 scale = scale.value,
-                translationX = translateX.value,
-                translationY = translateY.value,
+                translationX = translationX.value,
+                translationY = translationY.value,
             )
         )
     }
