@@ -26,7 +26,7 @@ object Dependency {
 
     object Compose {
 
-        const val composeVersion = "1.2.0-alpha08"
+        const val composeVersion = "1.1.1"
 
         const val ui = "androidx.compose.ui:ui:$composeVersion"
         const val material = "androidx.compose.material:material:$composeVersion"
@@ -35,7 +35,7 @@ object Dependency {
         const val activity = "androidx.activity:activity-compose:1.4.0"
         const val navigation = "androidx.navigation:navigation-compose:2.4.2"
 
-        private const val accompanaistVersion = "0.24.8-beta"
+        private const val accompanaistVersion = "0.23.1"
         const val accompanistInsets =
             "com.google.accompanist:accompanist-insets:$accompanaistVersion"
         const val accompanistPager =

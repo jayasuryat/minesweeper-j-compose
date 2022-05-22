@@ -9,10 +9,10 @@ buildscript {
 
     dependencies {
         classpath("com.android.tools.build:gradle:7.1.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
         classpath("com.github.ben-manes:gradle-versions-plugin:0.42.0")
         classpath("com.squareup.sqldelight:gradle-plugin:1.5.3")
-        classpath(kotlin("serialization", version = "1.6.20"))
+        classpath(kotlin("serialization", version = "1.6.10"))
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -55,22 +55,6 @@ allprojects {
             trimTrailingWhitespace()
             endWithNewline()
             licenseHeaderFile(rootProject.file("buildScripts/copyright.txt"))
-        }
-    }
-}
-
-subprojects {
-
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
-
-        kotlinOptions {
-
-            if (project.findProperty("myapp.enableComposeCompilerReports") == "true") {
-                kotlinOptions.freeCompilerArgs += "-P"
-                kotlinOptions.freeCompilerArgs += "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" + rootProject.buildDir + "/compose_metrics/"
-                kotlinOptions.freeCompilerArgs += "-P"
-                kotlinOptions.freeCompilerArgs += "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" + rootProject.buildDir + "/compose_metrics/"
-            }
         }
     }
 }
