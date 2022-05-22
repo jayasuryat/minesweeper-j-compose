@@ -34,6 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jayasuryat.minesweeperui.R
+import com.jayasuryat.uigame.composable.util.asImmutable
 import com.jayasuryat.uigame.data.model.ToggleState
 import com.jayasuryat.util.LogCompositions
 import kotlinx.coroutines.delay
@@ -119,7 +120,7 @@ private fun ToggleIcons(
                 .size(48.dp)
                 .scale(revealScale.value),
             isSelected = state is ToggleState.Reveal,
-            painter = painterResource(id = R.drawable.icon_mine),
+            painter = painterResource(id = R.drawable.icon_mine).asImmutable(),
             onClicked = { onUpdateState(ToggleState.Reveal) },
         )
 
@@ -128,7 +129,7 @@ private fun ToggleIcons(
                 .size(48.dp)
                 .scale(flagScale.value),
             isSelected = state is ToggleState.Flag,
-            painter = rememberVectorPainter(image = Icons.Filled.Favorite),
+            painter = rememberVectorPainter(image = Icons.Filled.Favorite).asImmutable(),
             onClicked = { onUpdateState(ToggleState.Flag) },
         )
     }

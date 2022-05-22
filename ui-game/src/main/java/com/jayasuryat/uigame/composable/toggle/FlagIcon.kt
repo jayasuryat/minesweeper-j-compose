@@ -43,12 +43,14 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.jayasuryat.minesweeperui.R
+import com.jayasuryat.uigame.composable.util.ImmutableHolder
+import com.jayasuryat.uigame.composable.util.asImmutable
 
 @Composable
 internal fun FlagIcon(
     modifier: Modifier = Modifier,
     isSelected: Boolean,
-    painter: Painter,
+    painter: ImmutableHolder<Painter>,
     onClicked: () -> Unit,
 ) {
 
@@ -80,7 +82,7 @@ internal fun FlagIcon(
                 .fillMaxSize()
                 .padding(8.dp)
                 .align(Alignment.Center),
-            painter = painter,
+            painter = painter.value,
             tint = MaterialTheme.colors.onBackground,
             contentDescription = null,
         )
@@ -95,7 +97,7 @@ private fun Preview_Mine(
     FlagIcon(
         modifier = Modifier.size(42.dp),
         isSelected = isSelected,
-        painter = painterResource(id = R.drawable.icon_mine),
+        painter = painterResource(id = R.drawable.icon_mine).asImmutable(),
         onClicked = {},
     )
 }
@@ -108,7 +110,7 @@ private fun Preview_Flag(
     FlagIcon(
         modifier = Modifier.size(42.dp),
         isSelected = isSelected,
-        painter = rememberVectorPainter(image = Icons.Filled.Favorite),
+        painter = rememberVectorPainter(image = Icons.Filled.Favorite).asImmutable(),
         onClicked = {},
     )
 }
