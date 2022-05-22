@@ -34,9 +34,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jayasuryat.minesweeperui.R
-import com.jayasuryat.uigame.composable.util.asImmutable
 import com.jayasuryat.uigame.data.model.ToggleState
 import com.jayasuryat.util.LogCompositions
+import com.jayasuryat.util.asImmutable
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalAnimationApi::class)

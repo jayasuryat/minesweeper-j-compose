@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayasuryat.uigame.composable.util
+package com.jayasuryat.util
 
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class ImmutableHolder<T : Any>(
+public data class ImmutableHolder<T : Any>(
     val value: T,
 )
 
-fun <T : Any> T.asImmutable(): ImmutableHolder<T> = ImmutableHolder(value = this)
+public fun <T : Any> T.asImmutable(): ImmutableHolder<T> = ImmutableHolder(value = this)
