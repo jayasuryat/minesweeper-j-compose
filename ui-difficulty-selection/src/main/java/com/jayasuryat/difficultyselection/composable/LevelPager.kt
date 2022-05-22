@@ -35,6 +35,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.jayasuryat.difficultyselection.logic.DifficultyItem
+import com.jayasuryat.util.ImmutableHolder
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
@@ -42,8 +43,10 @@ import kotlinx.coroutines.launch
 internal fun LevelPager(
     modifier: Modifier = Modifier,
     pagerState: PagerState = rememberPagerState(),
-    difficultyLevels: List<DifficultyItem>,
+    difficultyLevels: ImmutableHolder<List<DifficultyItem>>,
 ) {
+
+    val levels = difficultyLevels.value
 
     Row(
         modifier = modifier,
@@ -80,13 +83,13 @@ internal fun LevelPager(
         ) {
 
             HorizontalPager(
-                count = difficultyLevels.size,
+                count = levels.size,
                 state = pagerState,
             ) { page ->
                 // Our page content
                 DifficultyView(
                     modifier = Modifier.fillMaxSize(),
-                    difficulty = difficultyLevels[page],
+                    difficulty = levels[page],
                 )
             }
         }

@@ -40,7 +40,7 @@ import com.jayasuryat.difficultyselection.composable.LevelPager
 import com.jayasuryat.difficultyselection.composable.StartButton
 import com.jayasuryat.difficultyselection.logic.DifficultySelectionViewModel
 import com.jayasuryat.difficultyselection.logic.GameDifficulty
-import kotlinx.coroutines.flow.collect
+import com.jayasuryat.util.asImmutable
 
 @OptIn(
     ExperimentalPagerApi::class,
@@ -103,7 +103,7 @@ fun DifficultySelectionScreen(
 
         LevelPager(
             pagerState = pagerState,
-            difficultyLevels = difficulties.value,
+            difficultyLevels = difficulties.value.asImmutable(),
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(fraction = 0.33f),
