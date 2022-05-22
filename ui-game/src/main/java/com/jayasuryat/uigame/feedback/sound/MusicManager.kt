@@ -17,9 +17,11 @@ package com.jayasuryat.uigame.feedback.sound
 
 import android.content.Context
 import android.media.MediaPlayer
+import androidx.compose.runtime.Immutable
 import com.jayasuryat.uigame.R
 import com.jayasuryat.util.TrackedLazyCollector
 
+@Immutable
 class MusicManager(
     private val context: Context,
     private val soundStatusProvider: SoundStatusProvider,

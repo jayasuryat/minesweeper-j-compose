@@ -21,7 +21,9 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import androidx.compose.runtime.Immutable
 
+@Immutable
 class VibrationManager(
     private val context: Context,
     private val vibrationStatusProvider: VibrationStatusProvider,
