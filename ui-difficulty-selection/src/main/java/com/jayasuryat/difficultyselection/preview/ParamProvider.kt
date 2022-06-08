@@ -19,6 +19,18 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.jayasuryat.difficultyselection.logic.DifficultyItem
 import com.jayasuryat.difficultyselection.logic.GameDifficulty
 
+internal class GameDifficultyListParamProvider : PreviewParameterProvider<List<GameDifficulty>> {
+
+    override val values: Sequence<List<GameDifficulty>>
+        get() = sequenceOf(
+            listOf(
+                GameDifficulty.Easy,
+                GameDifficulty.Medium,
+                GameDifficulty.Hard,
+            )
+        )
+}
+
 internal class GameDifficultyParamProvider : PreviewParameterProvider<GameDifficulty> {
 
     override val values: Sequence<GameDifficulty>

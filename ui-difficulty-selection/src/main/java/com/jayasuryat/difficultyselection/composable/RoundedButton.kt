@@ -18,7 +18,6 @@ package com.jayasuryat.difficultyselection.composable
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -28,26 +27,26 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun StartButton(
+internal fun RoundedButton(
     modifier: Modifier = Modifier,
-    onStartClicked: () -> Unit,
+    text: String,
+    onClick: () -> Unit,
 ) {
 
     Text(
         modifier = modifier
-            .wrapContentSize()
             .clip(RoundedCornerShape(100f))
             .border(
                 width = 2.dp,
                 color = MaterialTheme.colors.onBackground,
                 shape = RoundedCornerShape(100f),
             )
-            .clickable { onStartClicked() }
+            .clickable { onClick() }
             .padding(
                 vertical = 12.dp,
                 horizontal = 40.dp,
             ),
         color = MaterialTheme.colors.onBackground,
-        text = "Start",
+        text = text,
     )
 }
