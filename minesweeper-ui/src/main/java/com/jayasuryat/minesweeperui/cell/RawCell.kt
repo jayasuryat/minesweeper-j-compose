@@ -15,8 +15,11 @@
  */
 package com.jayasuryat.minesweeperui.cell
 
-import androidx.compose.animation.*
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -35,7 +38,6 @@ import com.jayasuryat.minesweeperui.model.DisplayCell
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.exhaustive
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun RawCell(
     modifier: Modifier,
@@ -52,9 +54,7 @@ internal fun RawCell(
         )
     }
 
-    // Commented out AnimatedContent as it is eating up perf. Some animations are getting triggered
-    // redundantly due how some models are modeled. i.e., RawCell.UnrevealedCell
-
+    /*
     val contentTransform = remember { getContentTransformAnim() }
 
     AnimatedContent(
@@ -65,18 +65,19 @@ internal fun RawCell(
     ) { cell ->
 
         LogCompositions(name = "RawCell\$Box")
+        */
 
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
 
-            RawCellContent(
-                modifier = Modifier.fillMaxSize(1 - CELL_GAP_PERCENT),
-                displayCell = cell,
-                listener = listenerMapper,
-            )
-        }
+        RawCellContent(
+            modifier = Modifier.fillMaxSize(1 - CELL_GAP_PERCENT),
+            displayCell = displayCell.cellState.value,
+            listener = listenerMapper,
+        )
+        /*}*/
     }
 }
 
