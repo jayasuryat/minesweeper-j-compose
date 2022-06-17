@@ -246,7 +246,8 @@ internal class ActionListener(
 
                 is CellInteraction.OnUnFlaggedCelClicked -> {
                     val cell = statefulGrid[position] as RawCell.UnrevealedCell
-                    MinefieldAction.OnFlagToggled(cell = cell)
+                    if (isInIdleState()) MinefieldAction.OnCellRevealed(cell = cell)
+                    else MinefieldAction.OnFlagToggled(cell = cell)
                 }
 
                 is CellInteraction.OnUnFlaggedCelLongPressed,
