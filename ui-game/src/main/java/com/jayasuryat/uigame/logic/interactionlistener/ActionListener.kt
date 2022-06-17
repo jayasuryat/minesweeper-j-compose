@@ -263,7 +263,11 @@ internal class ActionListener(
                     MinefieldAction.OnValueCellClicked(cell = cell)
                 }
 
-                is CellInteraction.OnFlaggedCelClicked -> null
+                is CellInteraction.OnFlaggedCelClicked -> {
+                    val cell = statefulGrid[position] as RawCell.UnrevealedCell.FlaggedCell
+                    MinefieldAction.OnFlagToggled(cell = cell)
+                }
+
             }.exhaustive
 
             ToggleState.Reveal -> when (this) {
