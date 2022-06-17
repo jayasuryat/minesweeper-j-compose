@@ -15,7 +15,6 @@
  */
 package com.jayasuryat.uigame.composable.toggle
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,7 +25,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -37,9 +35,7 @@ import com.jayasuryat.minesweeperui.R
 import com.jayasuryat.uigame.data.model.ToggleState
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.asImmutable
-import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun Toggle(
     modifier: Modifier,
@@ -49,26 +45,10 @@ internal fun Toggle(
 
     LogCompositions(name = "Toggle")
 
-    val targetAnimation = remember { mutableStateOf(1f) }
-    val animatedAlpha = animateFloatAsState(
-        targetValue = targetAnimation.value,
-    )
-
-    LaunchedEffect(key1 = toggleState.value) {
-        targetAnimation.value = 1f
-        delay(3 * 1000)
-        targetAnimation.value = 0.3f
-    }
-
-    fun updateState(newState: ToggleState) {
-        onToggleStateChanged(newState)
-    }
-
     Box(
         modifier = modifier
             .wrapContentSize()
             .clip(shape = RoundedCornerShape(100))
-            .alpha(animatedAlpha.value)
             .background(color = MaterialTheme.colors.background)
             .border(
                 width = 2.dp,
@@ -80,7 +60,7 @@ internal fun Toggle(
 
         ToggleIcons(
             state = toggleState.value,
-            onUpdateState = ::updateState,
+            onUpdateState = onToggleStateChanged,
         )
     }
 }
