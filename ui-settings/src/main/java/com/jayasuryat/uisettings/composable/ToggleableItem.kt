@@ -83,7 +83,7 @@ internal fun ToggleableItem(
             style = MaterialTheme.typography.body1.copy(
                 fontSize = 18.sp,
                 color = MaterialTheme.colors.onBackground,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Normal,
             ),
         )
     }

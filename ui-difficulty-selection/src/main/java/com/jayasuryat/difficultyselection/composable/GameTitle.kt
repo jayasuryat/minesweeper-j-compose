@@ -43,7 +43,7 @@ internal fun GameTitle(
                 .wrapContentSize(),
             text = "Minesweeper",
             style = MaterialTheme.typography.body1.copy(
-                fontSize = 40.sp,
+                fontSize = 56.sp,
                 fontWeight = FontWeight.ExtraBold,
                 color = MaterialTheme.colors.primary,
             )

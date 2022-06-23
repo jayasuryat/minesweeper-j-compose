@@ -56,7 +56,7 @@ internal fun TextChip(
         text = text,
         style = MaterialTheme.typography.body1.copy(
             fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Medium,
             color = textColor
         ),
     )

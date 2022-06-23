@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jayasuryat.uisettings.R
 import com.jayasuryat.uisettings.composable.param.SettingsStateParamProvider
 import com.jayasuryat.uisettings.logic.SettingsState
@@ -68,8 +69,9 @@ internal fun SettingsContent(
             ),
             text = "Settings",
             style = MaterialTheme.typography.h3.copy(
+                fontSize = 56.sp,
+                fontWeight = FontWeight.Light,
                 color = MaterialTheme.colors.onBackground,
-                fontWeight = FontWeight.ExtraLight,
             )
         )
 

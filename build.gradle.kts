@@ -50,6 +50,7 @@ allprojects {
                 "buildSrc/**/*.kt",
                 "util/src/main/java/com/jayasuryat/util/LogCompositions.kt",
             )
+
             ktlint("0.41.0").userData(mapOf("disabled_rules" to "no-wildcard-imports"))
             indentWithSpaces()
             trimTrailingWhitespace()

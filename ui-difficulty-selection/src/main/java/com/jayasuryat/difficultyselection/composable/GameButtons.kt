@@ -79,7 +79,6 @@ fun GameButtons(
             modifier = Modifier.weight(1f),
         )
 
-
         RoundedButton(
             modifier = Modifier
                 .wrapContentSize(),

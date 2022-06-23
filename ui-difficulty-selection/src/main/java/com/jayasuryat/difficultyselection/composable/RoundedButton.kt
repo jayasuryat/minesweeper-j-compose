@@ -24,7 +24,9 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 internal fun RoundedButton(
@@ -46,7 +48,11 @@ internal fun RoundedButton(
                 vertical = 12.dp,
                 horizontal = 40.dp,
             ),
-        color = MaterialTheme.colors.onBackground,
         text = text,
+        style = MaterialTheme.typography.body1.copy(
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Normal,
+            color = MaterialTheme.colors.onBackground,
+        )
     )
 }

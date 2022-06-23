@@ -86,7 +86,7 @@ internal fun ValueCell(
                 .fillMaxWidth(),
             text = displayCell.value.toString(),
             fontSize = fontSize,
-            fontWeight = FontWeight.W800,
+            fontWeight = FontWeight.Black,
             textAlign = TextAlign.Center,
             color = MaterialTheme.msColors.text,
         )

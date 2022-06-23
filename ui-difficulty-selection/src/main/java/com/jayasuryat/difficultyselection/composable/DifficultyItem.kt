@@ -26,10 +26,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jayasuryat.difficultyselection.R
 import com.jayasuryat.difficultyselection.logic.DifficultyItem
 
@@ -56,10 +58,13 @@ internal fun DifficultyItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentSize(),
-                style = MaterialTheme.typography.h4,
-                color = MaterialTheme.colors.onBackground,
-                textAlign = TextAlign.Center,
                 text = difficulty.title,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.h4.copy(
+                    color = MaterialTheme.colors.onBackground,
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Medium
+                ),
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -69,10 +74,16 @@ internal fun DifficultyItem(
                 modifier = Modifier
                     .wrapContentSize()
                     .wrapContentSize(),
-                color = MaterialTheme.colors.onBackground,
-                textAlign = TextAlign.Center,
                 text = difficulty.gridMessage,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.h4.copy(
+                    color = MaterialTheme.colors.onBackground,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Light
+                ),
             )
+
+            Spacer(modifier = Modifier.height(4.dp))
 
             Row {
 
@@ -81,9 +92,13 @@ internal fun DifficultyItem(
                         .wrapContentSize()
                         .wrapContentSize()
                         .align(alignment = Alignment.CenterVertically),
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colors.onBackground,
                     text = difficulty.difficulty.mines.toString(),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.h4.copy(
+                        color = MaterialTheme.colors.onBackground,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Light
+                    ),
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))

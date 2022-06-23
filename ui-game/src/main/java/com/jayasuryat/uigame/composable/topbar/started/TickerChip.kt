@@ -19,9 +19,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -58,6 +56,7 @@ internal fun TickerChip(
 
     Row(
         modifier = modifier
+            .width(90.dp)
             .clip(RoundedCornerShape(100))
             .background(color = MaterialTheme.colors.background)
             .border(
@@ -70,22 +69,27 @@ internal fun TickerChip(
                 vertical = 8.dp,
             ),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
     ) {
 
         val text = formatTime(elapsedDuration.value)
 
         AnimatingCharacter(
-            modifier = Modifier.wrapContentSize(),
+            modifier = Modifier
+                .wrapContentSize()
+                .weight(1f),
             character = text[0]
         )
 
         AnimatingCharacter(
-            modifier = Modifier.wrapContentSize(),
+            modifier = Modifier
+                .wrapContentSize()
+                .weight(1f),
             character = text[1]
         )
 
         Text(
-            text = ":",
+            text = " : ",
             style = MaterialTheme.typography.body1.copy(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
@@ -94,12 +98,16 @@ internal fun TickerChip(
         )
 
         AnimatingCharacter(
-            modifier = Modifier.wrapContentSize(),
+            modifier = Modifier
+                .wrapContentSize()
+                .weight(1f),
             character = text[3]
         )
 
         AnimatingCharacter(
-            modifier = Modifier.wrapContentSize(),
+            modifier = Modifier
+                .wrapContentSize()
+                .weight(1f),
             character = text[4]
         )
     }
