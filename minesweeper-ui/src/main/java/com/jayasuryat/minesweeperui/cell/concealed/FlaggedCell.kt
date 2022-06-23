@@ -55,7 +55,7 @@ internal fun FlaggedCell(
         modifier = modifier
             .aspectRatio(1f)
             .clip(CircleShape)
-            .background(color = MaterialTheme.colors.primary)
+            .background(color = MaterialTheme.colors.secondary)
             .combinedClickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },

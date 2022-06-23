@@ -123,7 +123,7 @@ private fun MineIcon(
     Icon(
         modifier = modifier,
         imageVector = Icons.Filled.Favorite,
-        tint = MaterialTheme.colors.primary,
+        tint = MaterialTheme.colors.secondary,
         contentDescription = null,
     )
 }
