@@ -21,27 +21,18 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import com.jayasuryat.minesweeperjc.R
 
-private val NunitoFontFamily = FontFamily(
-    Font(R.font.nunito_extra_light, FontWeight.W100),
-    Font(R.font.nunito_light, FontWeight.W300),
-    Font(R.font.nunito_regular, FontWeight.W400),
-    Font(R.font.nunito_medium, FontWeight.W500),
-    Font(R.font.nunito_semi_bold, FontWeight.W600),
-    Font(R.font.nunito_bold, FontWeight.W700),
-    Font(R.font.nunito_extra_bold, FontWeight.W800),
-)
-
-private val CustomFontFamily = FontFamily(
-    Font(R.font.fredoka_one_regular, FontWeight.W100),
-    Font(R.font.fredoka_one_regular, FontWeight.W200),
-    Font(R.font.fredoka_one_regular, FontWeight.W300),
-    Font(R.font.fredoka_one_regular, FontWeight.W400),
-    Font(R.font.fredoka_one_regular, FontWeight.W500),
-    Font(R.font.fredoka_one_regular, FontWeight.W600),
-    Font(R.font.fredoka_one_regular, FontWeight.W700),
-    Font(R.font.sniglet_extra_bold, FontWeight.W800),
+private val FredokaFontFamily = FontFamily(
+    Font(R.font.fredoka_light, FontWeight.Thin),
+    Font(R.font.fredoka_light, FontWeight.ExtraLight),
+    Font(R.font.fredoka_light, FontWeight.Light),
+    Font(R.font.fredoka_regular, FontWeight.Normal),
+    Font(R.font.fredoka_medium, FontWeight.Medium),
+    Font(R.font.fredoka_semi_bold, FontWeight.SemiBold),
+    Font(R.font.fredoka_bold, FontWeight.Bold),
+    Font(R.font.fredoka_bold, FontWeight.ExtraBold),
+    Font(R.font.fredoka_bold, FontWeight.Black),
 )
 
 val Typography = Typography(
-    defaultFontFamily = CustomFontFamily,
+    defaultFontFamily = FredokaFontFamily,
 )
