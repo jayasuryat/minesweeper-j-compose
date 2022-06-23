@@ -15,7 +15,6 @@
  */
 package com.jayasuryat.difficultyselection
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -45,7 +44,6 @@ import kotlinx.coroutines.launch
 
 @OptIn(
     ExperimentalPagerApi::class,
-    ExperimentalAnimationApi::class,
 )
 @Composable
 fun DifficultySelectionScreen(
@@ -88,7 +86,7 @@ fun DifficultySelectionScreen(
     fun scrollRight() {
         coroutineScope.launch {
             val currentPage = pagerState.currentPage
-            if (currentPage < pagerState.pageCount)
+            if (currentPage < pagerState.pageCount - 1)
                 pagerState.animateScrollToPage(page = currentPage + 1)
         }
     }
