@@ -15,7 +15,6 @@
  */
 package com.jayasuryat.uigame.composable.toggle
 
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -26,7 +25,6 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,6 +43,9 @@ internal fun Toggle(
 
     LogCompositions(name = "Toggle")
 
+    val isInRevealMode = remember { derivedStateOf { toggleState.value == ToggleState.Reveal } }
+    val isInFlagMode = remember { derivedStateOf { toggleState.value == ToggleState.Flag } }
+
     Box(
         modifier = modifier
             .wrapContentSize()
@@ -59,7 +60,8 @@ internal fun Toggle(
     ) {
 
         ToggleIcons(
-            state = toggleState.value,
+            isInRevealMode = isInRevealMode,
+            isInFlagMode = isInFlagMode,
             onUpdateState = onToggleStateChanged,
         )
     }
@@ -67,28 +69,10 @@ internal fun Toggle(
 
 @Composable
 private fun ToggleIcons(
-    state: ToggleState,
+    isInRevealMode: State<Boolean>,
+    isInFlagMode: State<Boolean>,
     onUpdateState: (state: ToggleState) -> Unit,
 ) {
-
-    val flagTarget = remember { mutableStateOf(1f) }
-    val flagScale = animateFloatAsState(targetValue = flagTarget.value)
-
-    val revealTarget = remember { mutableStateOf(1f) }
-    val revealScale = animateFloatAsState(targetValue = revealTarget.value)
-
-    LaunchedEffect(key1 = state) {
-        when (state) {
-            ToggleState.Flag -> {
-                flagTarget.value = 1f
-                revealTarget.value = 0.7f
-            }
-            ToggleState.Reveal -> {
-                flagTarget.value = 0.7f
-                revealTarget.value = 1f
-            }
-        }
-    }
 
     Row(
         modifier = Modifier
@@ -97,18 +81,16 @@ private fun ToggleIcons(
 
         FlagIcon(
             modifier = Modifier
-                .size(48.dp)
-                .scale(revealScale.value),
-            isSelected = state is ToggleState.Reveal,
+                .size(48.dp),
+            isSelected = isInRevealMode,
             painter = painterResource(id = R.drawable.icon_mine).asImmutable(),
             onClicked = { onUpdateState(ToggleState.Reveal) },
         )
 
         FlagIcon(
             modifier = Modifier
-                .size(48.dp)
-                .scale(flagScale.value),
-            isSelected = state is ToggleState.Flag,
+                .size(48.dp),
+            isSelected = isInFlagMode,
             painter = rememberVectorPainter(image = Icons.Filled.Favorite).asImmutable(),
             onClicked = { onUpdateState(ToggleState.Flag) },
         )
