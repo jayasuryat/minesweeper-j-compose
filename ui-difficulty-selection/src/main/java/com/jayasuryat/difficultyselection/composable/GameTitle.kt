@@ -15,22 +15,36 @@
  */
 package com.jayasuryat.difficultyselection.composable
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.flow.collect
+
+private const val APP_NAME: String = "Minesweeper"
 
 @Composable
 internal fun GameTitle(
     modifier: Modifier = Modifier,
 ) {
+
+    val titleRandomizer = remember { TitleRandomizer(title = APP_NAME) }
+    val title: MutableState<List<TitleRandomizer.TitleChar>> = remember { mutableStateOf(listOf()) }
+
+    LaunchedEffect(key1 = true) {
+        titleRandomizer.getRandomizedTitle(coroutineScope = this)
+            .collect { title.value = it }
+    }
 
     Column(
         modifier = modifier,
@@ -38,16 +52,41 @@ internal fun GameTitle(
         verticalArrangement = Arrangement.Center,
     ) {
 
-        Text(
+        AnimatedTitle(
             modifier = Modifier
                 .wrapContentSize(),
-            text = "Minesweeper",
-            style = MaterialTheme.typography.body1.copy(
-                fontSize = 56.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colors.primary,
-            )
+            title = title,
         )
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun AnimatedTitle(
+    modifier: Modifier = Modifier,
+    title: State<List<TitleRandomizer.TitleChar>>,
+) {
+
+    LazyRow(modifier = modifier) {
+
+        items(
+            items = title.value,
+            key = { char -> char.id },
+        ) { char ->
+
+            Text(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .animateItemPlacement(),
+                text = char.char.toString(),
+                style = MaterialTheme.typography.body1.copy(
+                    fontSize = 56.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = if (char.isPositionCorrect) MaterialTheme.colors.primary
+                    else MaterialTheme.colors.onBackground,
+                )
+            )
+        }
     }
 }
 
