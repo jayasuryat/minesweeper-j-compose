@@ -1,24 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
     <style name="Theme.MinesweeperJC" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
 
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/cobalt</item>
-        <item name="colorOnPrimary">@color/beau</item>
-
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/havelock</item>
-        <item name="colorOnSecondary">@color/beau</item>
-
-        <!-- Background color. -->
-        <item name="backgroundColor">@color/vampire</item>
-        <item name="background">@color/vampire</item>
-        <item name="colorOnBackground">@color/beau</item>
-
-        <item name="android:windowBackground">?attr/backgroundColor</item>
+        <item name="android:windowBackground">@color/grey</item>
 
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
+        <item name="android:statusBarColor">@color/grey</item>
         <item name="android:windowTranslucentNavigation">true</item>
 
     </style>
