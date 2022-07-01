@@ -22,15 +22,21 @@ internal class UserPreferencesImpl(
     private val store: DataStore,
 ) : UserPreferences {
 
-    override suspend fun getIsSoundEnabled(): Boolean = store.getBoolean(PREF_SOUND_ENABLED)
+    override suspend fun getIsSoundEnabled(): Boolean =
+        store.getBoolean(PREF_SOUND_ENABLED, true)
+
     override suspend fun setIsSoundEnabled(enabled: Boolean): Unit =
         store.putBoolean(PREF_SOUND_ENABLED, enabled)
 
-    override suspend fun getIsVibrationEnabled(): Boolean = store.getBoolean(PREF_VIBRATION_ENABLED)
+    override suspend fun getIsVibrationEnabled(): Boolean =
+        store.getBoolean(PREF_VIBRATION_ENABLED, true)
+
     override suspend fun setIsVibrationEnabled(enabled: Boolean): Unit =
         store.putBoolean(PREF_VIBRATION_ENABLED, enabled)
 
-    override suspend fun getShouldShowToggle(): Boolean = store.getBoolean(PREF_SHOW_TOGGLE)
+    override suspend fun getShouldShowToggle(): Boolean =
+        store.getBoolean(PREF_SHOW_TOGGLE, true)
+
     override suspend fun setShouldShowToggle(show: Boolean): Unit =
         store.putBoolean(PREF_SHOW_TOGGLE, show)
 

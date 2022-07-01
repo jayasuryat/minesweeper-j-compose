@@ -29,7 +29,7 @@ class GameDataSourceImpl(
 
     override suspend fun getToggleState(): ToggleState {
         val mode = userPreferences.getDefaultToggleMode()
-            .takeIf { !it.isNullOrEmpty() } ?: return ToggleState.Reveal
+            .takeIf { !it.isNullOrEmpty() } ?: return ToggleState.Flag
         return ToggleMode.valueOf(mode).toToggleState()
     }
 

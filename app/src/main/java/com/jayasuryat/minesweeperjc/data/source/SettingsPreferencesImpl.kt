@@ -28,7 +28,7 @@ class SettingsPreferencesImpl(
     override suspend fun getIsToggleEnabled(): Boolean = userPreferences.getShouldShowToggle()
     override suspend fun getDefaultToggleMode(): ToggleMode {
         val mode = userPreferences.getDefaultToggleMode()
-            .takeIf { !it.isNullOrEmpty() } ?: return ToggleMode.Reveal
+            .takeIf { !it.isNullOrEmpty() } ?: return ToggleMode.Flag
         return ToggleMode.valueOf(mode)
     }
 }
