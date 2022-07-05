@@ -52,7 +52,6 @@ fun DifficultySelectionScreen(
         GameDifficulty.Easy,
         GameDifficulty.Medium,
         GameDifficulty.Hard,
-        GameDifficulty.Extreme,
     ),
     onStartClicked: (difficulty: GameDifficulty) -> Unit,
     onResumeClicked: (difficulty: GameDifficulty) -> Unit,
