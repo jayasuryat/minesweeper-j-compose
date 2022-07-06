@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -65,10 +66,17 @@ internal fun SettingsToggleableItem(
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .background(color = MaterialTheme.colors.primary)
+                .background(color = if (isEnabled) MaterialTheme.colors.primary else Color.Transparent)
+                .border(
+                    width = 1.dp,
+                    color = if (isEnabled) Color.Transparent
+                    else MaterialTheme.colors.onBackground.copy(alpha = 0.1f),
+                    shape = RoundedCornerShape(100f),
+                )
                 .padding(12.dp),
             painter = painterResource(id = icon),
-            tint = MaterialTheme.colors.background,
+            tint = if (isEnabled) MaterialTheme.colors.background
+            else MaterialTheme.colors.onBackground,
             contentDescription = null,
         )
 
