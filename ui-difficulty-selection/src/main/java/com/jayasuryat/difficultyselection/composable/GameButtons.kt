@@ -16,17 +16,24 @@
 package com.jayasuryat.difficultyselection.composable
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.LocalWindowInsets
 
 @Composable
@@ -46,8 +53,7 @@ fun GameButtons(
 
         RoundedButton(
             modifier = Modifier
-                .wrapContentSize()
-                .alpha(if (canResume.value) 0.7f else 1f),
+                .wrapContentSize(),
             text = "Start",
             onClick = onStartClicked,
         )
@@ -66,7 +72,7 @@ fun GameButtons(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                RoundedButton(
+                HighlightedRoundedButton(
                     modifier = Modifier
                         .wrapContentSize(),
                     text = "Resume",
