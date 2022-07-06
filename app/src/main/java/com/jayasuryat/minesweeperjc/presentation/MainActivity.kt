@@ -35,7 +35,9 @@ class MainActivity : ComponentActivity() {
         transparentStatusBar()
         setContent {
             MinesweeperJCTheme {
-                MineSweeper()
+                LaunchWithCircularReveal {
+                    MineSweeper()
+                }
             }
         }
     }
