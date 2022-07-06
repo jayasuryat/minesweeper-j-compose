@@ -16,12 +16,11 @@
 package com.jayasuryat.uigame.composable.toggle
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -30,9 +29,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -54,13 +53,16 @@ internal fun FlagIcon(
 ) {
 
     val targetScale = remember { mutableStateOf(1f) }
-    val scale = animateFloatAsState(targetValue = targetScale.value)
+    val scale = animateFloatAsState(
+        targetValue = targetScale.value,
+        animationSpec = tween(durationMillis = 300),
+    )
 
     LaunchedEffect(key1 = isSelected.value) {
         targetScale.value = if (isSelected.value) 1f else 0.5f
     }
 
-    Box(
+    Icon(
         modifier = modifier
             .clickable(
                 indication = null,
@@ -71,28 +73,20 @@ internal fun FlagIcon(
                 scaleX = scale.value
                 scaleY = scale.value
             }
-            .alpha(if (isSelected.value) 1f else 0.2f)
-            .background(color = MaterialTheme.colors.background)
+            .clip(CircleShape)
             .border(
-                width = 2.dp,
-                color = if (isSelected.value) MaterialTheme.colors.secondary
-                else MaterialTheme.colors.onBackground,
-                shape = CircleShape
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-
-        Icon(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)
-                .align(Alignment.Center),
-            painter = painter.value,
-            tint = if (isSelected.value) MaterialTheme.colors.onBackground
-            else MaterialTheme.colors.onBackground,
-            contentDescription = null,
-        )
-    }
+                width = 1.dp,
+                color = if (isSelected.value) Color.Transparent
+                else MaterialTheme.colors.onBackground.copy(alpha = 0.5f),
+                shape = CircleShape,
+            )
+            .background(color = if (isSelected.value) MaterialTheme.colors.secondary else Color.Transparent)
+            .padding(8.dp),
+        painter = painter.value,
+        tint = if (isSelected.value) MaterialTheme.colors.onBackground
+        else MaterialTheme.colors.onBackground.copy(alpha = 0.5f),
+        contentDescription = null,
+    )
 }
 
 @Preview(backgroundColor = 0x00FFFFFF)
