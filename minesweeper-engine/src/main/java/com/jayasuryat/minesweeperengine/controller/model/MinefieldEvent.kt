@@ -28,9 +28,7 @@ public sealed interface MinefieldEvent {
 
     @Immutable
     public data class OnGameOver(
-        val revealedMineCells: List<RawCell.RevealedCell>,
-        val revealedValueCells: List<RawCell.RevealedCell>,
-        val revealedEmptyCells: List<RawCell.RevealedCell>,
+        val updatedCells: List<RawCell>,
     ) : MinefieldEvent
 
     @Immutable

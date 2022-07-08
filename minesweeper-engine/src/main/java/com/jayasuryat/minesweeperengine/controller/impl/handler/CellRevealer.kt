@@ -70,7 +70,11 @@ internal class CellRevealer(
                 MinefieldEvent.OnCellsUpdated(updatedCells = sortedCells)
             }
 
-            is MineCell.Mine -> gameEndRevealer.revealAllCells(grid = grid)
+            is MineCell.Mine -> gameEndRevealer.revealAllCells(
+                grid = grid,
+                startPosition = action.cell.position,
+            )
+
         }.exhaustive
     }
 
