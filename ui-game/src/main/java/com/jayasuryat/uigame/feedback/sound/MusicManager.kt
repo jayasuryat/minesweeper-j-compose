@@ -31,20 +31,20 @@ class MusicManager(
 
     // region : MediaPlayers
     private val sfxPop: MediaPlayer by mediaPlayerOf(R.raw.pop) {
-        setVolume(0.05f, 0.05f)
+        setVolume(0.1f, 0.1f)
     }
     private val sfxAffirmative: MediaPlayer by mediaPlayerOf(R.raw.affirmative) {
-        setVolume(0.05f, 0.05f)
+        setVolume(0.1f, 0.1f)
     }
     private val sfxCancel: MediaPlayer by mediaPlayerOf(R.raw.cancel) {
-        setVolume(0.02f, 0.02f)
+        setVolume(0.1f, 0.1f)
     }
     private val sfxSuccess: MediaPlayer by mediaPlayerOf(R.raw.success) {
-        setVolume(0.02f, 0.02f)
+        setVolume(0.1f, 0.1f)
     }
 
     private val sfxFailure: MediaPlayer by mediaPlayerOf(R.raw.failure) {
-        setVolume(0.02f, 0.02f)
+        setVolume(0.1f, 0.1f)
     }
     // endregion
 
