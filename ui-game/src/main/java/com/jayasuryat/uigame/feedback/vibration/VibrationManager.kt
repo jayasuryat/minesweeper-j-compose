@@ -21,7 +21,9 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import androidx.compose.runtime.Immutable
 
+@Immutable
 class VibrationManager(
     private val context: Context,
     private val vibrationStatusProvider: VibrationStatusProvider,
@@ -37,7 +39,7 @@ class VibrationManager(
         }
     }
 
-    fun pop() = vibrationNow(mills = 1, amplitude = 12)
+    fun pop() = vibrationNow(mills = 2, amplitude = 100)
     fun shortVibrationNow() = vibrationNow(mills = 200, amplitude = 100)
     fun mediumVibrationNow() = vibrationNow(mills = 500, amplitude = 100)
 

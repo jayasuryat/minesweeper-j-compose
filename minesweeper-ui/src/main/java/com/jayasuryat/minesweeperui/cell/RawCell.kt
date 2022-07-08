@@ -15,132 +15,158 @@
  */
 package com.jayasuryat.minesweeperui.cell
 
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
-import com.jayasuryat.minesweeperengine.model.cell.MineCell
-import com.jayasuryat.minesweeperengine.model.cell.RawCell.RevealedCell
-import com.jayasuryat.minesweeperengine.model.cell.RawCell.UnrevealedCell
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
 import com.jayasuryat.minesweeperui.cell.concealed.FlaggedCell
 import com.jayasuryat.minesweeperui.cell.concealed.UnFlaggedCell
+import com.jayasuryat.minesweeperui.cell.interaction.CellInteractionMapper
+import com.jayasuryat.minesweeperui.cell.interaction.DisplayCellInteractionListener
 import com.jayasuryat.minesweeperui.cell.revealed.EmptyCell
 import com.jayasuryat.minesweeperui.cell.revealed.MineCell
 import com.jayasuryat.minesweeperui.cell.revealed.ValueCell
+import com.jayasuryat.minesweeperui.model.DisplayCell
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.exhaustive
-import com.jayasuryat.minesweeperengine.model.cell.RawCell as RawCellData
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun RawCell(
     modifier: Modifier,
-    cellState: State<RawCellData>,
-    actionListener: CellInteractionListener,
+    displayCell: DisplayCell,
+    interactionListener: CellInteractionListener,
 ) {
 
     LogCompositions(name = "RawCell")
 
-    // Commented out AnimatedContent as it is eating up perf. Some animations are getting triggered
-    // redundantly due how some models are modeled. i.e., RawCell.UnrevealedCell
+    val listenerMapper = remember {
+        CellInteractionMapper(
+            position = displayCell.position,
+            listener = interactionListener,
+        )
+    }
 
-    /*
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
+
+        RawCellContent(
+            modifier = Modifier.fillMaxSize(1 - CELL_GAP_PERCENT),
+            displayCell = displayCell.cellState.value,
+            listener = listenerMapper,
+        )
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+internal fun AnimatedRawCell(
+    modifier: Modifier,
+    displayCell: DisplayCell,
+    interactionListener: CellInteractionListener,
+) {
+
+    LogCompositions(name = "AnimatedRawCell")
+
+    val listenerMapper = remember {
+        CellInteractionMapper(
+            position = displayCell.position,
+            listener = interactionListener,
+        )
+    }
+
     AnimatedContent(
-        modifier = modifier
-            .clipToBounds(),
-        targetState = cellState.value,
+        modifier = modifier,
+        targetState = displayCell.cellState.value,
         transitionSpec = { getContentTransformAnim() },
         contentAlignment = Alignment.Center,
     ) { cell ->
 
-        LogCompositions(name = "RawCell\$AnimatedContent")
+        LogCompositions(name = "AnimatedRawCell\$Box")
 
-        RawCellContent(
-            cell = cell,
-            actionListener = actionListener,
-        )
-    }
-    */
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center,
+        ) {
 
-    Box(
-        modifier = modifier
-            .clipToBounds(),
-        contentAlignment = Alignment.Center,
-    ) {
-
-        LogCompositions(name = "RawCell\$AnimatedContent")
-
-        RawCellContent(
-            cell = cellState.value,
-            actionListener = actionListener,
-        )
+            RawCellContent(
+                modifier = Modifier.fillMaxSize(1 - CELL_GAP_PERCENT),
+                displayCell = cell,
+                listener = listenerMapper,
+            )
+        }
     }
 }
 
 @Composable
 private fun RawCellContent(
-    cell: RawCellData,
-    actionListener: CellInteractionListener,
+    modifier: Modifier = Modifier,
+    displayCell: DisplayCell.Cell,
+    listener: DisplayCellInteractionListener,
 ) {
 
     LogCompositions(name = "RawCellContent")
 
-    when (cell) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
 
-        is UnrevealedCell -> when (cell) {
+        when (displayCell) {
 
-            is UnrevealedCell.FlaggedCell -> FlaggedCell(
-                cell = cell,
-                actionListener = actionListener,
+            DisplayCell.Cell.UnFlaggedCell -> UnFlaggedCell(
+                modifier = Modifier.fillMaxSize(),
+                onClick = listener::onUnFlaggedCellClicked,
+                onLongPressed = listener::onUnFlaggedCellLongPressed,
             )
 
-            is UnrevealedCell.UnFlaggedCell -> UnFlaggedCell(
-                cell = cell,
-                actionListener = actionListener,
+            DisplayCell.Cell.FlaggedCell -> FlaggedCell(
+                modifier = Modifier.fillMaxSize(),
+                onClick = listener::onFlaggedCellClicked,
+                onLongPressed = listener::onFlaggedCellLongPressed,
+            )
+
+            DisplayCell.Cell.Mine -> MineCell(
+                modifier = Modifier.fillMaxSize(),
+            )
+
+            DisplayCell.Cell.EmptyCell -> EmptyCell(
+                modifier = Modifier.fillMaxSize(),
+            )
+
+            is DisplayCell.Cell.ValueCell -> ValueCell(
+                modifier = Modifier.fillMaxSize(),
+                displayCell = displayCell,
+                onClick = listener::onValueCellClicked,
             )
         }.exhaustive
-
-        is RevealedCell -> {
-
-            when (val revealedCell = cell.cell) {
-
-                is MineCell.Mine -> MineCell(modifier = Modifier.fillMaxSize())
-
-                is MineCell.ValuedCell.EmptyCell -> EmptyCell(modifier = Modifier.fillMaxSize())
-
-                is MineCell.ValuedCell.Cell -> ValueCell(
-                    modifier = Modifier.fillMaxSize(),
-                    cell = revealedCell,
-                    actionListener = actionListener,
-                )
-            }.exhaustive
-        }
-    }.exhaustive
+    }
 }
 
-/*
+private const val CONTENT_TRANSFORM_ANIM_DURATION: Int = 300
+
 @ExperimentalAnimationApi
 private fun getContentTransformAnim(): ContentTransform {
 
-    val enterAnim = fadeIn(
+    val enterAnim = scaleIn(
         animationSpec = tween(
-            durationMillis = 300,
-            delayMillis = 20
+            durationMillis = CONTENT_TRANSFORM_ANIM_DURATION,
+            delayMillis = CONTENT_TRANSFORM_ANIM_DURATION / 2
         )
     )
 
-    val exitAnim = fadeOut(
+    val exitAnim = scaleOut(
         animationSpec = tween(
-            durationMillis = 300,
-            delayMillis = 330,
+            durationMillis = CONTENT_TRANSFORM_ANIM_DURATION,
+            delayMillis = 0,
         )
     )
 
     return ContentTransform(enterAnim, exitAnim)
 }
-*/

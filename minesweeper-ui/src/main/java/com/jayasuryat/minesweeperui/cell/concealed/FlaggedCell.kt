@@ -19,7 +19,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -28,66 +31,54 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
-import com.jayasuryat.minesweeperengine.model.block.Position
-import com.jayasuryat.minesweeperengine.model.cell.MineCell
-import com.jayasuryat.minesweeperengine.model.cell.RawCell
-import com.jayasuryat.minesweeperui.action.CellInteraction
-import com.jayasuryat.minesweeperui.action.CellInteractionListener
-import com.jayasuryat.minesweeperui.action.NoOpInteractionListener
-import com.jayasuryat.minesweeperui.cell.CELL_PADDING_PERCENT
-import com.jayasuryat.minesweeperui.component.InverseClippedCircle
+import com.jayasuryat.minesweeperui.cell.CELL_ICON_PADDING_PERCENT
 import com.jayasuryat.minesweeperui.theme.msColors
-import com.jayasuryat.util.floatValue
+import com.jayasuryat.util.LogCompositions
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun FlaggedCell(
     modifier: Modifier = Modifier,
-    cell: RawCell.UnrevealedCell.FlaggedCell,
-    actionListener: CellInteractionListener,
+    onClick: () -> Unit,
+    onLongPressed: () -> Unit,
 ) {
+
+    LogCompositions(name = "FlaggedCell")
 
     val haptic = LocalHapticFeedback.current
 
-    BoxWithConstraints(
+    Box(
         modifier = modifier
             .aspectRatio(1f)
-            .clipToBounds()
+            .clip(CircleShape)
+            .background(color = MaterialTheme.colors.secondary)
             .combinedClickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = {
                     // TODO: 20/01/22 Handle haptics properly
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    val action = CellInteraction.OnCellClicked(cell)
-                    actionListener.action(action)
+                    onClick()
                 },
                 onLongClick = {
                     // TODO: 20/01/22 Handle haptics properly
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    val action = CellInteraction.OnCellLongPressed(cell)
-                    actionListener.action(action)
+                    onLongPressed()
                 },
             ),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
 
-        val minSize = minOf(maxWidth, maxHeight)
-        val padding = minSize * CELL_PADDING_PERCENT
-
         Icon(
-            modifier = modifier
-                .padding(all = padding * 2),
+            modifier = Modifier.fillMaxSize(1 - CELL_ICON_PADDING_PERCENT),
             imageVector = Icons.Filled.Favorite,
             tint = MaterialTheme.msColors.flagIconTint,
             contentDescription = null,
         )
-
-        InverseClippedCircle(iconPadding = padding.floatValue())
     }
 }
 
@@ -96,19 +87,9 @@ internal fun FlaggedCell(
 @Composable
 private fun Preview() {
 
-    val cell = RawCell.UnrevealedCell.FlaggedCell(
-        cell = MineCell.ValuedCell.EmptyCell(position = Position.zero())
-    )
-
-    Spacer(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colors.secondary)
-    )
-
     FlaggedCell(
         modifier = Modifier.fillMaxSize(),
-        cell = cell,
-        actionListener = NoOpInteractionListener,
+        onClick = {},
+        onLongPressed = {},
     )
 }

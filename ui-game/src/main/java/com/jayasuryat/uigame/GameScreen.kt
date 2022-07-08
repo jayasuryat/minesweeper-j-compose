@@ -28,7 +28,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import com.google.accompanist.insets.LocalWindowInsets
-import com.jayasuryat.minesweeperui.grid.GridLayoutInformation
+import com.jayasuryat.minesweeperui.config.LocalGridAnimationConfig
 import com.jayasuryat.uigame.composable.MinefieldScreen
 import com.jayasuryat.uigame.composable.feedback.GameFeedback
 import com.jayasuryat.uigame.composable.toggle.Toggle
@@ -48,10 +48,6 @@ fun GameScreen(
 
     LogCompositions(name = "GameScreen")
 
-    LaunchedEffect(key1 = null) {
-        viewModel.loadGame()
-    }
-
     DisposableEffect(key1 = true) {
         onDispose {
             viewModel.saveCurrentGameState()
@@ -62,7 +58,7 @@ fun GameScreen(
         viewModel.saveCurrentGameState()
     }
 
-    val screenState = viewModel.screenStatus
+    val screenState = remember { viewModel.screenStatus }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -84,10 +80,10 @@ fun GameScreen(
                 is GameScreenStatus.Loaded -> GameScreenLoaded(
                     modifier = Modifier.fillMaxSize(),
                     screenState = state,
-                    soundManager = viewModel.soundManager,
-                    vibrationManager = viewModel.vibrationManager,
-                    showToggle = viewModel.shouldShowToggle,
-                    toggleState = viewModel.toggleState,
+                    soundManager = remember { viewModel.soundManager },
+                    vibrationManager = remember { viewModel.vibrationManager },
+                    showToggle = remember { viewModel.shouldShowToggle },
+                    toggleState = remember { viewModel.toggleState },
                     onToggleStateUpdated = viewModel::onToggleStateUpdated,
                     onRestartClicked = onRestartClicked,
                 )
@@ -111,9 +107,8 @@ private fun GameScreenLoaded(
     val gameState = screenState.gameState
     val gameProgress = screenState.gameProgress
 
-    val statefulGrid = remember { screenState.statefulGrid }
     val interactionListener = remember { screenState.interactionListener }
-    val layoutInfo = remember { GridLayoutInformation.from(statefulGrid = statefulGrid) }
+    val layoutInfo = remember { screenState.layoutInformation }
 
     LogCompositions(name = "GameScreenLoaded")
 
@@ -127,10 +122,15 @@ private fun GameScreenLoaded(
             vibrationManager = vibrationManager,
         )
 
-        MinefieldScreen(
-            layoutInfo = layoutInfo,
-            actionListener = interactionListener,
-        )
+        CompositionLocalProvider(
+            LocalGridAnimationConfig provides screenState.animationConfig,
+        ) {
+
+            MinefieldScreen(
+                layoutInfo = layoutInfo,
+                actionListener = interactionListener,
+            )
+        }
 
         GameTopBar(
             gameState = gameState,

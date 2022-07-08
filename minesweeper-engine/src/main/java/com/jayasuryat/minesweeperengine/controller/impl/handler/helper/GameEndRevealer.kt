@@ -16,54 +16,46 @@
 package com.jayasuryat.minesweeperengine.controller.impl.handler.helper
 
 import com.jayasuryat.minesweeperengine.controller.model.MinefieldEvent
-import com.jayasuryat.minesweeperengine.model.cell.MineCell
+import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperengine.model.cell.RawCell
 import com.jayasuryat.minesweeperengine.model.grid.Grid
-import com.jayasuryat.util.exhaustive
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-internal class GameEndRevealer {
+internal class GameEndRevealer(
+    private val radiallySorter: RadiallySorter,
+) {
 
     suspend fun revealAllCells(
         grid: Grid,
+        startPosition: Position,
     ): MinefieldEvent = withContext(Dispatchers.Default) {
         revealCellsByType(
             grid = grid,
+            startPosition = startPosition,
         )
     }
 
     private fun revealCellsByType(
         grid: Grid,
+        startPosition: Position,
     ): MinefieldEvent {
 
-        val allCells = grid.cells.flatten()
-
-        val mineCells: MutableList<RawCell.RevealedCell> = mutableListOf()
-        val valueCells: MutableList<RawCell.RevealedCell> = mutableListOf()
-        val emptyCells: MutableList<RawCell.RevealedCell> = mutableListOf()
-
-        allCells.forEach { cell ->
-
-            val revealed = when (cell) {
+        val unrevealedCells = grid.cells.flatten().mapNotNull { cell ->
+            when (cell) {
                 is RawCell.RevealedCell -> null
-                is RawCell.UnrevealedCell -> cell.asRevealed()
-            }.exhaustive
-
-            revealed?.let {
-
-                when (revealed.cell) {
-                    is MineCell.Mine -> mineCells.add(revealed)
-                    is MineCell.ValuedCell.Cell -> valueCells.add(revealed)
-                    is MineCell.ValuedCell.EmptyCell -> emptyCells.add(revealed)
-                }.exhaustive
+                is RawCell.UnrevealedCell.FlaggedCell -> cell.asRevealed()
+                is RawCell.UnrevealedCell.UnFlaggedCell -> cell.asRevealed()
             }
         }
 
+        val updatedCells = radiallySorter.sortRadiallyOut(
+            startingPosition = startPosition,
+            cells = unrevealedCells,
+        )
+
         return MinefieldEvent.OnGameOver(
-            revealedMineCells = mineCells,
-            revealedEmptyCells = emptyCells,
-            revealedValueCells = valueCells,
+            updatedCells = updatedCells,
         )
     }
 }

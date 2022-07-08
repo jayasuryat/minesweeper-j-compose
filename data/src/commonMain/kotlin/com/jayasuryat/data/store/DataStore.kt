@@ -42,7 +42,10 @@ internal class DataStore constructor(
     suspend fun putBoolean(key: String, value: Boolean): Unit =
         settings.putBoolean(key, value)
 
-    suspend fun getBoolean(key: String): Boolean = settings.getBoolean(key, false)
+    suspend fun getBoolean(
+        key: String,
+        default: Boolean = false,
+    ): Boolean = settings.getBoolean(key, default)
 
     suspend inline fun <reified T> putObject(key: String, value: T): Unit =
         putString(key, json.encodeToString(value))

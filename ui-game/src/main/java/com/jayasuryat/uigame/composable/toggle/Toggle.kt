@@ -15,8 +15,6 @@
  */
 package com.jayasuryat.uigame.composable.toggle
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -24,10 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -37,8 +32,8 @@ import androidx.compose.ui.unit.dp
 import com.jayasuryat.minesweeperui.R
 import com.jayasuryat.uigame.data.model.ToggleState
 import com.jayasuryat.util.LogCompositions
+import com.jayasuryat.util.asImmutable
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun Toggle(
     modifier: Modifier,
@@ -48,42 +43,34 @@ internal fun Toggle(
 
     LogCompositions(name = "Toggle")
 
-    fun updateState(newState: ToggleState) {
-        onToggleStateChanged(newState)
-    }
+    val isInRevealMode = remember { derivedStateOf { toggleState.value == ToggleState.Reveal } }
+    val isInFlagMode = remember { derivedStateOf { toggleState.value == ToggleState.Flag } }
 
     Box(
         modifier = modifier
             .wrapContentSize()
             .clip(shape = RoundedCornerShape(100))
-            .background(color = MaterialTheme.colors.background.copy(alpha = 0.5f))
+            .background(color = MaterialTheme.colors.background)
             .border(
-                width = 1.dp,
-                color = MaterialTheme.colors.onBackground.copy(alpha = 0.5f),
+                width = 2.dp,
+                color = MaterialTheme.colors.onBackground,
                 shape = RoundedCornerShape(100)
             )
             .padding(4.dp),
     ) {
 
-        AnimatedContent(
-            targetState = toggleState.value,
-            transitionSpec = {
-                fadeIn(animationSpec = tween(300)) with
-                    fadeOut(animationSpec = tween(300, delayMillis = 150))
-            },
-        ) { state ->
-
-            ToggleIcons(
-                state = state,
-                onUpdateState = { newState -> updateState(newState) }
-            )
-        }
+        ToggleIcons(
+            isInRevealMode = isInRevealMode,
+            isInFlagMode = isInFlagMode,
+            onUpdateState = onToggleStateChanged,
+        )
     }
 }
 
 @Composable
 private fun ToggleIcons(
-    state: ToggleState,
+    isInRevealMode: State<Boolean>,
+    isInFlagMode: State<Boolean>,
     onUpdateState: (state: ToggleState) -> Unit,
 ) {
 
@@ -93,18 +80,18 @@ private fun ToggleIcons(
     ) {
 
         FlagIcon(
-            modifier = Modifier.size(42.dp),
-            isSelected = state is ToggleState.Reveal,
-            painter = painterResource(id = R.drawable.icon_mine),
+            modifier = Modifier
+                .size(48.dp),
+            isSelected = isInRevealMode,
+            painter = painterResource(id = R.drawable.icon_mine).asImmutable(),
             onClicked = { onUpdateState(ToggleState.Reveal) },
         )
 
-        Spacer(modifier = Modifier.size(4.dp))
-
         FlagIcon(
-            modifier = Modifier.size(42.dp),
-            isSelected = state is ToggleState.Flag,
-            painter = rememberVectorPainter(image = Icons.Filled.Favorite),
+            modifier = Modifier
+                .size(48.dp),
+            isSelected = isInFlagMode,
+            painter = rememberVectorPainter(image = Icons.Filled.Favorite).asImmutable(),
             onClicked = { onUpdateState(ToggleState.Flag) },
         )
     }

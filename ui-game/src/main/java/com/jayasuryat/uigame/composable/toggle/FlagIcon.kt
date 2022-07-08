@@ -15,12 +15,12 @@
  */
 package com.jayasuryat.uigame.composable.toggle
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -28,12 +28,10 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -43,46 +41,52 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.jayasuryat.minesweeperui.R
+import com.jayasuryat.util.ImmutableHolder
+import com.jayasuryat.util.asImmutable
 
 @Composable
 internal fun FlagIcon(
     modifier: Modifier = Modifier,
-    isSelected: Boolean,
-    painter: Painter,
+    isSelected: State<Boolean>,
+    painter: ImmutableHolder<Painter>,
     onClicked: () -> Unit,
 ) {
 
-    Box(
+    val targetScale = remember { mutableStateOf(1f) }
+    val scale = animateFloatAsState(
+        targetValue = targetScale.value,
+        animationSpec = tween(durationMillis = 300),
+    )
+
+    LaunchedEffect(key1 = isSelected.value) {
+        targetScale.value = if (isSelected.value) 1f else 0.5f
+    }
+
+    Icon(
         modifier = modifier
-            .graphicsLayer {
-                scaleX = if (isSelected) 1f else 0.8f
-                scaleY = if (isSelected) 1f else 0.8f
-            }
-            .alpha(if (isSelected) 1f else 0.2f)
-            .clip(CircleShape)
-            .background(color = MaterialTheme.colors.background)
-            .border(
-                width = 2.dp,
-                color = MaterialTheme.colors.onBackground,
-                shape = CircleShape
-            )
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() },
-                onClick = { if (!isSelected) onClicked() },
-            ),
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)
-                .align(Alignment.Center),
-            painter = painter,
-            tint = MaterialTheme.colors.onBackground,
-            contentDescription = null,
-        )
-    }
+                onClick = { if (!isSelected.value) onClicked() },
+            )
+            .graphicsLayer {
+                scaleX = scale.value
+                scaleY = scale.value
+            }
+            .clip(CircleShape)
+            .border(
+                width = 1.dp,
+                color = if (isSelected.value) Color.Transparent
+                else MaterialTheme.colors.onBackground.copy(alpha = 0.5f),
+                shape = CircleShape,
+            )
+            .background(color = if (isSelected.value) MaterialTheme.colors.secondary else Color.Transparent)
+            .padding(8.dp),
+        painter = painter.value,
+        tint = if (isSelected.value) MaterialTheme.colors.onBackground
+        else MaterialTheme.colors.onBackground.copy(alpha = 0.5f),
+        contentDescription = null,
+    )
 }
 
 @Preview(backgroundColor = 0x00FFFFFF)
@@ -92,8 +96,8 @@ private fun Preview_Mine(
 ) {
     FlagIcon(
         modifier = Modifier.size(42.dp),
-        isSelected = isSelected,
-        painter = painterResource(id = R.drawable.icon_mine),
+        isSelected = remember { mutableStateOf(isSelected) },
+        painter = painterResource(id = R.drawable.icon_mine).asImmutable(),
         onClicked = {},
     )
 }
@@ -105,8 +109,8 @@ private fun Preview_Flag(
 ) {
     FlagIcon(
         modifier = Modifier.size(42.dp),
-        isSelected = isSelected,
-        painter = rememberVectorPainter(image = Icons.Filled.Favorite),
+        isSelected = remember { mutableStateOf(isSelected) },
+        painter = rememberVectorPainter(image = Icons.Filled.Favorite).asImmutable(),
         onClicked = {},
     )
 }

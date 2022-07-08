@@ -15,35 +15,35 @@
  */
 package com.jayasuryat.difficultyselection
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
-import com.jayasuryat.difficultyselection.composable.LevelPager
-import com.jayasuryat.difficultyselection.composable.StartButton
+import com.jayasuryat.difficultyselection.composable.DifficultyView
+import com.jayasuryat.difficultyselection.composable.GameButtons
+import com.jayasuryat.difficultyselection.composable.GameTitle
 import com.jayasuryat.difficultyselection.logic.DifficultySelectionViewModel
 import com.jayasuryat.difficultyselection.logic.GameDifficulty
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @OptIn(
     ExperimentalPagerApi::class,
-    ExperimentalAnimationApi::class,
 )
 @Composable
 fun DifficultySelectionScreen(
@@ -52,7 +52,6 @@ fun DifficultySelectionScreen(
         GameDifficulty.Easy,
         GameDifficulty.Medium,
         GameDifficulty.Hard,
-        GameDifficulty.Extreme,
     ),
     onStartClicked: (difficulty: GameDifficulty) -> Unit,
     onResumeClicked: (difficulty: GameDifficulty) -> Unit,
@@ -62,6 +61,7 @@ fun DifficultySelectionScreen(
     val difficulties = viewModel.difficultyItems
     val pagerState = rememberPagerState()
     val canResume = remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = true) {
         viewModel.loadDifficultyItems(difficultiesToDisplay)
@@ -76,126 +76,129 @@ fun DifficultySelectionScreen(
             }
     }
 
+    val paddingTop = with(LocalDensity.current) {
+        val statusBar = LocalWindowInsets.current.statusBars.top.toDp()
+        val cutOut = LocalWindowInsets.current.displayCutout.top.toDp()
+        maxOf(statusBar, cutOut) + 32.dp
+    }
+
+    fun scrollRight() {
+        coroutineScope.launch {
+            val currentPage = pagerState.currentPage
+            if (currentPage < pagerState.pageCount - 1)
+                pagerState.animateScrollToPage(page = currentPage + 1)
+        }
+    }
+
+    fun scrollLeft() {
+        coroutineScope.launch {
+            val currentPage = pagerState.currentPage
+            if (currentPage > 0)
+                pagerState.animateScrollToPage(page = currentPage - 1)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colors.background),
+            .background(color = MaterialTheme.colors.background)
+            .padding(top = paddingTop),
     ) {
+
+        GameTitle(
+            modifier = Modifier
+                .fillMaxHeight(fraction = 0.2f)
+                .fillMaxWidth()
+        )
 
         Box(
             modifier = Modifier
-                .align(alignment = Alignment.CenterHorizontally)
-                .fillMaxHeight(fraction = 0.33f),
-            contentAlignment = Alignment.Center,
+                .fillMaxWidth()
+                .fillMaxHeight(fraction = 0.5f)
         ) {
 
-            Text(
-                text = "Minesweeper",
-                fontSize = 40.sp,
-                color = MaterialTheme.colors.secondary,
-                textAlign = TextAlign.Center,
+            DifficultyView(
+                modifier = Modifier.fillMaxSize(),
+                pagerState = pagerState,
+                difficultyItems = difficulties.value,
+            )
+
+            PagerButtons(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp),
+                onLeftClicked = ::scrollLeft,
+                onRightClicked = ::scrollRight,
             )
         }
 
-        LevelPager(
-            pagerState = pagerState,
-            difficultyLevels = difficulties.value,
+        GameButtons(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(fraction = 0.33f),
-        )
-
-        Spacer(
-            modifier = Modifier.height(64.dp),
-        )
-
-        StartButton(
-            modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                .weight(1f),
+            canResume = canResume,
             onStartClicked = {
-                val difficulty = difficulties.value[pagerState.currentPage]
-                onStartClicked(difficulty.difficulty)
+                val item = difficulties.value[pagerState.currentPage].difficulty
+                onStartClicked(item)
             },
-        )
-
-        AnimatedVisibility(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            visible = canResume.value,
-        ) {
-
-            Column {
-
-                Spacer(
-                    modifier = Modifier.height(16.dp),
-                )
-
-                Text(
-                    modifier = Modifier
-                        .align(alignment = Alignment.CenterHorizontally)
-                        .wrapContentSize()
-                        .clip(RoundedCornerShape(100f))
-                        .border(
-                            width = 2.dp,
-                            color = MaterialTheme.colors.onBackground,
-                            shape = RoundedCornerShape(100f),
-                        )
-                        .clickable {
-                            val difficulty = difficulties.value[pagerState.currentPage]
-                            onResumeClicked(difficulty.difficulty)
-                        }
-                        .padding(
-                            vertical = 12.dp,
-                            horizontal = 40.dp,
-                        ),
-                    color = MaterialTheme.colors.onBackground,
-                    text = "Continue",
-                )
-            }
-        }
-
-        Spacer(
-            modifier = Modifier.weight(1f),
-        )
-
-        Text(
-            modifier = Modifier
-                .align(alignment = Alignment.CenterHorizontally)
-                .wrapContentSize()
-                .clip(RoundedCornerShape(100f))
-                .border(
-                    width = 2.dp,
-                    color = MaterialTheme.colors.onBackground,
-                    shape = RoundedCornerShape(100f),
-                )
-                .clickable { onSettingsClicked() }
-                .padding(
-                    vertical = 12.dp,
-                    horizontal = 40.dp,
-                ),
-            color = MaterialTheme.colors.onBackground,
-            text = "Settings",
-        )
-
-        val padding = with(LocalDensity.current) {
-            LocalWindowInsets.current.navigationBars.bottom.toDp()
-        } + 32.dp
-
-        Spacer(
-            modifier = Modifier.height(padding),
+            onResumeClicked = {
+                val item = difficulties.value[pagerState.currentPage].difficulty
+                onResumeClicked(item)
+            },
+            onSettingsClicked = onSettingsClicked,
         )
     }
 }
 
-// TODO: Update or remove this preview
-/*
 @Composable
-@Preview
-private fun Preview() {
+fun PagerButtons(
+    modifier: Modifier = Modifier,
+    onLeftClicked: () -> Unit,
+    onRightClicked: () -> Unit,
+) {
 
-    DifficultySelectionScreen(
-        onDifficultySelected = {},
-        onSettingsClicked = {},
-    )
+    Row(
+        modifier = modifier,
+    ) {
+
+        // Left icon
+        Icon(
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .background(color = MaterialTheme.colors.background)
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colors.onBackground,
+                    shape = CircleShape,
+                )
+                .clickable { onLeftClicked() }
+                .padding(8.dp)
+                .align(alignment = Alignment.CenterVertically),
+            imageVector = Icons.Filled.KeyboardArrowLeft,
+            tint = MaterialTheme.colors.onBackground,
+            contentDescription = null,
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        // Right icon
+        Icon(
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .background(color = MaterialTheme.colors.background)
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colors.onBackground,
+                    shape = CircleShape,
+                )
+                .clickable { onRightClicked() }
+                .padding(8.dp)
+                .align(alignment = Alignment.CenterVertically),
+            imageVector = Icons.Filled.KeyboardArrowRight,
+            tint = MaterialTheme.colors.onBackground,
+            contentDescription = null,
+        )
+    }
 }
-*/

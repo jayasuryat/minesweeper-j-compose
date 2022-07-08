@@ -22,8 +22,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
-import com.jayasuryat.minesweeperui.grid.GridLayoutInformation
 import com.jayasuryat.minesweeperui.grid.Minefield
+import com.jayasuryat.minesweeperui.model.GridLayoutInformation
 import com.jayasuryat.minesweeperui.theme.MinesweeperColors
 import com.jayasuryat.minesweeperui.theme.MinesweeperTheme
 import com.jayasuryat.util.LogCompositions
@@ -42,10 +42,6 @@ internal fun MinefieldScreen(
     ) {
 
         LogCompositions(name = "MinefieldScreen\$Box")
-
-        AnimatingGradient(
-            modifier = Modifier.fillMaxSize()
-        )
 
         MinesweeperTheme(
             colors = getMinefieldColors(),
@@ -66,7 +62,6 @@ internal fun MinefieldScreen(
 private fun getMinefieldColors(): MinesweeperColors {
 
     return MinesweeperColors(
-        minefield = MaterialTheme.colors.background,
         text = MaterialTheme.colors.onBackground,
         mine = MaterialTheme.colors.error,
         flagIconTint = MaterialTheme.colors.background,

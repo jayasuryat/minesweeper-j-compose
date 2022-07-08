@@ -74,10 +74,10 @@ public class GameController(
     public companion object {
 
         public fun getDefault(): GameController {
-            val gameEndRevealer = GameEndRevealer()
+            val radiallySorter = RadiallySorter()
+            val gameEndRevealer = GameEndRevealer(radiallySorter = radiallySorter)
             val successEvaluator = GameSuccessEvaluator()
             val neighbourCalculator = ValueNeighbourCalculator()
-            val radiallySorter = RadiallySorter()
             return GameController(
                 cellReveler = CellRevealer(
                     gameEndRevealer = gameEndRevealer,

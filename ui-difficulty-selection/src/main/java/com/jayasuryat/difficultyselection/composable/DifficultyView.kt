@@ -15,93 +15,48 @@
  */
 package com.jayasuryat.difficultyselection.composable
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
-import com.jayasuryat.difficultyselection.R
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
 import com.jayasuryat.difficultyselection.logic.DifficultyItem
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun DifficultyView(
     modifier: Modifier = Modifier,
-    difficulty: DifficultyItem,
+    pagerState: PagerState,
+    difficultyItems: List<DifficultyItem>,
 ) {
 
-    Column(
-        modifier = modifier
-            .wrapContentSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
+    HorizontalPager(
+        modifier = modifier,
+        count = difficultyItems.size,
+        state = pagerState,
+    ) { page ->
 
-        // Title
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentSize(),
-            style = MaterialTheme.typography.h4,
-            color = MaterialTheme.colors.onBackground,
-            textAlign = TextAlign.Center,
-            text = difficulty.title,
+        DifficultyItem(
+            modifier = Modifier.fillMaxSize(),
+            difficulty = difficultyItems[page],
         )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // 10 x 10
-        Text(
-            modifier = Modifier
-                .wrapContentSize()
-                .wrapContentSize(),
-            color = MaterialTheme.colors.onBackground,
-            textAlign = TextAlign.Center,
-            text = difficulty.gridMessage,
-        )
-
-        Row {
-
-            Text(
-                modifier = Modifier
-                    .wrapContentSize()
-                    .wrapContentSize()
-                    .align(alignment = Alignment.CenterVertically),
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colors.onBackground,
-                text = difficulty.difficulty.mines.toString(),
-            )
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Icon(
-                modifier = Modifier
-                    .size(24.dp)
-                    .clip(CircleShape)
-                    .background(color = MaterialTheme.colors.error)
-                    .padding(4.dp),
-                painter = painterResource(id = R.drawable.icon_mine),
-                tint = MaterialTheme.colors.onError,
-                contentDescription = null,
-            )
-        }
     }
 }
 
+@OptIn(ExperimentalPagerApi::class)
 @Preview
 @Composable
 private fun Preview(
-    @PreviewParameter(DifficultyItemParamProvider::class) difficulty: DifficultyItem,
+    @PreviewParameter(GameDifficultyListParamProvider::class) difficultyItems: List<DifficultyItem>,
 ) {
 
-    DifficultyView(difficulty = difficulty)
+    DifficultyView(
+        modifier = Modifier.fillMaxSize(),
+        pagerState = rememberPagerState(),
+        difficultyItems = difficultyItems
+    )
 }

@@ -17,38 +17,28 @@ package com.jayasuryat.minesweeperui.cell.concealed
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
-import com.jayasuryat.minesweeperengine.model.block.Position
-import com.jayasuryat.minesweeperengine.model.cell.MineCell
-import com.jayasuryat.minesweeperengine.model.cell.RawCell
-import com.jayasuryat.minesweeperui.action.CellInteraction
-import com.jayasuryat.minesweeperui.action.CellInteractionListener
-import com.jayasuryat.minesweeperui.action.NoOpInteractionListener
-import com.jayasuryat.minesweeperui.cell.CELL_PADDING_PERCENT
-import com.jayasuryat.minesweeperui.component.InverseClippedCircle
+import androidx.compose.ui.unit.min
 import com.jayasuryat.util.LogCompositions
-import com.jayasuryat.util.floatValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun UnFlaggedCell(
     modifier: Modifier = Modifier,
-    cell: RawCell.UnrevealedCell.UnFlaggedCell,
-    actionListener: CellInteractionListener,
+    onClick: () -> Unit,
+    onLongPressed: () -> Unit,
 ) {
 
     LogCompositions(name = "UnFlaggedCell")
@@ -58,27 +48,32 @@ internal fun UnFlaggedCell(
     BoxWithConstraints(
         modifier = modifier
             .aspectRatio(1f)
-            .clipToBounds()
-            .combinedClickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() },
-                onClick = {
-                    val action = CellInteraction.OnCellClicked(cell)
-                    actionListener.action(action)
-                },
-                onLongClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                    val action = CellInteraction.OnCellLongPressed(cell)
-                    actionListener.action(action)
-                },
-            ),
-        contentAlignment = Alignment.Center
     ) {
 
-        val minSize = minOf(maxWidth, maxHeight)
-        val padding = minSize * CELL_PADDING_PERCENT
+        val minSize = min(minWidth, minHeight)
+        val maxSize = min(maxWidth, maxHeight)
+        val size = min(minSize, maxSize)
 
-        InverseClippedCircle(iconPadding = padding.floatValue())
+        Box(
+            modifier = Modifier
+                .size(size)
+                .clip(CircleShape)
+                .background(color = MaterialTheme.colors.primary)
+                .border(
+                    width = size * 0.08f,
+                    color = MaterialTheme.colors.onBackground,
+                    shape = CircleShape
+                )
+                .combinedClickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() },
+                    onClick = onClick,
+                    onLongClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        onLongPressed()
+                    },
+                ),
+        )
     }
 }
 
@@ -87,19 +82,9 @@ internal fun UnFlaggedCell(
 @Composable
 private fun Preview() {
 
-    val cell = RawCell.UnrevealedCell.UnFlaggedCell(
-        cell = MineCell.ValuedCell.EmptyCell(position = Position.zero())
-    )
-
-    Spacer(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colors.secondary)
-    )
-
     UnFlaggedCell(
         modifier = Modifier.fillMaxSize(),
-        cell = cell,
-        actionListener = NoOpInteractionListener,
+        onClick = {},
+        onLongPressed = {},
     )
 }

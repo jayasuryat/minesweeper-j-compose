@@ -59,7 +59,12 @@ internal class ValueCellRevealer(
         val areFlagsCorrect = neighbours.filterIsInstance<RawCell.UnrevealedCell.FlaggedCell>()
             .all { flaggedCell -> flaggedCell.asRevealed().cell is MineCell.Mine }
 
-        if (!areFlagsCorrect) return gameEndRevealer.revealAllCells(grid = grid)
+        if (!areFlagsCorrect) {
+            return gameEndRevealer.revealAllCells(
+                grid = grid,
+                startPosition = action.cell.position,
+            )
+        }
 
         val updatedCells = neighbours.map {
             when (it) {

@@ -46,9 +46,8 @@ class DifficultySelectionViewModel(
                         GameDifficulty.Easy -> "Easy"
                         GameDifficulty.Medium -> "Medium"
                         GameDifficulty.Hard -> "Hard"
-                        GameDifficulty.Extreme -> "Extreme"
                     },
-                    gridMessage = "${difficulty.rows} x ${difficulty.mines}",
+                    gridMessage = "${difficulty.rows} x ${difficulty.columns}",
                     difficulty = difficulty,
                     isGameInProgress = filteredInProgressDifficulties.contains(difficulty)
                 )

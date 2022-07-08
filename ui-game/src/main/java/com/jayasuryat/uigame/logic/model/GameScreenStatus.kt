@@ -17,12 +17,12 @@ package com.jayasuryat.uigame.logic.model
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.StableMarker
 import androidx.compose.runtime.State
-import com.jayasuryat.minesweeperengine.state.StatefulGrid
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
+import com.jayasuryat.minesweeperui.config.GridAnimationConfig
+import com.jayasuryat.minesweeperui.model.GridLayoutInformation
 
-@StableMarker
+@Stable
 internal sealed interface GameScreenStatus {
 
     @Immutable
@@ -30,9 +30,10 @@ internal sealed interface GameScreenStatus {
 
     @Stable
     data class Loaded(
-        val statefulGrid: StatefulGrid,
+        val layoutInformation: GridLayoutInformation,
         val interactionListener: CellInteractionListener,
         val gameState: State<GameState>,
         val gameProgress: State<GameProgress>,
+        val animationConfig: GridAnimationConfig,
     ) : GameScreenStatus
 }

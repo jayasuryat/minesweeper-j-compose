@@ -33,9 +33,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jayasuryat.uigame.logic.model.GameProgress
 import com.jayasuryat.util.LogCompositions
 
@@ -51,7 +53,7 @@ internal fun GameProgressChip(
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(100))
-            .background(color = MaterialTheme.colors.background.copy(alpha = 0.5f))
+            .background(color = MaterialTheme.colors.background)
             .border(
                 width = 2.dp,
                 color = MaterialTheme.colors.onBackground,
@@ -71,7 +73,7 @@ internal fun GameProgressChip(
 
         MineIcon(
             modifier = Modifier
-                .size(16.dp)
+                .size(20.dp)
                 .align(alignment = Alignment.CenterVertically)
         )
     }
@@ -102,7 +104,11 @@ private fun AnimatingFlaggedCount(
 
         Text(
             text = "${progress.totalMinesCount - progress.flaggedMinesCount}",
-            color = MaterialTheme.colors.onBackground,
+            style = MaterialTheme.typography.body1.copy(
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colors.onBackground,
+            )
         )
     }
 }
@@ -117,7 +123,7 @@ private fun MineIcon(
     Icon(
         modifier = modifier,
         imageVector = Icons.Filled.Favorite,
-        tint = MaterialTheme.colors.onBackground,
+        tint = MaterialTheme.colors.secondary,
         contentDescription = null,
     )
 }

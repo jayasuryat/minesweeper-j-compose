@@ -16,24 +16,35 @@
 package com.jayasuryat.minesweeperui.action
 
 import androidx.compose.runtime.Immutable
-import com.jayasuryat.minesweeperengine.model.cell.MineCell
-import com.jayasuryat.minesweeperengine.model.cell.RawCell
+import com.jayasuryat.minesweeperengine.model.block.Position
 
 @Immutable
 public sealed interface CellInteraction {
 
+    public val position: Position
+
     @Immutable
-    public data class OnCellClicked(
-        val cell: RawCell.UnrevealedCell,
+    public data class OnUnFlaggedCelClicked(
+        override val position: Position,
+    ) : CellInteraction
+
+    @Immutable
+    public data class OnUnFlaggedCelLongPressed(
+        override val position: Position,
+    ) : CellInteraction
+
+    @Immutable
+    public data class OnFlaggedCelClicked(
+        override val position: Position,
+    ) : CellInteraction
+
+    @Immutable
+    public data class OnFlaggedCelLongPressed(
+        override val position: Position,
     ) : CellInteraction
 
     @Immutable
     public data class OnValueCellClicked(
-        val cell: MineCell.ValuedCell.Cell,
-    ) : CellInteraction
-
-    @Immutable
-    public data class OnCellLongPressed(
-        val cell: RawCell.UnrevealedCell,
+        override val position: Position,
     ) : CellInteraction
 }

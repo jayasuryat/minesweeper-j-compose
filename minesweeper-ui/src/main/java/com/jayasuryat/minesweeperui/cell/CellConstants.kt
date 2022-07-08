@@ -15,5 +15,8 @@
  */
 package com.jayasuryat.minesweeperui.cell
 
-internal const val CELL_PADDING_PERCENT: Float = 0.08f
+internal const val CELL_GAP_PERCENT: Float = 0.075f
+internal const val CELL_ICON_PADDING_PERCENT: Float = 0.30f
 internal const val VALUE_CELL_TEXT_COVER_PERCENT: Float = 0.5f
+
+internal const val CELL_RING_PERCENT: Float = 0.075f
