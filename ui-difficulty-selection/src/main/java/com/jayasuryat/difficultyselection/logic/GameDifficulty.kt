@@ -30,12 +30,12 @@ sealed class GameDifficulty {
     internal object Medium : GameDifficulty() {
         override val rows: Int = 16
         override val columns: Int = 16
-        override val mines: Int = 40
+        override val mines: Int = 35
     }
 
     internal object Hard : GameDifficulty() {
         override val rows: Int = 30
         override val columns: Int = 16
-        override val mines: Int = 99
+        override val mines: Int = 80
     }
 }
