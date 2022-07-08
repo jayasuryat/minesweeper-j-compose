@@ -15,6 +15,7 @@
  */
 package com.jayasuryat.uigame.logic.interactionlistener
 
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
@@ -98,9 +99,9 @@ internal class ActionListener(
 
             is MinefieldEvent.OnCellsUpdated -> {
 
-                statefulGrid.updateCellsWith(
+                statefulGrid.updateCellsWithAnimatedDelay(
                     updatedCells = event.updatedCells,
-                    onEach = { _, newCell ->
+                    onUpdate = { _, newCell ->
 
                         when (newCell) {
                             is RawCell.RevealedCell -> {
@@ -112,8 +113,6 @@ internal class ActionListener(
                             is RawCell.UnrevealedCell.FlaggedCell -> musicManager.affirmative()
                             is RawCell.UnrevealedCell.UnFlaggedCell -> musicManager.cancel()
                         }
-
-                        delay(DELAY_FOR_EACH_CELL)
                     }
                 )
             }
@@ -292,9 +291,36 @@ internal class ActionListener(
             }.exhaustive
         }.exhaustive
     }
-
-    companion object {
-
-        private const val DELAY_FOR_EACH_CELL: Long = 50L
-    }
 }
+
+private suspend fun StatefulGrid.updateCellsWithAnimatedDelay(
+    updatedCells: List<RawCell>,
+    onUpdate: (oldCell: RawCell, newCell: RawCell) -> Unit,
+) {
+
+    if (updatedCells.isEmpty()) return
+
+    val duration = (DELAY_FOR_EACH_CELL * updatedCells.size)
+        .coerceAtLeast(DELAY_FOR_EACH_CELL)
+        .coerceAtMost(MAX_ANIMATED_DELAY)
+
+    val durationPerCell = duration / updatedCells.size
+
+    val easing = CubicBezierEasing(0.25f, 1f, 0.5f, 1f)
+
+    var index = 0
+    this.updateCellsWith(
+        updatedCells = updatedCells,
+        onEach = { oldCell, newCell ->
+            index++
+            onUpdate(oldCell, newCell)
+            val fraction = index.toFloat() / updatedCells.size
+            val transformedRatio = 1 - easing.transform(fraction)
+            val delay = (transformedRatio * durationPerCell).toLong().coerceAtLeast(1)
+            delay(delay)
+        }
+    )
+}
+
+private const val DELAY_FOR_EACH_CELL: Long = 50L
+private const val MAX_ANIMATED_DELAY: Long = 5000L
