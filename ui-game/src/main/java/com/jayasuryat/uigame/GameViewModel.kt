@@ -20,6 +20,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.jayasuryat.minesweeperengine.controller.MinefieldController
+import com.jayasuryat.minesweeperui.config.GridAnimationConfig
 import com.jayasuryat.minesweeperui.model.GridLayoutInformation
 import com.jayasuryat.uigame.data.model.ToggleState
 import com.jayasuryat.uigame.data.source.GameDataSource
@@ -87,11 +88,17 @@ class GameViewModel(
 
             val gridLayoutInformation = GridLayoutInformation.from(actionListener.statefulGrid)
 
+            val size = gameConfiguration.rows * gameConfiguration.columns
+            val animationConfig = GridAnimationConfig(
+                enableCellAnimations = size <= DISABLE_ANIM_AFTER_SIZE,
+            )
+
             val screenStatus = GameScreenStatus.Loaded(
                 layoutInformation = gridLayoutInformation,
                 interactionListener = actionListener,
                 gameState = actionListener.gameState,
-                gameProgress = actionListener.gameProgress
+                gameProgress = actionListener.gameProgress,
+                animationConfig = animationConfig,
             )
 
             this@GameViewModel.actionListener = actionListener
@@ -141,5 +148,10 @@ class GameViewModel(
     override fun onCleared() {
         super.onCleared()
         job.cancel()
+    }
+
+    companion object {
+
+        private const val DISABLE_ANIM_AFTER_SIZE: Int = 300
     }
 }

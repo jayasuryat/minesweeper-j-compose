@@ -28,7 +28,9 @@ import androidx.compose.ui.unit.dp
 import com.jayasuryat.minesweeperengine.model.block.GridSize
 import com.jayasuryat.minesweeperengine.model.block.Position
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
+import com.jayasuryat.minesweeperui.cell.AnimatedRawCell
 import com.jayasuryat.minesweeperui.cell.RawCell
+import com.jayasuryat.minesweeperui.config.LocalGridAnimationConfig
 import com.jayasuryat.minesweeperui.model.GridLayoutInformation
 import com.jayasuryat.util.LogCompositions
 import com.jayasuryat.util.dp
@@ -43,6 +45,8 @@ internal fun MineGrid(
 ) {
 
     LogCompositions(name = "MineGrid")
+
+    val enableCellAnimation = LocalGridAnimationConfig.current.enableCellAnimations
 
     BoxWithConstraints(
         modifier = modifier,
@@ -64,6 +68,7 @@ internal fun MineGrid(
             gridInfo = gridInfo,
             actionListener = actionListener,
             cellSize = cellSize,
+            enableCellAnimation = enableCellAnimation,
         )
     }
 }
@@ -75,6 +80,7 @@ private fun Grid(
     gridInfo: GridLayoutInformation,
     actionListener: CellInteractionListener,
     cellSize: Float,
+    enableCellAnimation: Boolean,
 ) {
 
     LogCompositions(name = "Grid")
@@ -86,16 +92,31 @@ private fun Grid(
 
         val offset = cellData.position.asOffset(cellSize = cellSize)
 
-        RawCell(
-            modifier = Modifier
-                .size(cellSize.dp())
-                .graphicsLayer {
-                    translationX = offset.x + paddingOffset
-                    translationY = offset.y + centerOffset
-                },
-            displayCell = cellData,
-            interactionListener = actionListener,
-        )
+        if (enableCellAnimation) {
+
+            AnimatedRawCell(
+                modifier = Modifier
+                    .size(cellSize.dp())
+                    .graphicsLayer {
+                        translationX = offset.x + paddingOffset
+                        translationY = offset.y + centerOffset
+                    },
+                displayCell = cellData,
+                interactionListener = actionListener,
+            )
+        } else {
+
+            RawCell(
+                modifier = Modifier
+                    .size(cellSize.dp())
+                    .graphicsLayer {
+                        translationX = offset.x + paddingOffset
+                        translationY = offset.y + centerOffset
+                    },
+                displayCell = cellData,
+                interactionListener = actionListener,
+            )
+        }
     }
 }
 

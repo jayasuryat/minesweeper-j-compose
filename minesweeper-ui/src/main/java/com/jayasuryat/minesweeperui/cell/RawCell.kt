@@ -15,11 +15,8 @@
  */
 package com.jayasuryat.minesweeperui.cell
 
-import androidx.compose.animation.ContentTransform
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -54,19 +51,6 @@ internal fun RawCell(
         )
     }
 
-    /*
-    val contentTransform = remember { getContentTransformAnim() }
-
-    AnimatedContent(
-        modifier = modifier,
-        targetState = displayCell.cellState.value,
-        transitionSpec = { contentTransform },
-        contentAlignment = Alignment.Center,
-    ) { cell ->
-
-        LogCompositions(name = "RawCell\$Box")
-        */
-
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center,
@@ -77,7 +61,46 @@ internal fun RawCell(
             displayCell = displayCell.cellState.value,
             listener = listenerMapper,
         )
-        /*}*/
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+internal fun AnimatedRawCell(
+    modifier: Modifier,
+    displayCell: DisplayCell,
+    interactionListener: CellInteractionListener,
+) {
+
+    LogCompositions(name = "AnimatedRawCell")
+
+    val listenerMapper = remember {
+        CellInteractionMapper(
+            position = displayCell.position,
+            listener = interactionListener,
+        )
+    }
+
+    AnimatedContent(
+        modifier = modifier,
+        targetState = displayCell.cellState.value,
+        transitionSpec = { getContentTransformAnim() },
+        contentAlignment = Alignment.Center,
+    ) { cell ->
+
+        LogCompositions(name = "AnimatedRawCell\$Box")
+
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center,
+        ) {
+
+            RawCellContent(
+                modifier = Modifier.fillMaxSize(1 - CELL_GAP_PERCENT),
+                displayCell = cell,
+                listener = listenerMapper,
+            )
+        }
     }
 }
 
@@ -126,19 +149,21 @@ private fun RawCellContent(
     }
 }
 
+private const val CONTENT_TRANSFORM_ANIM_DURATION: Int = 300
+
 @ExperimentalAnimationApi
 private fun getContentTransformAnim(): ContentTransform {
 
     val enterAnim = scaleIn(
         animationSpec = tween(
-            durationMillis = 160,
-            delayMillis = 80
+            durationMillis = CONTENT_TRANSFORM_ANIM_DURATION,
+            delayMillis = CONTENT_TRANSFORM_ANIM_DURATION / 2
         )
     )
 
     val exitAnim = scaleOut(
         animationSpec = tween(
-            durationMillis = 160,
+            durationMillis = CONTENT_TRANSFORM_ANIM_DURATION,
             delayMillis = 0,
         )
     )

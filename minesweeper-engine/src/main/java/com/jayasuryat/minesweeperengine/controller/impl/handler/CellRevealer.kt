@@ -74,7 +74,6 @@ internal class CellRevealer(
                 grid = grid,
                 startPosition = action.cell.position,
             )
-
         }.exhaustive
     }
 

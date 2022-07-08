@@ -19,6 +19,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import com.jayasuryat.minesweeperui.action.CellInteractionListener
+import com.jayasuryat.minesweeperui.config.GridAnimationConfig
 import com.jayasuryat.minesweeperui.model.GridLayoutInformation
 
 @Stable
@@ -33,5 +34,6 @@ internal sealed interface GameScreenStatus {
         val interactionListener: CellInteractionListener,
         val gameState: State<GameState>,
         val gameProgress: State<GameProgress>,
+        val animationConfig: GridAnimationConfig,
     ) : GameScreenStatus
 }
