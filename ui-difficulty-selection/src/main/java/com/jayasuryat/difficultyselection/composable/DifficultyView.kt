@@ -15,8 +15,11 @@
  */
 package com.jayasuryat.difficultyselection.composable
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.gestures.LocalOverScrollConfiguration
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -26,7 +29,7 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.jayasuryat.difficultyselection.logic.DifficultyItem
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun DifficultyView(
     modifier: Modifier = Modifier,
@@ -34,16 +37,21 @@ internal fun DifficultyView(
     difficultyItems: List<DifficultyItem>,
 ) {
 
-    HorizontalPager(
-        modifier = modifier,
-        count = difficultyItems.size,
-        state = pagerState,
-    ) { page ->
+    CompositionLocalProvider(
+        LocalOverScrollConfiguration provides null
+    ) {
 
-        DifficultyItem(
-            modifier = Modifier.fillMaxSize(),
-            difficulty = difficultyItems[page],
-        )
+        HorizontalPager(
+            modifier = modifier,
+            count = difficultyItems.size,
+            state = pagerState,
+        ) { page ->
+
+            DifficultyItem(
+                modifier = Modifier.fillMaxSize(),
+                difficulty = difficultyItems[page],
+            )
+        }
     }
 }
 
