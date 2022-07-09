@@ -14,6 +14,8 @@ The objective of this game is to clear a rectangular board containing hidden "mi
 | -- | -- |
 | <img src="https://github.com/JayaSuryaT/minesweeper-j-compose/raw/main/art/Main_DarkTheme.gif" alt="Using Views - Light theme" data-canonical-src="https://github.com/JayaSuryaT/minesweeper-j-compose/raw/main/art/Main_DarkTheme.gif" width="270" height="585" />|<img src="https://github.com/JayaSuryaT/minesweeper-j-compose/raw/main/art/Main_LightTheme.gif" alt="Using Views - Dark theme" data-canonical-src="https://github.com/JayaSuryaT/minesweeper-j-compose/raw/main/art/Main_LightTheme.gif" width="270" height="585" />|
 
+[<img src="https://github.com/JayaSuryaT/minesweeper-j-compose/raw/main/art/Main_DarkTheme.gif" width="50%">](https://www.youtube.com/watch?v=1-3x2a5I2Vs&t=91s)
+
 
 ## Features :
 * Zoomable and Pannable minefield
