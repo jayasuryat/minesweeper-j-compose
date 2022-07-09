@@ -46,7 +46,7 @@ fun GameButtons(
         RoundedButton(
             modifier = Modifier
                 .wrapContentSize(),
-            text = "Start",
+            text = "New game",
             onClick = onStartClicked,
         )
 
