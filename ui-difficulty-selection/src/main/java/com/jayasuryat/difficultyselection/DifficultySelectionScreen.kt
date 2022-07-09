@@ -15,6 +15,8 @@
  */
 package com.jayasuryat.difficultyselection
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -28,11 +30,13 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.jayasuryat.difficultyselection.composable.DifficultyView
 import com.jayasuryat.difficultyselection.composable.GameButtons
@@ -127,6 +131,7 @@ fun DifficultySelectionScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 24.dp),
+                pagerState = pagerState,
                 onLeftClicked = ::scrollLeft,
                 onRightClicked = ::scrollRight,
             )
@@ -150,12 +155,31 @@ fun DifficultySelectionScreen(
     }
 }
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
-fun PagerButtons(
+private fun PagerButtons(
     modifier: Modifier = Modifier,
+    pagerState: PagerState,
     onLeftClicked: () -> Unit,
     onRightClicked: () -> Unit,
 ) {
+
+    val enableLeft = remember { derivedStateOf { pagerState.currentPage > 0 } }
+    val enableRight = remember {
+        derivedStateOf { pagerState.currentPage < pagerState.pageCount - 1 }
+    }
+
+    val leftButtonTargetAlpha = remember { derivedStateOf { if (enableLeft.value) 1f else 0.3f } }
+    val rightButtonTargetAlpha = remember { derivedStateOf { if (enableRight.value) 1f else 0.3f } }
+
+    val leftButtonAlpha = animateFloatAsState(
+        targetValue = leftButtonTargetAlpha.value,
+        animationSpec = tween(durationMillis = 300),
+    )
+    val rightButtonAlpha = animateFloatAsState(
+        targetValue = rightButtonTargetAlpha.value,
+        animationSpec = tween(durationMillis = 300),
+    )
 
     Row(
         modifier = modifier,
@@ -167,12 +191,13 @@ fun PagerButtons(
                 .size(60.dp)
                 .clip(CircleShape)
                 .background(color = MaterialTheme.colors.background)
+                .alpha(leftButtonAlpha.value)
                 .border(
                     width = 1.dp,
                     color = MaterialTheme.colors.onBackground,
                     shape = CircleShape,
                 )
-                .clickable { onLeftClicked() }
+                .clickable(enabled = enableLeft.value) { onLeftClicked() }
                 .padding(8.dp)
                 .align(alignment = Alignment.CenterVertically),
             imageVector = Icons.Filled.KeyboardArrowLeft,
@@ -188,12 +213,13 @@ fun PagerButtons(
                 .size(60.dp)
                 .clip(CircleShape)
                 .background(color = MaterialTheme.colors.background)
+                .alpha(rightButtonAlpha.value)
                 .border(
                     width = 1.dp,
                     color = MaterialTheme.colors.onBackground,
                     shape = CircleShape,
                 )
-                .clickable { onRightClicked() }
+                .clickable(enabled = enableRight.value) { onRightClicked() }
                 .padding(8.dp)
                 .align(alignment = Alignment.CenterVertically),
             imageVector = Icons.Filled.KeyboardArrowRight,
