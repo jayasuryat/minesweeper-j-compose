@@ -13,51 +13,75 @@ The objective of this game is to clear a rectangular board containing hidden "mi
 https://user-images.githubusercontent.com/37530409/178140932-2cbe1c79-9448-4c7c-af7d-2a15a84dd45b.mov
 
 ## Features :
-* Zoomable and Pannable minefield
-* Safe first click - The first cell is never a mine as the minefield is generated around the first click
-* Multiple difficulty levels to choose from
-* Quick toggle for click / flag mode
-* Haptic & Aural feedback
-* Day / Night theme
-* Animating gradient cell background
-* Randomly generated levels
+- `Zoomable` and `pannable` minefield
+- Safe first click - The first cell is never a `mine` as the `minefield` is generated around the first click
+- Automatically `save` and `resume` game progress
+- Multiple `difficulty levels` to choose from
+- `Settings` screen to update and persist user `preferences`
+- `Quick toggle` for click / flag mode
+- `Haptic` & `Aural` feedback
+- Day / Night theme
+- Randomly generated levels
 
 ## Controls :
-* Tap a cell to reveal it
-* Long press an unrevealed cell to flag/unflag it
-* Tap an already revealed cell to expose potentially solved cells
+- Tap a `cell` to reveal it
+- Long press an `unrevealed cell` to `flag` / `un-flag` it
+- Tap an already `revealed cell` to expose potentially `solved cells`
+- Change default tap / long-press behaviour from the `quick toggle`
 
 ## Package Structure :
 
  ```
 com.jayasuryat.minesweeperjc
 ├── 📂 app/                          # App module
+│   ├── data/                         # Data source mappings
+│   ├── di/                           # DI wiring
 │   ├── presentation/                 # Navigation & Screens
 │   ├── theme/                        # Theming
 │   └── MinesweeperApp.kt
+│
+├── 📂 buildScripts/                 # Build scripts and pre-commit hooks
+│
+├── 📂 buildSrc/                     # Dependency versions LUT
 │
 ├── 📂 minesweeper-engine/           # Module for driving all the logics of the game
 │   ├── controller/                   # Game actions, events, game controller and action handlers
 │   │   └── model/                    # Models for actions and events
 │   ├── gridgenerator/                # Generators for the minefield
-│   ├── model/                        # Models for cells and grid
-│   ├── state/                        # Stateful grid and utils
-│   └── util/
+│   └── model/                        # Models for cells and grid
 │
 ├── 📂 minesweeper-engine-debug/     # Module for debug utils related to minesweeper-engine
 │
 ├── 📂 minesweeper-ui/               # Module for all of the UI components of the mine grid
-│   └── composable/
-│       ├── action/                   # Action listeners for Minefield interaction actions
-│       ├── cell/                     # All composables related to MineCells
-│       ├── component/                # Helper composables
-│       ├── grid/                     # All composables related to MineGrid
-│       └── theme/                    # Theming for Minefield UI components
+│   ├── action/                       # Action listeners for Minefield interaction actions
+│   ├── cell/                         # All composables related to MineCells
+│   ├── component/                    # Helper composables
+│   ├── config/                       # UI configuration for mine grid
+│   ├── grid/                         # All composables related to MineGrid
+│   ├── model/                        # UI models for all the MineCells and layout information
+│   └── theme/                        # Theming for Minefield UI components
+│
+├── 📂 data/                         # A Kotlin Multiplatform Mobile module for all of the data operations
+│   ├── androidMain/                  # Android implementations
+│   │   ├── di/                       # Wiring of Android specific implementations
+│   │   └── sqldelight/               # Android Sqlite driver setup
+│   ├── iosMain/                      # iOS implementations
+│   │   ├── di/                       # Wiring of iOS specific implementations
+│   │   └── sqldelight/               # Native Sqlite driver setup
+│   ├── commonMain/                   # Common infrastructure
+│   │   ├── sqldelight/               # Sqlite query definitions
+│   │   └── kotlin/                   
+│   │       ├── di/                   # DI wiring for all of the data layer
+│   │       ├── model/                # Data models for the data layer
+│   │       ├── source/               # Data sources
+│   │       └── sqldelight/           # DB setup
 │
 ├── 📂 ui-game/                      # Module for the actual MineField screen
 │   ├── composable/                   # All UI components
 │   │   ├── feedback/                 # Composables for handling feedback
+│   │   ├── toggle/                   # Composables for in game quick-toggle
 │   │   └── topbar/                   # Composables for game TopBar
+│   ├── data/                         # Data layer skeletons for game state persistence
 │   ├── feedback/                     # Helper classes for performing feedback operations
 │   ├── logic/                        # Game logic coordinators
 │   └── GameScreen.kt                 # Actual Game-Screen
