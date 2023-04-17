@@ -27,7 +27,7 @@ internal class DataStore constructor(
 ) {
 
     suspend fun putString(key: String, value: String): Unit = settings.putString(key, value)
-    suspend fun getString(key: String): String? = settings.getString(key)
+    suspend fun getString(key: String): String? = settings.getString(key, "")
         .takeIf { it.isNotBlank() }
 
     suspend fun putInt(key: String, value: Int): Unit = settings.putInt(key, value)
