@@ -10,7 +10,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:7.4.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10")
-        classpath("com.github.ben-manes:gradle-versions-plugin:0.46.0")
+        classpath("com.github.ben-manes:gradle-versions-plugin:0.47.0")
         classpath("com.squareup.sqldelight:gradle-plugin:1.5.5")
         classpath(kotlin("serialization", version = "1.6.10"))
         // NOTE: Do not place your application dependencies here; they belong
