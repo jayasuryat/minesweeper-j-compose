@@ -5,6 +5,8 @@ plugins {
 
 android {
 
+    namespace = "com.jayasuryat.uisettings"
+
     compileSdk = BuildConfig.compileSdk
 
     defaultConfig {

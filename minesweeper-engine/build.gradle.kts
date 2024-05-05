@@ -5,6 +5,8 @@ plugins {
 
 android {
 
+    namespace = "com.jayasuryat.minesweeperengine"
+
     compileSdk = BuildConfig.compileSdk
 
     defaultConfig {

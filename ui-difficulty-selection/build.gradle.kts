@@ -5,6 +5,8 @@ plugins {
 
 android {
 
+    namespace = "com.jayasuryat.difficultyselection"
+
     compileSdk = BuildConfig.compileSdk
 
     defaultConfig {
