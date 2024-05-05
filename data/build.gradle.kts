@@ -10,7 +10,11 @@ version = "1.0"
 
 kotlin {
 
-    android()
+    android{
+        compilations.all {
+            kotlinOptions.jvmTarget = BuildConfig.jvmTarget
+        }
+    }
 
     val sdkName = System.getenv("SDK_NAME")
     if (sdkName != null && sdkName.startsWith("iphoneos")) {
@@ -51,7 +55,7 @@ kotlin {
                 implementation(Dependency.sqldelightAndroidDriver)
             }
         }
-        val androidTest by getting {
+        val androidUnitTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation("junit:junit:4.13.2")
@@ -74,11 +78,19 @@ kotlin {
 }
 
 android {
+
+    namespace = "com.jayasuryat.data"
+
     compileSdk = BuildConfig.compileSdk
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = BuildConfig.minSdk
         targetSdk = BuildConfig.targetSdk
+    }
+
+    compileOptions {
+        sourceCompatibility = BuildConfig.javaVersion
+        targetCompatibility = BuildConfig.javaVersion
     }
 }
 

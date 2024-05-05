@@ -26,20 +26,20 @@ object Dependency {
 
     object Compose {
 
-        const val composeCompilerVersion = "1.4.4"
-        private const val composeVersion = "1.4.1"
+        const val composeCompilerVersion = "1.5.13"
+        private const val composeVersion = "1.6.7"
 
         const val ui = "androidx.compose.ui:ui:$composeVersion"
         const val uiUtil = "androidx.compose.ui:ui-util:$composeVersion"
         const val material = "androidx.compose.material:material:$composeVersion"
         const val toolingPreview = "androidx.compose.ui:ui-tooling-preview:$composeVersion"
         const val tooling = "androidx.compose.ui:ui-tooling:$composeVersion"
-        const val activity = "androidx.activity:activity-compose:1.7.0"
-        const val navigation = "androidx.navigation:navigation-compose:2.5.3"
+        const val activity = "androidx.activity:activity-compose:1.9.0"
+        const val navigation = "androidx.navigation:navigation-compose:2.7.7"
 
-        private const val accompanaistVersion = "0.30.1"
+        private const val accompanaistVersion = "0.34.0"
         const val accompanistInsets =
-            "com.google.accompanist:accompanist-insets:$accompanaistVersion"
+            "com.google.accompanist:accompanist-insets:0.30.1"
         const val accompanistPager =
             "com.google.accompanist:accompanist-pager:$accompanaistVersion"
         const val accompanistNavAnimation =
@@ -51,20 +51,20 @@ object Dependency {
         }
     }
 
-    const val coreKtx = "androidx.core:core-ktx:1.9.0"
+    const val coreKtx = "androidx.core:core-ktx:1.13.1"
     const val material = "com.google.android.material:material:1.8.0"
 
-    const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
+    const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0"
 
     private const val taktVersion = "2.1.1"
     const val takt = "jp.wasabeef:takt:$taktVersion"
     const val taktNoOp = "jp.wasabeef:takt-no-op:$taktVersion"
 
-    const val settings = "com.russhwolf:multiplatform-settings-no-arg:1.0.0"
-    const val kotlinxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+    const val settings = "com.russhwolf:multiplatform-settings-no-arg:1.1.1"
+    const val kotlinxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
 
-    private const val koinVersion = "3.4.0"
-    private const val koinComposeVersion = "3.4.3"
+    private const val koinVersion = "3.5.6"
+    private const val koinComposeVersion = koinVersion
     const val koinCore = "io.insert-koin:koin-core:$koinVersion"
     const val koinAndroid = "io.insert-koin:koin-android:$koinVersion"
     const val koinCompose = "io.insert-koin:koin-androidx-compose:$koinComposeVersion"

@@ -5,6 +5,8 @@ plugins {
 
 android {
 
+    namespace = "com.jayasuryat.uigame"
+
     compileSdk = BuildConfig.compileSdk
 
     defaultConfig {
